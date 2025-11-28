@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về chúng tôi - STYLE GLAMOUR BEATS</title>
+    <link rel="stylesheet" href="Untitled-1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+    <body>
+    <script>
+        // Require login before viewing
+        try{
+            const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
+            if(!logged){ window.location.replace('auth.html'); }
+        }catch(e){ window.location.replace('auth.html'); }
+    </script>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>STYLE<span>GLAMOUR BEATS</span></h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="SGBweb.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li><a href="about.html">Về chúng tôi</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <button class="icon-btn search-btn"><i class="fas fa-search"></i></button>
+                    <button class="icon-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="icon-btn user-btn"><i class="fas fa-user"></i></button>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2 class="section-title">Về STYLE GLAMOUR BEATS</h2>
+                        <p>Chúng tôi mang đến những sản phẩm thời trang cao cấp, độc đáo và phong cách. Với hơn 10 năm kinh nghiệm, Fashion Store cam kết chất lượng và dịch vụ tốt nhất.</p>
+                        <div class="about-features">
+                            <div class="feature">
+                                <i class="fas fa-shipping-fast"></i>
+                                <h4>Giao hàng nhanh</h4>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-undo"></i>
+                                <h4>Đổi trả dễ dàng</h4>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-shield-alt"></i>
+                                <h4>Bảo hành chính hãng</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04" alt="About">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>STYLE GLAMOUR BEATS</h3>
+                    <p>Thời trang cao cấp dành cho bạn</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="products.html">Sản phẩm</a></li>
+                        <li><a href="about.html">Về chúng tôi</a></li>
+                        <li><a href="#">Chính sách</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên hệ</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 0869801363</li>
+                        <li><i class="fas fa-envelope"></i> info@styleglamourbeats.vn</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Cần Thơ, Việt Nam</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 STYLE GLAMOUR BEATS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="Untitled-1.js"></script>
+</body>
+</html>

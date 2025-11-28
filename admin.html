@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - Danh sách người dùng</title>
+  <link rel="stylesheet" href="Untitled-1.css">
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:20px;background:#f5f5f5}
+    .admin-wrap{max-width:900px;margin:0 auto;background:#fff;padding:18px;border-radius:8px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;border:1px solid #eee;text-align:left}
+    th{background:#fafafa}
+    .controls{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer}
+    .btn-primary{background:#007bff;color:#fff;border-color:#007bff}
+    pre{background:#f7f7f7;padding:10px;border-radius:6px;overflow:auto}
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <h2>Admin - Danh sách người dùng</h2>
+    <p>Trang này dùng để xem tài khoản đã đăng ký (từ <code>users.json</code>).</p>
+
+    <div class="controls">
+      <button id="refreshBtn" class="btn">Làm mới</button>
+      <button id="exportBtn" class="btn btn-primary">Xuất JSON</button>
+      <a href="/SGBweb.html" class="btn">Mở trang chủ</a>
+    </div>
+
+    <div id="result">
+      <table id="usersTable" style="display:none">
+        <thead>
+          <tr><th>ID</th><th>Tên</th><th>Email</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div id="emptyMsg" style="margin-top:12px;color:#666">Chưa có user nào.</div>
+    </div>
+  </div>
+
+  <script>
+    const refreshBtn = document.getElementById('refreshBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const usersTable = document.getElementById('usersTable');
+    const tbody = usersTable.querySelector('tbody');
+    const emptyMsg = document.getElementById('emptyMsg');
+
+    async function loadUsers(){
+      tbody.innerHTML = '';
+      usersTable.style.display = 'none';
+      emptyMsg.textContent = 'Đang tải...';
+      try{
+        const res = await fetch('/api/users');
+        if(!res.ok) throw new Error('Không thể lấy dữ liệu');
+        const users = await res.json();
+        if(!users || users.length===0){ emptyMsg.textContent = 'Chưa có user nào.'; return; }
+        users.forEach(u=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${u.id}</td><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email)}</td>`;
+          tbody.appendChild(tr);
+        });
+        usersTable.style.display = '';
+        emptyMsg.textContent = '';
+      }catch(err){
+        emptyMsg.textContent = 'Lỗi khi tải user: ' + err.message;
+      }
+    }
+
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    refreshBtn.addEventListener('click', loadUsers);
+    exportBtn.addEventListener('click', async ()=>{
+      try{
+        const res = await fetch('/api/users'); if(!res.ok) throw new Error('fail');
+        const users = await res.json();
+        const blob = new Blob([JSON.stringify(users,null,2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'users.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }catch(e){ alert('Không thể xuất: '+e.message); }
+    });
+
+    // initial load
+    loadUsers();
+  </script>
+</body>
+</html>

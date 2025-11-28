@@ -1,0 +1,13 @@
+{
+  "name": "sgb-local-server",
+  "version": "1.0.0",
+  "description": "Small local server for STYLE GLAMOUR BEATS to store users in users.json",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "bcryptjs": "^2.4.3"
+  }
+}

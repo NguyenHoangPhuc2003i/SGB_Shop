@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Đăng nhập / Đăng ký - STYLE GLAMOUR BEATS</title>
+    <link rel="stylesheet" href="Untitled-1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Small inline styles for the auth page (keeps things self-contained) */
+        .auth-container{max-width:420px;margin:40px auto;padding:24px;border:1px solid #eee;border-radius:8px;background:#fff}
+        .auth-tabs{display:flex;margin-bottom:16px}
+        .auth-tab{flex:1;padding:12px;text-align:center;cursor:pointer;border-bottom:2px solid transparent}
+        .auth-tab.active{border-color:#000;font-weight:600}
+        .auth-form .form-group{margin-bottom:12px}
+        .auth-form label{display:block;margin-bottom:6px;font-size:.95rem}
+        .auth-form input, .auth-form textarea, .auth-form select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px}
+        .btn-ghost{background:transparent;border:1px solid #000;padding:10px 14px;border-radius:6px;cursor:pointer}
+        .btn-primary{background:#000;color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer}
+        .auth-footer{margin-top:12px;font-size:.9rem;text-align:center}
+        .error{color:#c00;font-size:.9rem}
+    </style>
+</head>
+<body>
+    <main>
+        <div class="auth-container">
+            <h2 style="text-align:center;margin-bottom:8px">Chào mừng đến với STYLE GLAMOUR BEATS</h2>
+            <p style="text-align:center;margin-bottom:18px;color:#555">Vui lòng đăng nhập hoặc đăng ký để tiếp tục vào cửa hàng</p>
+
+            <div class="auth-tabs">
+                <div id="tabLogin" class="auth-tab active">Đăng nhập</div>
+                <div id="tabRegister" class="auth-tab">Đăng ký</div>
+            </div>
+
+            <div id="loginBox" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input id="loginEmail" type="email" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mật khẩu</label>
+                    <input id="loginPassword" type="password" placeholder="Mật khẩu">
+                </div>
+                <div class="form-group">
+                    <button id="loginBtn" class="btn-primary">Đăng nhập</button>
+                </div>
+                <p id="loginError" class="error" aria-live="polite"></p>
+            </div>
+
+            <div id="registerBox" class="auth-form" style="display:none">
+                <div class="form-group">
+                    <label for="regName">Họ và tên</label>
+                    <input id="regName" type="text" placeholder="Nguyễn Văn A">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input id="regEmail" type="email" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Mật khẩu</label>
+                    <input id="regPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)">
+                </div>
+                <div class="form-group">
+                    <button id="registerBtn" class="btn-primary">Đăng ký</button>
+                </div>
+                <p id="regError" class="error" aria-live="polite"></p>
+            </div>
+
+            <div class="auth-footer">
+                <button id="continueGuest" class="btn-ghost" style="margin-right:8px">Tiếp tục xem (không đăng nhập)</button>
+                <small style="color:#777">Bạn có thể đăng nhập sau khi vào trang</small>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // If the page is opened as a file:// URL, warn user to use the local server because
+        // localStorage is origin-scoped (file:// and http://localhost are different).
+        const isFileProtocol = location.protocol === 'file:';
+        if(isFileProtocol){
+            const container = document.querySelector('.auth-container');
+            container.innerHTML = `
+                <div style="padding:18px">
+                    <h3 style="color:#c00;margin-top:0">Không mở trực tiếp file</h3>
+                    <p>Bạn đang mở trang dưới dạng <code>file://</code>. Vui lòng chạy server tĩnh và mở trang qua HTTP để đăng ký/đăng nhập — localStorage chỉ hoạt động theo origin.</p>
+                    <p><strong>Hướng dẫn nhanh (PowerShell):</strong></p>
+                    <pre style="background:#f7f7f7;padding:8px;border-radius:6px">Set-Location -LiteralPath 'C:\\project cá nhân\\WEB CỬA HÀNG THỜI TRANG'; python -m http.server 8000</pre>
+                    <p>Sau đó mở <a href="http://127.0.0.1:8000/auth.html">http://127.0.0.1:8000/auth.html</a></p>
+                </div>
+            `;
+        } else {
+            // Tab toggle
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+            const loginBox = document.getElementById('loginBox');
+            const registerBox = document.getElementById('registerBox');
+            tabLogin.addEventListener('click', ()=>{ tabLogin.classList.add('active'); tabRegister.classList.remove('active'); loginBox.style.display='block'; registerBox.style.display='none'; });
+            tabRegister.addEventListener('click', ()=>{ tabRegister.classList.add('active'); tabLogin.classList.remove('active'); registerBox.style.display='block'; loginBox.style.display='none'; });
+
+            // Simple client-side auth simulation using localStorage
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const continueGuest = document.getElementById('continueGuest');
+
+            function getUsers(){
+                try{ return JSON.parse(localStorage.getItem('sgb_users')||'[]'); }catch(e){return []}
+            }
+            function saveUsers(u){ localStorage.setItem('sgb_users', JSON.stringify(u)); }
+
+            registerBtn.addEventListener('click', async (e)=>{
+                e.preventDefault();
+                const name = document.getElementById('regName').value.trim();
+                const email = document.getElementById('regEmail').value.trim().toLowerCase();
+                const pw = document.getElementById('regPassword').value;
+                const err = document.getElementById('regError'); err.textContent='';
+                if(!name||!email||pw.length<6){ err.textContent='Vui lòng nhập đủ thông tin (mật khẩu >= 6 ký tự)'; return; }
+                // Try server API first
+                try{
+                    const resp = await fetch('/api/register', {
+                        method: 'POST', headers: {'Content-Type':'application/json'},
+                        body: JSON.stringify({name,email,password:pw})
+                    });
+                    if(resp.ok){
+                        const data = await resp.json();
+                        localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email}));
+                        window.location.href = 'SGBweb.html';
+                        return;
+                    } else {
+                        const errj = await resp.json().catch(()=>({error:'Server error'}));
+                        err.textContent = errj.error || 'Đăng ký không thành công';
+                        return;
+                    }
+                }catch(e){
+                    // fallback to localStorage when server not available
+                    const users = getUsers();
+                    if(users.find(u=>u.email===email)){ err.textContent='Email đã được đăng ký'; return; }
+                    users.push({name,email,password:pw}); saveUsers(users);
+                    localStorage.setItem('sgb_logged_in', JSON.stringify({name,email}));
+                    window.location.href = 'SGBweb.html';
+                }
+            });
+
+            loginBtn.addEventListener('click', async (e)=>{
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+                const pw = document.getElementById('loginPassword').value;
+                const err = document.getElementById('loginError'); err.textContent='';
+                if(!email||!pw){ err.textContent='Vui lòng nhập email và mật khẩu'; return; }
+                try{
+                    const resp = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email,password:pw}) });
+                    if(resp.ok){
+                        const data = await resp.json();
+                        localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email}));
+                        window.location.href = 'SGBweb.html';
+                        return;
+                    } else {
+                        const errj = await resp.json().catch(()=>({error:'Server error'}));
+                        err.textContent = errj.error || 'Đăng nhập không thành công';
+                        return;
+                    }
+                }catch(e){
+                    // fallback to localStorage when server not available
+                    const users = getUsers();
+                    const user = users.find(u=>u.email===email && u.password===pw);
+                    if(!user){ err.textContent='Email hoặc mật khẩu không đúng'; return; }
+                    localStorage.setItem('sgb_logged_in', JSON.stringify({name:user.name,email:user.email}));
+                    window.location.href = 'SGBweb.html';
+                }
+            });
+
+            continueGuest.addEventListener('click', (e)=>{
+                e.preventDefault();
+                // mark as guest session (optional)
+                localStorage.setItem('sgb_logged_in', JSON.stringify({name:'Khách',email:''}));
+                window.location.href = 'SGBweb.html';
+            });
+        }
+    </script>
+</body>
+</html>
