@@ -1,7 +1,19 @@
+﻿# Node / build
 node_modules/
-users.json
-.env
 dist/
+build/
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local env and data
+.env
+users.json
 *.log
-/.cache
-/.DS_Store
+
+# Binaries / archives
+*.exe
+*.7z
+*.zip

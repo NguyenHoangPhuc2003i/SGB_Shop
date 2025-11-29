@@ -7,18 +7,32 @@
     <link rel="stylesheet" href="Untitled-1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Small inline styles for the auth page (keeps things self-contained) */
-        .auth-container{max-width:420px;margin:40px auto;padding:24px;border:1px solid #eee;border-radius:8px;background:#fff}
-        .auth-tabs{display:flex;margin-bottom:16px}
-        .auth-tab{flex:1;padding:12px;text-align:center;cursor:pointer;border-bottom:2px solid transparent}
-        .auth-tab.active{border-color:#000;font-weight:600}
-        .auth-form .form-group{margin-bottom:12px}
-        .auth-form label{display:block;margin-bottom:6px;font-size:.95rem}
-        .auth-form input, .auth-form textarea, .auth-form select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px}
-        .btn-ghost{background:transparent;border:1px solid #000;padding:10px 14px;border-radius:6px;cursor:pointer}
-        .btn-primary{background:#000;color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer}
-        .auth-footer{margin-top:12px;font-size:.9rem;text-align:center}
-        .error{color:#c00;font-size:.9rem}
+        /* Improved inline styles for the auth page */
+        :root{--bg:#f6f7fb;--card:#fff;--accent:#1f2937;--muted:#6b7280;--accent-2:#0ea5a4}
+        body{background:linear-gradient(180deg,#fbfdff 0%,var(--bg) 100%);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;padding:24px;color:var(--accent)}
+        .auth-container{max-width:420px;margin:48px auto;padding:28px;border-radius:12px;background:var(--card);box-shadow:0 6px 22px rgba(31,41,55,0.08);border:1px solid rgba(31,41,55,0.04)}
+        h2{margin:0 0 6px;font-size:1.25rem}
+        p.lead{margin:0 0 18px;color:var(--muted)}
+        .auth-tabs{display:flex;margin-bottom:18px;background:transparent;border-radius:10px;overflow:hidden}
+        .auth-tab{flex:1;padding:10px 12px;text-align:center;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);font-weight:600}
+        .auth-tab.active{border-color:var(--accent-2);color:var(--accent);background:linear-gradient(90deg,rgba(14,165,164,0.06),transparent)}
+        .auth-form .form-group{margin-bottom:14px}
+        .auth-form label{display:block;margin-bottom:8px;font-size:.95rem;color:var(--muted)}
+    /* new layout: use flex row for icon + input to guarantee alignment */
+    .input-with-icon{display:block}
+    .input-row{display:flex;align-items:center;gap:12px}
+    /* make the icon column wider so icons sit centered in their column */
+    .input-row .icon{width:40px;min-width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#9ca3af;pointer-events:none}
+    .input-row input{flex:1;height:44px;padding:10px 12px;border:1px solid #e6e9ef;border-radius:8px;font-size:0.95rem;background:#f6fbff}
+    .input-row .show-pw{background:transparent;border:none;color:#6b7280;padding:6px;border-radius:8px;cursor:pointer;height:34px;width:34px;display:flex;align-items:center;justify-content:center}
+    .input-row .show-pw:hover{background:rgba(14,165,164,0.06);color:var(--primary)}
+    .input-row .show-pw i{font-size:15px}
+        .btn-ghost{background:transparent;border:1px solid #e6e9ef;padding:10px 14px;border-radius:8px;cursor:pointer;color:var(--accent)}
+        .btn-primary{background:linear-gradient(90deg,var(--accent-2),#036);color:#fff;border:none;padding:11px 16px;border-radius:10px;cursor:pointer;font-weight:600}
+        .auth-footer{margin-top:14px;font-size:.95rem;text-align:center;color:var(--muted)}
+        .error{color:#ef4444;font-size:.9rem;margin-top:6px}
+        .row{display:flex;gap:10px}
+        @media(max-width:480px){.auth-container{margin:20px;padding:18px}}
     </style>
 </head>
 <body>
@@ -33,41 +47,96 @@
             </div>
 
             <div id="loginBox" class="auth-form">
-                <div class="form-group">
+                <div class="form-group input-with-icon">
                     <label for="loginEmail">Email</label>
-                    <input id="loginEmail" type="email" placeholder="email@example.com">
+                    <div class="input-row">
+                        <span class="icon" aria-hidden="true">
+                            <svg width="18" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1.5h18v11H1z" stroke="#9CA3AF" stroke-width="1.2" fill="#F8FAFC"/>
+                                <path d="M1 1.5l9 7 9-7" stroke="#9CA3AF" stroke-width="1.2" fill="none"/>
+                            </svg>
+                        </span>
+                        <input id="loginEmail" type="email" placeholder="email@example.com" aria-label="Email">
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group input-with-icon">
                     <label for="loginPassword">Mật khẩu</label>
-                    <input id="loginPassword" type="password" placeholder="Mật khẩu">
+                    <div class="input-row">
+                        <!-- inline SVG lock icon -->
+                        <span class="icon" aria-hidden="true">
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="1.2" y="7" width="13.6" height="9" rx="1.8" stroke="#9CA3AF" stroke-width="1.2" fill="#F8FAFC"/>
+                                <path d="M4.5 7V5.5a3.5 3.5 0 017 0V7" stroke="#9CA3AF" stroke-width="1.2" fill="none"/>
+                            </svg>
+                        </span>
+                        <input id="loginPassword" type="password" placeholder="Mật khẩu" aria-label="Mật khẩu">
+                        <button type="button" class="show-pw" data-target="loginPassword" aria-pressed="false" aria-label="Hiện mật khẩu" title="Hiện/Ẩn mật khẩu">
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <button id="loginBtn" class="btn-primary">Đăng nhập</button>
+                    <button id="loginBtn" class="btn-primary" style="width:100%;">Đăng nhập</button>
                 </div>
                 <p id="loginError" class="error" aria-live="polite"></p>
             </div>
 
             <div id="registerBox" class="auth-form" style="display:none">
-                <div class="form-group">
+                <div class="form-group input-with-icon">
                     <label for="regName">Họ và tên</label>
-                    <input id="regName" type="text" placeholder="Nguyễn Văn A">
+                    <div class="input-row">
+                        <span class="icon" aria-hidden="true">
+                            <!-- user icon -->
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="8" cy="4.4" r="2.4" stroke="#9CA3AF" stroke-width="1.2" fill="#F8FAFC"/>
+                                <path d="M2 13c0-2.8 2.7-4.6 6-4.6s6 1.8 6 4.6" stroke="#9CA3AF" stroke-width="1.2" fill="none"/>
+                            </svg>
+                        </span>
+                        <input id="regName" type="text" placeholder="Nguyễn Văn A" aria-label="Họ và tên">
+                    </div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group input-with-icon">
                     <label for="regEmail">Email</label>
-                    <input id="regEmail" type="email" placeholder="email@example.com">
+                    <div class="input-row">
+                        <span class="icon" aria-hidden="true">
+                            <!-- mail icon -->
+                            <svg width="18" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1.5h18v11H1z" stroke="#9CA3AF" stroke-width="1.2" fill="#F8FAFC"/>
+                                <path d="M1 1.5l9 7 9-7" stroke="#9CA3AF" stroke-width="1.2" fill="none"/>
+                            </svg>
+                        </span>
+                        <input id="regEmail" type="email" placeholder="email@example.com" aria-label="Email">
+                    </div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group input-with-icon">
                     <label for="regPassword">Mật khẩu</label>
-                    <input id="regPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)">
+                    <div class="input-row">
+                        <span class="icon" aria-hidden="true">
+                            <!-- lock icon -->
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="1.2" y="7" width="13.6" height="9" rx="1.8" stroke="#9CA3AF" stroke-width="1.2" fill="#F8FAFC"/>
+                                <path d="M4.5 7V5.5a3.5 3.5 0 017 0V7" stroke="#9CA3AF" stroke-width="1.2" fill="none"/>
+                            </svg>
+                        </span>
+                        <input id="regPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" aria-label="Mật khẩu">
+                        <button type="button" class="show-pw" data-target="regPassword" aria-pressed="false" aria-label="Hiện mật khẩu" title="Hiện/Ẩn mật khẩu">
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <button id="registerBtn" class="btn-primary">Đăng ký</button>
+                    <button id="registerBtn" class="btn-primary" style="width:100%;">Đăng ký</button>
                 </div>
                 <p id="regError" class="error" aria-live="polite"></p>
             </div>
 
             <div class="auth-footer">
-                <button id="continueGuest" class="btn-ghost" style="margin-right:8px">Tiếp tục xem (không đăng nhập)</button>
+                <div class="row" style="justify-content:center;margin-bottom:10px">
+                    <button id="continueGuest" class="btn-ghost">Tiếp tục xem (không đăng nhập)</button>
+                </div>
                 <small style="color:#777">Bạn có thể đăng nhập sau khi vào trang</small>
             </div>
         </div>
@@ -105,6 +174,30 @@
             const loginBtn = document.getElementById('loginBtn');
             const registerBtn = document.getElementById('registerBtn');
             const continueGuest = document.getElementById('continueGuest');
+
+            // Password visibility toggle (modern: FA icons + aria)
+            document.querySelectorAll('.show-pw').forEach(btn=>{
+                btn.addEventListener('click', ()=>{
+                    const id = btn.dataset.target;
+                    const input = document.getElementById(id);
+                    if(!input) return;
+                    const icon = btn.querySelector('i');
+                    const showing = input.type !== 'password';
+                    if(showing){
+                        // currently visible -> hide
+                        input.type = 'password';
+                        btn.setAttribute('aria-pressed','false');
+                        btn.setAttribute('aria-label','Hiện mật khẩu');
+                        if(icon){ icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); icon.classList.remove('fa-solid'); icon.classList.add('fa-regular'); }
+                    } else {
+                        // currently hidden -> show
+                        input.type = 'text';
+                        btn.setAttribute('aria-pressed','true');
+                        btn.setAttribute('aria-label','Ẩn mật khẩu');
+                        if(icon){ icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); icon.classList.remove('fa-regular'); icon.classList.add('fa-solid'); }
+                    }
+                });
+            });
 
             function getUsers(){
                 try{ return JSON.parse(localStorage.getItem('sgb_users')||'[]'); }catch(e){return []}
