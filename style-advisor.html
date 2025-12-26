@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tư vấn phong cách (AI) — STYLE GLAMOUR BEATS</title>
+  <link rel="stylesheet" href="Untitled-1.css">
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    .page{display:grid;grid-template-columns:320px 1fr;gap:24px}
+    .card{background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.06)}
+    .card h2{margin:0;padding:16px;border-bottom:1px solid #f0f0f0}
+    .card .content{padding:16px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-group{margin-bottom:12px}
+    label{font-weight:600;display:block;margin-bottom:6px}
+    input[type=text],input[type=number],select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
+    .pill{display:inline-block;padding:8px 10px;border:1px solid #ddd;border-radius:999px;margin:4px 6px 0 0;cursor:pointer}
+    .pill input{margin-right:6px}
+    .chat{display:flex;flex-direction:column;height:560px}
+    .chat-log{flex:1;overflow:auto;padding:16px}
+    .msg{max-width:80%;padding:10px 12px;border-radius:12px;margin:8px 0;white-space:pre-wrap}
+    .msg.user{margin-left:auto;background:#e8f3ff;border:1px solid #cfe6ff}
+    .msg.bot{margin-right:auto;background:#f7f7f7;border:1px solid #eee}
+    .chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid #eee}
+    .chat-input input{flex:1}
+    .badge{font-size:12px;color:#555;margin-left:8px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:#111;color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
+
+    /* Responsive tweaks for mobile */
+    @media (max-width: 900px){
+      .page{grid-template-columns:1fr}
+      .chat{height:480px}
+    }
+    @media (max-width: 600px){
+      .form-row{grid-template-columns:1fr}
+      .container{padding:12px}
+      .card .content{padding:12px}
+      input[type=text],input[type=number],select,textarea{padding:12px 14px;font-size:.95rem}
+    }
+  </style>
+</head>
+<body>
+  <script>
+  // require login like main page
+  try{
+    const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
+    if(!logged){ window.location.replace('auth.html'); }
+  }catch(e){ window.location.replace('auth.html'); }
+  </script>
+
+  <div class="container">
+    <div class="topbar">
+      <h1>Tư vấn phong cách (AI)</h1>
+      <a class="btn" href="SGBweb.html">← Quay lại Trang chủ</a>
+    </div>
+    <div class="page">
+      <section class="card">
+        <h2>Hồ sơ của bạn</h2>
+        <div class="content">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Giới tính</label>
+              <select id="gender">
+                <option value="women">Nữ</option>
+                <option value="men">Nam</option>
+                <option value="unisex">Khác / Unisex</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tuổi</label>
+              <input id="age" type="number" min="10" max="100" placeholder="25">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Chiều cao (cm)</label>
+              <input id="height_cm" type="number" min="130" max="220" placeholder="165">
+            </div>
+            <div class="form-group">
+              <label>Cân nặng (kg)</label>
+              <input id="weight_kg" type="number" min="35" max="150" placeholder="55">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Sở thích màu sắc</label>
+              <input id="colors" type="text" placeholder="Đen, trắng, pastel">
+            </div>
+            <div class="form-group">
+              <label>Khí hậu nơi ở</label>
+              <select id="climate">
+                <option value="tropical">Nhiệt đới</option>
+                <option value="temperate">Ôn hòa</option>
+                <option value="cold">Lạnh</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ngân sách</label>
+              <select id="budget">
+                <option value="low">Tiết kiệm</option>
+                <option value="mid" selected>Vừa phải</option>
+                <option value="high">Đầu tư</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Phom dáng ưa thích</label>
+              <select id="fit_preference">
+                <option value="regular" selected>Vừa vặn</option>
+                <option value="slim">Ôm / Slim</option>
+                <option value="oversize">Rộng / Oversize</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Dịp</label>
+            <div id="occasions" aria-label="chọn dịp" role="group">
+              <label class="pill"><input type="checkbox" value="casual" checked> Casual</label>
+              <label class="pill"><input type="checkbox" value="office"> Công sở</label>
+              <label class="pill"><input type="checkbox" value="party"> Party</label>
+              <label class="pill"><input type="checkbox" value="formal"> Formal</label>
+            </div>
+          </div>
+          <button class="btn" id="saveProfile">Lưu hồ sơ</button>
+          <span class="badge" id="sourceBadge"></span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Trợ lý phong cách</h2>
+        <div class="chat">
+          <div class="chat-log" id="chatLog"></div>
+          <div class="chat-input">
+            <input id="userMsg" type="text" placeholder="Mô tả nhu cầu: ví dụ set đồ đi làm, màu trung tính…">
+            <button class="btn" id="sendBtn">Gợi ý</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="style-advisor.js"></script>
+</body>
+</html>

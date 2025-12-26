@@ -143,10 +143,18 @@
     </main>
 
     <script>
-        // Static deployment mode: when publishing as static site (GitHub Pages / Netlify)
-        // we disable server API calls and rely on the localStorage fallback.
-        // Change this to `true` only if you deploy the Node API alongside the static site.
-        const SERVER_ENABLED = false;
+        // Detect local Node server and enable API when served from it
+        const SERVER_ENABLED = /^http:\/\/(localhost|127\.0\.0\.1):3000$/i.test(location.origin);
+
+        // If already logged in, skip auth page for smoother return visits
+        try {
+            const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
+            if (logged && logged.name) {
+                window.location.replace('SGBweb.html');
+            }
+        } catch (_) {
+            // ignore parse errors
+        }
 
         // If the page is opened as a file:// URL, show guidance for running a local HTTP server.
         const isFileProtocol = location.protocol === 'file:';
@@ -174,6 +182,15 @@
             const loginBtn = document.getElementById('loginBtn');
             const registerBtn = document.getElementById('registerBtn');
             const continueGuest = document.getElementById('continueGuest');
+
+            // Pressing Enter in email/password triggers the login button
+            (function enableEnterLogin(){
+                const emailInput = document.getElementById('loginEmail');
+                const pwInput = document.getElementById('loginPassword');
+                function onEnter(e){ if(e.key === 'Enter'){ e.preventDefault(); loginBtn?.click(); } }
+                emailInput?.addEventListener('keydown', onEnter);
+                pwInput?.addEventListener('keydown', onEnter);
+            })();
 
             // Password visibility toggle (modern: FA icons + aria)
             document.querySelectorAll('.show-pw').forEach(btn=>{

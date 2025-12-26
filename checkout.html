@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh Toán - STYLE GLAMOUR BEATS</title>
+        <link rel="stylesheet" href="Untitled-1.css?v=2" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="checkout-body">
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo"><h1>STYLE<span>GLAMOUR BEATS</span></h1></div>
+                <ul class="nav-menu">
+                    <li><a href="SGBweb.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li><a href="about.html">Về chúng tôi</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                    <li><a href="checkout.html" class="active">Thanh toán</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <button class="icon-btn cart-btn"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="checkout-container">
+        <div class="checkout-heading">
+            <div class="progress-steps">
+                <div class="step active" data-step="1"><span>1</span><p>Giao hàng</p></div>
+                <div class="step" data-step="2"><span>2</span><p>Đặt hàng</p></div>
+                <div class="step" data-step="3"><span>3</span><p>Hoàn tất</p></div>
+            </div>
+            <h2 class="page-title"><i class="fas fa-credit-card"></i> Thanh Toán</h2>
+            <p class="page-sub">Hoàn tất đơn hàng của bạn một cách an toàn và nhanh chóng.</p>
+        </div>
+        <div class="checkout-grid">
+            <div class="checkout-form-card">
+                <form id="checkoutForm">
+                    <div class="section-block">
+                        <div class="card-title"><i class="fas fa-user"></i> Thông tin người nhận</div>
+                        <div class="form-group floating">
+                            <input class="form-control" type="text" id="fullName" required placeholder=" " />
+                            <label for="fullName">Họ và tên *</label>
+                        </div>
+                        <div class="form-group floating">
+                            <input class="form-control" type="tel" id="phone" required placeholder=" " />
+                            <label for="phone">Số điện thoại *</label>
+                        </div>
+                    </div>
+                    <div class="section-block">
+                        <div class="card-title"><i class="fas fa-map-marker-alt"></i> Địa chỉ giao hàng</div>
+                        <div class="form-group floating">
+                            <textarea class="form-control" id="address" required rows="3" placeholder=" "></textarea>
+                            <label for="address">Địa chỉ *</label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group floating">
+                                <select class="form-control" id="city" required>
+                                    <option value="" disabled selected>Chọn Tỉnh/TP</option>
+                                    <option value="hanoi">Hà Nội</option>
+                                    <option value="hcm">TP. Hồ Chí Minh</option>
+                                    <option value="danang">Đà Nẵng</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                                <label for="city">Tỉnh/Thành phố *</label>
+                            </div>
+                            <div class="form-group floating">
+                                <select class="form-control" id="district" required>
+                                    <option value="" disabled selected>Chọn Quận/Huyện</option>
+                                    <option value="district1">Quận 1</option>
+                                    <option value="district2">Quận 2</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                                <label for="district">Quận/Huyện *</label>
+                            </div>
+                        </div>
+                        <div class="form-group floating">
+                            <textarea class="form-control" id="note" rows="2" placeholder=" "></textarea>
+                            <label for="note">Ghi chú (tuỳ chọn)</label>
+                        </div>
+                    </div>
+                    <div class="section-block">
+                        <div class="card-title"><i class="fas fa-wallet"></i> Phương thức thanh toán</div>
+                        <div class="payment-methods">
+                            <label class="pm-option">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <div class="pm-content">
+                                    <i class="fas fa-box-open"></i>
+                                    <div>
+                                        <strong>COD</strong>
+                                        <p>Thanh toán khi nhận hàng</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="pm-option">
+                                <input type="radio" name="payment" value="bank">
+                                <div class="pm-content">
+                                    <i class="fas fa-university"></i>
+                                    <div>
+                                        <strong>Chuyển khoản</strong>
+                                        <p>Ngân hàng nội địa / QR</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="pm-option">
+                                <input type="radio" name="payment" value="wallet">
+                                <div class="pm-content">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <div>
+                                        <strong>Ví điện tử</strong>
+                                        <p>Momo, ZaloPay,...</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="small-hint"><i class="fas fa-shield-alt"></i> Thông tin của bạn được bảo mật tuyệt đối.</div>
+                </form>
+            </div>
+            <div class="order-summary-card sticky-summary">
+                <div class="card-title"><i class="fas fa-receipt"></i> Đơn hàng của bạn</div>
+                <div id="checkoutItems" class="items-empty">Chưa có sản phẩm</div>
+                <div class="summary-list">
+                    <div class="summary-row"><span>Tạm tính</span><span id="subtotalPrice">0đ</span></div>
+                    <div class="summary-row"><span>Phí vận chuyển</span><span id="shippingFee">30,000đ</span></div>
+                    <div class="summary-row"><span>Giảm giá</span><span id="discount">-0đ</span></div>
+                </div>
+                <div class="promo-block">
+                    <input class="form-control" id="promoCode" placeholder="Mã giảm giá" />
+                    <button id="applyPromo" type="button" class="btn-secondary">Áp dụng</button>
+                </div>
+                <div class="grand-total">
+                    <span>Tổng cộng</span>
+                    <strong id="finalTotal">0đ</strong>
+                </div>
+                <button form="checkoutForm" id="placeOrderBtn" class="btn-accent btn-full">Đặt Hàng</button>
+                <div class="secure-note"><i class="fas fa-lock"></i> Thanh toán bảo mật 100%</div>
+            </div>
+        </div>
+        <div id="orderResult" style="display:none;margin-top:20px;background:#f7fff7;padding:12px;border-radius:6px;"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 STYLE GLAMOUR BEATS</p>
+        </div>
+    </footer>
+
+        <script src="Untitled-1.js?v=2"></script>
+</body>
+</html>

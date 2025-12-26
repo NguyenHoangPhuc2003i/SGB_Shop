@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - STYLE GLAMOUR BEATS</title>
+    <link rel="stylesheet" href="Untitled-1.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script>
+        // Require login before viewing
+        try{
+            const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
+            if(!logged){ window.location.replace('auth.html'); }
+        }catch(e){ window.location.replace('auth.html'); }
+    </script>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>STYLE<span>GLAMOUR BEATS</span></h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="SGBweb.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li><a href="about.html">Về chúng tôi</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <button class="icon-btn search-btn"><i class="fas fa-search"></i></button>
+                    <a class="icon-btn cart-btn" href="checkout.html" onclick="return onCartIconClick(event)" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <button class="icon-btn user-btn"><i class="fas fa-user"></i></button>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="cart-page">
+        <div class="container">
+            <div class="cart-header">
+                <h2>Giỏ hàng của bạn</h2>
+                <p>Xem lại các sản phẩm đã chọn trước khi thanh toán</p>
+            </div>
+            <div class="cart-grid">
+                <!-- Left: items list -->
+                <div class="cart-list-card">
+                    <div id="cartPageItems" class="cart-list"></div>
+                    <div class="cart-actions">
+                        <a href="products.html" class="btn-secondary">Tiếp tục mua sắm</a>
+                    </div>
+                </div>
+                <!-- Right: summary -->
+                <aside class="cart-summary-card">
+                    <h3>Tóm tắt đơn hàng</h3>
+                    <div class="summary-row"><span>Tạm tính</span><span id="cartPageSubtotal">0đ</span></div>
+                    <div class="summary-row"><span>Phí vận chuyển</span><span id="cartPageShipping">30,000đ</span></div>
+                    <div class="summary-total"><span>Tổng cộng</span><span id="cartPageTotal">0đ</span></div>
+                    <a href="checkout.html" class="btn-primary full">Thanh toán</a>
+                    <div class="checkout-security"><i class="fas fa-lock"></i> Thanh toán bảo mật</div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 STYLE GLAMOUR BEATS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="Untitled-1.js?v=2"></script>
+</body>
+</html>

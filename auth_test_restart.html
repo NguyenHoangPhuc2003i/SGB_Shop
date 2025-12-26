@@ -102,6 +102,15 @@
             const registerBtn = document.getElementById('registerBtn');
             const continueGuest = document.getElementById('continueGuest');
 
+            // Pressing Enter in email/password triggers the login button
+            (function enableEnterLogin(){
+                const emailInput = document.getElementById('loginEmail');
+                const pwInput = document.getElementById('loginPassword');
+                function onEnter(e){ if(e.key === 'Enter'){ e.preventDefault(); loginBtn?.click(); } }
+                emailInput?.addEventListener('keydown', onEnter);
+                pwInput?.addEventListener('keydown', onEnter);
+            })();
+
             function getUsers(){
                 try{ return JSON.parse(localStorage.getItem('sgb_users')||'[]'); }catch(e){return []}
             }
