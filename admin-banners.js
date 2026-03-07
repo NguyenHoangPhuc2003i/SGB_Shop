@@ -12,6 +12,14 @@
   const imagePreviewEl = document.getElementById('imagePreview');
   const submitBtn = document.getElementById('submit');
   const resetBtn = document.getElementById('reset');
+  const formCard = titleEl.closest('fieldset');
+
+  let heroTypeEl = null;
+  let heroSrcEl = null;
+  let heroMediaFileEl = null;
+  let heroPreviewEl = null;
+  let heroSaveBtn = null;
+  let heroUploadBtn = null;
 
   let editingId = null;
   let pendingImageFile = null;
@@ -19,6 +27,114 @@
   function getLogged(){ try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ return null; } }
   function requireAdmin(){ const l = getLogged(); const ok = !!(l && l.role==='admin'); guard.style.display = ok ? 'none' : ''; return ok; }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function ensureHeroSection(){
+    if(document.getElementById('heroMediaCard')) return;
+    const card = document.createElement('fieldset');
+    card.id = 'heroMediaCard';
+    card.className = 'card';
+    card.style.padding = '0';
+    card.innerHTML = `
+      <div class="card-header"><div class="card-title">Quản lý Hero Video</div></div>
+      <div class="card-body">
+        <div class="grid-2">
+          <div>
+            <label>Loại media</label>
+            <select id="heroType">
+              <option value="video">Video</option>
+              <option value="image">Ảnh</option>
+            </select>
+          </div>
+          <div>
+            <label>URL media (tuỳ chọn)</label>
+            <input id="heroSrc" type="text" placeholder="/uploads/hero.mp4 hoặc URL">
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <label>Tải file Hero mới</label>
+          <input id="heroMediaFile" type="file" accept="video/*,image/*">
+        </div>
+        <div class="media-preview" id="heroPreview" style="margin-top:10px;color:#a8adbf">Chưa có media.</div>
+        <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap">
+          <button id="heroUploadBtn" class="btn btn-outline" type="button">Upload file</button>
+          <button id="heroSaveBtn" class="btn btn-primary" type="button">Lưu Hero</button>
+        </div>
+      </div>
+    `;
+    formCard.insertAdjacentElement('afterend', card);
+    heroTypeEl = document.getElementById('heroType');
+    heroSrcEl = document.getElementById('heroSrc');
+    heroMediaFileEl = document.getElementById('heroMediaFile');
+    heroPreviewEl = document.getElementById('heroPreview');
+    heroSaveBtn = document.getElementById('heroSaveBtn');
+    heroUploadBtn = document.getElementById('heroUploadBtn');
+
+    heroMediaFileEl.addEventListener('change', ()=>{
+      const f = heroMediaFileEl.files && heroMediaFileEl.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      const type = String(f.type||'').startsWith('image/') ? 'image' : 'video';
+      heroTypeEl.value = type;
+      if(type === 'image'){
+        heroPreviewEl.innerHTML = `<img src="${url}" class="banner-thumb" alt="hero preview">`;
+      }else{
+        heroPreviewEl.innerHTML = `<video src="${url}" controls muted playsinline></video>`;
+      }
+    });
+  }
+
+  async function loadHeroMedia(){
+    ensureHeroSection();
+    if(!requireAdmin()) return;
+    const logged = getLogged();
+    const res = await fetch('/api/hero-media', { headers:{ 'X-User-Email': logged?.email || '' } });
+    if(!res.ok){ heroPreviewEl.textContent = 'Không tải được Hero media'; return; }
+    const hero = await res.json();
+    heroTypeEl.value = hero.type || 'video';
+    heroSrcEl.value = hero.src || '';
+    renderHeroPreview(hero.type, hero.src);
+  }
+
+  function renderHeroPreview(type, src){
+    if(!src){ heroPreviewEl.textContent = 'Chưa có media.'; return; }
+    if(type === 'image'){
+      heroPreviewEl.innerHTML = `<img src="${escapeHtml(src)}" class="banner-thumb" alt="hero image">`;
+    }else{
+      heroPreviewEl.innerHTML = `<video src="${escapeHtml(src)}" controls muted playsinline></video>`;
+    }
+  }
+
+  async function uploadHeroMedia(){
+    if(!requireAdmin()) return;
+    const file = heroMediaFileEl.files && heroMediaFileEl.files[0];
+    if(!file){ alert('Vui lòng chọn file video/ảnh Hero'); return; }
+    const logged = getLogged();
+    const fd = new FormData();
+    fd.append('media', file);
+    const res = await fetch('/api/hero-media/upload', { method:'POST', headers:{ 'X-User-Email': logged?.email || '' }, body: fd });
+    if(!res.ok){ alert('Upload Hero thất bại'); return; }
+    const saved = await res.json();
+    heroTypeEl.value = saved.type || 'video';
+    heroSrcEl.value = saved.src || '';
+    renderHeroPreview(saved.type, saved.src);
+    alert('Đã upload Hero media');
+  }
+
+  async function saveHeroMedia(){
+    if(!requireAdmin()) return;
+    const payload = { type: heroTypeEl.value || 'video', src: (heroSrcEl.value || '').trim() };
+    if(!payload.src){ alert('Vui lòng nhập hoặc upload media Hero'); return; }
+    const logged = getLogged();
+    const res = await fetch('/api/hero-media', {
+      method:'PUT',
+      headers:{ 'Content-Type':'application/json', 'X-User-Email': logged?.email || '' },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok){ alert('Lưu Hero thất bại'); return; }
+    const saved = await res.json();
+    renderHeroPreview(saved.type, saved.src);
+    alert('Đã lưu Hero media');
+  }
 
   imageFileEl.addEventListener('change', ()=>{
     const f = imageFileEl.files && imageFileEl.files[0];
@@ -57,6 +173,9 @@
     });
     table.style.display = '';
     empty.textContent = '';
+    if(window.AdminUI && window.AdminUI.enhanceTable){
+      window.AdminUI.enhanceTable(table, { pageSize: 8 });
+    }
   }
 
   function clearForm(){ editingId=null; titleEl.value=''; sortEl.value=''; activeEl.checked=true; imageFileEl.value=''; imagePreviewEl.innerHTML=''; pendingImageFile=null; }
@@ -109,5 +228,9 @@
   document.getElementById('submit').addEventListener('click', (e)=>{ e.preventDefault(); submit(); });
   document.getElementById('reset').addEventListener('click', (e)=>{ e.preventDefault(); clearForm(); });
   refreshBtn.addEventListener('click', (e)=>{ e.preventDefault(); load(); });
+  ensureHeroSection();
+  if(heroUploadBtn) heroUploadBtn.addEventListener('click', (e)=>{ e.preventDefault(); uploadHeroMedia(); });
+  if(heroSaveBtn) heroSaveBtn.addEventListener('click', (e)=>{ e.preventDefault(); saveHeroMedia(); });
   load();
+  loadHeroMedia();
 })();

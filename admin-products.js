@@ -12,6 +12,7 @@
   const priceEl = document.getElementById('price');
   const salePriceEl = document.getElementById('salePrice');
   const descEl = document.getElementById('description');
+  const descRow = descEl ? descEl.parentElement : null;
   const coverEl = document.getElementById('cover');
   const galleryEl = document.getElementById('gallery');
   const imagesPreview = document.getElementById('imagesPreview');
@@ -24,6 +25,7 @@
   const varSkuEl = document.getElementById('varSku');
   const submitBtn = document.getElementById('submit');
   const resetBtn = document.getElementById('reset');
+  let aiDescResult = null;
 
   let editingId = null;
   let currentVariants = [];
@@ -146,6 +148,9 @@
       });
       listTable.style.display = '';
       empty.textContent = '';
+      if(window.AdminUI && window.AdminUI.enhanceTable){
+        window.AdminUI.enhanceTable(listTable, { pageSize: 8 });
+      }
     }catch(err){
       empty.textContent = 'Lỗi: ' + err.message;
     }
@@ -153,6 +158,50 @@
 
   function formatCurrency(n){
     try{ return Number(n).toLocaleString('vi-VN', { style:'currency', currency:'VND' }); }catch{ return String(n); }
+  }
+
+  function ensureAIDescriptionTools(){
+    if(!descRow || document.getElementById('genDescAI')) return;
+    const wrap = document.createElement('div');
+    wrap.style.marginTop = '8px';
+    wrap.innerHTML = `
+      <button id="genDescAI" class="btn btn-outline" type="button">Mô tả AI</button>
+      <div id="aiDescResult" class="ai-result">Nhấn "Mô tả AI" để tạo mô tả tự động.</div>
+    `;
+    descRow.appendChild(wrap);
+    aiDescResult = document.getElementById('aiDescResult');
+    const btn = document.getElementById('genDescAI');
+    if(btn){ btn.addEventListener('click', generateDescriptionWithAI); }
+  }
+
+  async function generateDescriptionWithAI(){
+    if(!requireAdminGuard()) return;
+    const payload = {
+      name: (nameEl.value || '').trim(),
+      category: (categoryEl.value || '').trim(),
+      brand: (brandEl.value || '').trim() || 'SGB',
+      tone: 'sang trọng, gọn, dễ bán'
+    };
+    if(!payload.name){ alert('Nhập tên sản phẩm trước khi tạo mô tả AI'); return; }
+    const logged = getLogged();
+    if(aiDescResult) aiDescResult.textContent = 'AI đang tạo mô tả...';
+    try{
+      const res = await fetch('/api/admin/ai/generate-product-description', {
+        method:'POST',
+        headers: { 'Content-Type':'application/json', 'X-User-Email': logged?.email || '' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Không gọi được AI');
+      const data = await res.json();
+      if(data.description){
+        descEl.value = String(data.description);
+        if(aiDescResult) aiDescResult.textContent = `Đã tạo mô tả (${data.source || 'AI'}).`;
+      }else if(aiDescResult){
+        aiDescResult.textContent = 'AI chưa trả về mô tả.';
+      }
+    }catch(err){
+      if(aiDescResult) aiDescResult.textContent = `Lỗi AI: ${err.message}`;
+    }
   }
 
   async function submitProduct(){
@@ -272,5 +321,6 @@
   }
 
   // init
+  ensureAIDescriptionTools();
   loadCategories().then(loadProducts);
 })();

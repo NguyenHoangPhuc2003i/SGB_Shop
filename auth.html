@@ -145,7 +145,9 @@
 
     <script>
         // Detect local Node server and enable API when served from it
-        const SERVER_ENABLED = /^http:\/\/(localhost|127\.0\.0\.1):300(0|1)$/i.test(location.origin);
+        // Try backend auth APIs on any HTTP(S) origin.
+        const SERVER_ENABLED = /^https?:\/\//i.test(location.origin);
+        const ALLOW_LOCAL_AUTH_FALLBACK = false;
 
         // If already logged in, skip auth page for smoother return visits
         // Add ?force=1 to always show the login page.
@@ -244,6 +246,9 @@
                         });
                         if(resp.ok){
                             const data = await resp.json();
+                            if(data && data.storage && data.storage !== 'firestore'){
+                                err.textContent = 'Tài khoản đã tạo nhưng đang lưu JSON, chưa lên Firestore. Kiểm tra FIREBASE_CREDENTIALS/FIREBASE_COLLECTIONS rồi thử lại.';
+                            }
                             localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email,role:data.role||'user'}));
                             window.location.href = (data.role==='admin') ? 'admin.html' : 'SGBweb.html';
                             return;
@@ -253,8 +258,9 @@
                             return;
                         }
                     }catch(e){
-                        // server failed, fallthrough to local fallback below
-                        console.warn('Server register failed, using local fallback', e);
+                        console.warn('Server register failed', e);
+                        err.textContent = 'Không kết nối được server đăng ký. Vui lòng chạy backend để đồng bộ Firestore.';
+                        if(!ALLOW_LOCAL_AUTH_FALLBACK) return;
                     }
                 }
 
@@ -287,8 +293,9 @@
                             return;
                         }
                     }catch(e){
-                        console.warn('Server login failed, using local fallback', e);
-                        // fallthrough to local fallback
+                        console.warn('Server login failed', e);
+                        err.textContent = 'Không kết nối được server đăng nhập. Vui lòng chạy backend.';
+                        if(!ALLOW_LOCAL_AUTH_FALLBACK) return;
                     }
                 }
 
@@ -310,4 +317,4 @@
     </script>
 </body>
 </html>
-<script src="site.js?v=3"></script>
+<script src="site.js?v=11"></script>

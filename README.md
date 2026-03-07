@@ -42,16 +42,25 @@ Sau khi push:
 2. Source chọn **GitHub Actions**.
 3. Chờ workflow chạy xong, web live tại: https://nguyenhoangphuc2003i.github.io/SGB_Shop/
 
-## Firebase (tuỳ chọn)
+## Firebase (tuỳ chọn, theo hybrid strategy)
 
-Nếu muốn đọc/ghi dữ liệu bằng Firestore thay vì JSON local:
+Mặc định backend hiện chạy theo chế độ đồng bộ Firebase liên tục:
+- Firestore cho toàn bộ dữ liệu vận hành (`*`): `users`, `orders`, `ai_logs`, `products`, `categories`, `coupons`, `banners`, `support_requests`, `hero_media`.
+- JSON local vẫn được giữ làm backup/mirror khi `JSON_BACKUP_ENABLED=true`.
+
+Thiết lập nhanh:
 
 ```powershell
 Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
 $env:FIREBASE_ENABLED = "true"
 $env:FIREBASE_CREDENTIALS = "D:\keys\firebase-service-account.json"
+$env:FIREBASE_COLLECTIONS = "*"
 npm start
 ```
+
+Biến môi trường hữu ích:
+- `FIREBASE_COLLECTIONS`: danh sách collection dùng Firestore, hỗ trợ `*` để dùng cho tất cả collection (mặc định `*`).
+- `JSON_BACKUP_ENABLED`: `true/false`, khi `true` sẽ mirror dữ liệu Firestore xuống file JSON local để backup.
 
 Hoặc dùng biến mặc định của Firebase Admin SDK:
 

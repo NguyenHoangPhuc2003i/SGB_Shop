@@ -1,116 +1,50 @@
 (() => {
   const $ = (id) => document.getElementById(id);
-  function safeAddMsg(role, text){
-    try{
-      const log = $('chatLog');
-      if(!log) return;
-      const div = document.createElement('div');
-      div.className = `msg ${role === 'user' ? 'user' : 'bot'}`;
-      div.textContent = String(text||'');
-      log.appendChild(div);
-      log.scrollTop = log.scrollHeight;
-    }catch(_){ /* ignore */ }
-  }
-  // Surface runtime errors into the chat for easier debugging
-  try{
-    window.addEventListener('error', (e)=>{
-      safeAddMsg('assistant', 'Có lỗi script: ' + (e && e.message ? e.message : 'unknown'));
-    });
-    window.addEventListener('unhandledrejection', (e)=>{
-      const msg = (e && e.reason && (e.reason.message||e.reason)) || 'unknown';
-      safeAddMsg('assistant', 'Có lỗi (promise): ' + msg);
-    });
-  }catch(_){ /* ignore */ }
 
   const defaultProfile = {
-    gender: 'women', age: 25, height_cm: 165, weight_kg: 55,
-    colors: ['đen','trắng'], occasions: ['casual','office'],
-    fit_preference: 'regular', climate: 'temperate', budget: 'mid'
+    gender: 'women',
+    age: 25,
+    height_cm: 165,
+    weight_kg: 55,
+    colors: ['đen', 'trắng'],
+    occasions: ['casual'],
+    fit_preference: 'regular',
+    climate: 'temperate',
+    budget: 'mid'
+  };
+
+  const state = {
+    step: 0,
+    cachedImageFile: null,
+    cachedImageBase64: null,
+    cachedImageMime: null
   };
 
   function normArray(val){
     if(Array.isArray(val)) return val;
-    if(typeof val === 'string') return val.split(',').map(s=>s.trim()).filter(Boolean);
+    if(typeof val === 'string') return val.split(',').map(s => s.trim()).filter(Boolean);
     return [];
-  }
-
-  function normalizeProfile(p){
-    const out = { ...(p||{}) };
-    out.colors = normArray(out.colors);
-    out.occasions = normArray(out.occasions);
-    return out;
   }
 
   function getProfile(){
     try{
-      const p = JSON.parse(localStorage.getItem('sgb_style_profile')||'null');
-      const prof = normalizeProfile(p || defaultProfile);
-      // persist normalized to avoid future shape issues
-      try{ localStorage.setItem('sgb_style_profile', JSON.stringify(prof)); }catch(_){ }
-      return prof;
-    }catch(e){ return defaultProfile; }
+      const p = JSON.parse(localStorage.getItem('sgb_style_profile') || 'null');
+      if(!p) return { ...defaultProfile };
+      return {
+        ...defaultProfile,
+        ...p,
+        colors: normArray(p.colors),
+        occasions: normArray(p.occasions)
+      };
+    }catch(_){ return { ...defaultProfile }; }
   }
 
-  function saveProfile(p){
-    try{ localStorage.setItem('sgb_style_profile', JSON.stringify(p)); }catch(e){}
-  }
-
-  function fillForm(p){
-    p = normalizeProfile(p);
-    $('gender').value = p.gender || 'women';
-    $('age').value = p.age || '';
-    $('height_cm').value = p.height_cm || '';
-    $('weight_kg').value = p.weight_kg || '';
-    $('colors').value = Array.isArray(p.colors) ? p.colors.join(', ') : (p.colors || '');
-    $('fit_preference').value = p.fit_preference || 'regular';
-    $('climate').value = p.climate || 'temperate';
-    $('budget').value = p.budget || 'mid';
-    const occ = new Set(normArray(p.occasions).map(String));
-    Array.from($('occasions').querySelectorAll('input[type=checkbox]')).forEach(cb => {
-      cb.checked = occ.has(cb.value) || (!occ.size && cb.checked);
-    });
-  }
-
-  function collectProfile(){
-    const occ = Array.from($('occasions').querySelectorAll('input[type=checkbox]'))
-      .filter(cb => cb.checked).map(cb => cb.value);
-    const colors = ($('colors').value || '')
-      .split(',').map(s=>s.trim()).filter(Boolean);
-    return {
-      gender: $('gender').value,
-      age: Number($('age').value) || undefined,
-      height_cm: Number($('height_cm').value) || undefined,
-      weight_kg: Number($('weight_kg').value) || undefined,
-      fit_preference: $('fit_preference').value,
-      climate: $('climate').value,
-      budget: $('budget').value,
-      occasions: occ,
-      colors
-    };
-  }
-
-  function addMsg(role, text){
-    const log = $('chatLog');
-    if(!log){ safeAddMsg(role, text); return; }
-    const div = document.createElement('div');
-    div.className = `msg ${role === 'user' ? 'user' : 'bot'}`;
-    div.textContent = text;
-    log.appendChild(div);
-    log.scrollTop = log.scrollHeight;
-  }
-
-  function addHtmlMsg(html){
-    const log = $('chatLog');
-    if(!log) return;
-    const div = document.createElement('div');
-    div.className = 'msg bot';
-    div.innerHTML = html;
-    log.appendChild(div);
-    log.scrollTop = log.scrollHeight;
+  function saveProfile(profile){
+    try{ localStorage.setItem('sgb_style_profile', JSON.stringify(profile)); }catch(_){ }
   }
 
   function simplifyText(text){
-    return String(text||'')
+    return String(text || '')
       .toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       .replace(/[^a-z0-9\s]/g, ' ')
@@ -118,26 +52,456 @@
       .trim();
   }
 
-  function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
+  function escapeHtml(s){
+    return String(s || '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function setTheme(theme){
+    document.body.dataset.theme = theme;
+    const btn = $('themeToggle');
+    if(btn){
+      if(theme === 'dark'){
+        btn.innerHTML = '<i class="fa-solid fa-sun"></i> Chế độ sáng';
+      }else{
+        btn.innerHTML = '<i class="fa-solid fa-moon"></i> Chế độ tối';
+      }
+    }
+    try{ localStorage.setItem('sgb_style_theme', theme); }catch(_){ }
+  }
+
+  function initTheme(){
+    let theme = 'light';
+    try{ theme = localStorage.getItem('sgb_style_theme') || 'light'; }catch(_){ }
+    setTheme(theme === 'dark' ? 'dark' : 'light');
+    $('themeToggle')?.addEventListener('click', () => {
+      const current = document.body.dataset.theme === 'dark' ? 'dark' : 'light';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  function setRangeValue(){
+    $('heightValue').textContent = $('height_cm').value;
+    $('weightValue').textContent = $('weight_kg').value;
+  }
+
+  function bindStepper(){
+    const steps = Array.from(document.querySelectorAll('.form-step'));
+    const dots = Array.from(document.querySelectorAll('.step-dot'));
+
+    function renderStep(){
+      steps.forEach((el, idx) => el.classList.toggle('active', idx === state.step));
+      dots.forEach((el, idx) => el.classList.toggle('active', idx === state.step));
+      $('prevStep').disabled = state.step === 0;
+      $('nextStep').innerHTML = state.step === steps.length - 1
+        ? 'Hoàn tất <i class="fa-solid fa-check"></i>'
+        : 'Tiếp tục <i class="fa-solid fa-arrow-right"></i>';
+    }
+
+    $('prevStep')?.addEventListener('click', () => {
+      state.step = Math.max(0, state.step - 1);
+      renderStep();
+    });
+
+    $('nextStep')?.addEventListener('click', () => {
+      if(state.step < steps.length - 1){
+        state.step += 1;
+        renderStep();
+        return;
+      }
+      const p = collectProfile();
+      saveProfile(p);
+      $('sourceBadge').textContent = 'Nguồn: Hồ sơ đã lưu';
+      addMessage('assistant', 'Mình đã lưu hồ sơ. Bạn có thể bắt đầu nhắn nhu cầu để nhận set đồ phù hợp.');
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        state.step = Number(dot.dataset.step || 0);
+        renderStep();
+      });
+    });
+
+    renderStep();
+  }
+
+  function bindInteractiveInputs(){
+    $('height_cm')?.addEventListener('input', setRangeValue);
+    $('weight_kg')?.addEventListener('input', setRangeValue);
+
+    const climateWrap = $('climateChoices');
+    climateWrap?.querySelectorAll('.chip-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        climateWrap.querySelectorAll('.chip-btn').forEach((x) => x.classList.remove('active'));
+        btn.classList.add('active');
+        $('climate').value = btn.dataset.value || 'temperate';
+      });
+    });
+
+    const colorGrid = $('colorGrid');
+    colorGrid?.querySelectorAll('.color-chip').forEach((chip) => {
+      chip.addEventListener('click', () => chip.classList.toggle('active'));
+    });
+
+    const occWrap = $('occasions');
+    occWrap?.querySelectorAll('.occasion-btn').forEach((btn) => {
+      btn.addEventListener('click', () => btn.classList.toggle('active'));
+    });
+
+    $('saveProfile')?.addEventListener('click', () => {
+      const p = collectProfile();
+      saveProfile(p);
+      $('sourceBadge').textContent = 'Nguồn: Hồ sơ đã lưu';
+      addMessage('assistant', 'Đã lưu hồ sơ thành công. Nói nhu cầu cụ thể để mình tư vấn set đồ nhé.');
+    });
+  }
+
+  function fillForm(profile){
+    $('gender').value = profile.gender || 'women';
+    $('age').value = profile.age || '';
+    $('height_cm').value = profile.height_cm || 165;
+    $('weight_kg').value = profile.weight_kg || 55;
+    $('budget').value = profile.budget || 'mid';
+    $('fit_preference').value = profile.fit_preference || 'regular';
+    setRangeValue();
+
+    const colors = normArray(profile.colors).map((c) => c.toLowerCase());
+    $('colors').value = colors.join(', ');
+    document.querySelectorAll('.color-chip').forEach((chip) => {
+      chip.classList.toggle('active', colors.includes(String(chip.dataset.color || '').toLowerCase()));
+    });
+
+    const climateVal = profile.climate || 'temperate';
+    $('climate').value = climateVal;
+    document.querySelectorAll('#climateChoices .chip-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.value === climateVal);
+    });
+
+    const occasions = new Set(normArray(profile.occasions).map((x) => String(x).toLowerCase()));
+    document.querySelectorAll('#occasions .occasion-btn').forEach((btn) => {
+      btn.classList.toggle('active', occasions.has(String(btn.dataset.value || '').toLowerCase()));
+    });
+    if(!document.querySelector('#occasions .occasion-btn.active')){
+      const first = document.querySelector('#occasions .occasion-btn');
+      if(first) first.classList.add('active');
+    }
+  }
+
+  function collectProfile(){
+    const pickedColors = Array.from(document.querySelectorAll('.color-chip.active')).map((x) => x.dataset.color).filter(Boolean);
+    const custom = String($('colors').value || '').split(',').map((x) => x.trim()).filter(Boolean);
+    const colors = Array.from(new Set([...pickedColors, ...custom]));
+    const occasions = Array.from(document.querySelectorAll('#occasions .occasion-btn.active')).map((x) => x.dataset.value).filter(Boolean);
+
+    return {
+      gender: $('gender').value,
+      age: Number($('age').value) || undefined,
+      height_cm: Number($('height_cm').value) || undefined,
+      weight_kg: Number($('weight_kg').value) || undefined,
+      colors,
+      climate: $('climate').value || 'temperate',
+      budget: $('budget').value,
+      fit_preference: $('fit_preference').value,
+      occasions: occasions.length ? occasions : ['casual']
+    };
+  }
+
+  function createChatRow(role, htmlContent){
+    const row = document.createElement('div');
+    row.className = `chat-row ${role === 'user' ? 'user' : 'ai'}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar-ai';
+    avatar.innerHTML = '<i class="fa-solid fa-robot" aria-hidden="true"></i>';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = htmlContent;
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    return row;
+  }
+
+  function addMessage(role, text){
+    const log = $('chatLog');
+    if(!log) return;
+    const row = createChatRow(role, escapeHtml(text).replace(/\n/g, '<br>'));
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function addHtmlMessage(html){
+    const log = $('chatLog');
+    if(!log) return null;
+    const row = createChatRow('assistant', html);
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+    return row;
+  }
+
+  function showTyping(){
+    const log = $('chatLog');
+    if(!log || $('typingRow')) return;
+    const row = createChatRow('assistant', '<div class="typing"><span></span><span></span><span></span></div>');
+    row.id = 'typingRow';
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function hideTyping(){
+    const t = $('typingRow');
+    if(t) t.remove();
+  }
+
+  function getImageFallback(name, category){
+    try{
+      if(typeof getImageForProduct !== 'undefined') return getImageForProduct(name, category);
+    }catch(_){ }
+    return 'https://images.unsplash.com/photo-1520974692088-5cb9130b7003';
+  }
+
+  function normalizeProduct(p){
+    const name = p.name || `#${p.id}`;
+    const category = String(p.category || '').toLowerCase();
+    const price = (p.salePrice != null ? Number(p.salePrice) : Number(p.price)) || 0;
+    const image = (p.images && (p.images.cover || (p.images.gallery && p.images.gallery[0]))) || p.image || getImageFallback(name, category);
+    return { id: Number(p.id) || Date.now(), name, category, price, image };
+  }
+
+  let catalogCache = null;
+  async function getCatalog(){
+    if(Array.isArray(catalogCache) && catalogCache.length) return catalogCache;
+    try{
+      if(typeof products !== 'undefined' && Array.isArray(products) && products.length){
+        catalogCache = products.map(normalizeProduct);
+        return catalogCache;
+      }
+    }catch(_){ }
+    try{
+      const res = await fetch('/api/products');
+      if(res.ok){
+        const list = await res.json();
+        if(Array.isArray(list)){
+          catalogCache = list.map(normalizeProduct);
+          return catalogCache;
+        }
+      }
+    }catch(_){ }
+    return [];
+  }
+
+  function findProductsByKeywords(catalog, keywords, limit = 6, gender = ''){
+    if(!Array.isArray(catalog) || !catalog.length) return [];
+    const raw = Array.isArray(keywords) ? keywords : String(keywords || '').split(/[,;\n]/g);
+    const keys = raw.map((k) => simplifyText(k)).filter(Boolean);
+    if(!keys.length) return [];
+
+    const translated = keys.map((k) => k
+      .replace(/\bwhite\b/g, 'trang')
+      .replace(/\bblack\b/g, 'den')
+      .replace(/\bshirt\b/g, 'ao')
+      .replace(/\bdress\b/g, 'dam')
+      .replace(/\bpants\b/g, 'quan')
+      .replace(/\bshoes\b/g, 'giay')
+      .replace(/\bbag\b/g, 'tui')
+    );
+
+    const expanded = [...keys, ...translated];
+    const scored = catalog.map((p) => {
+      const name = simplifyText(p.name);
+      let score = 0;
+      expanded.forEach((k) => { if(name.includes(k)) score += 4; });
+      if(gender && gender !== 'unisex' && p.category === gender) score += 2;
+      return { p, score };
+    }).sort((a,b) => b.score - a.score);
+
+    return scored.filter((x) => x.score > 0).slice(0, limit).map((x) => x.p);
+  }
+
+  function getBudgetRange(budget){
+    const b = String(budget || 'mid').toLowerCase();
+    if(b === 'low') return { min: 0, max: 500000 };
+    if(b === 'high') return { min: 900000, max: Infinity };
+    return { min: 300000, max: 1200000 };
+  }
+
+  function parseMoneyValue(text){
+    const t = simplifyText(text).replace(/\s+/g, ' ').trim();
+    if(!t) return null;
+
+    const mUnit = t.match(/(\d+(?:[\.,]\d+)?)\s*(trieu|cu|m)\b/);
+    if(mUnit){
+      const base = Number(String(mUnit[1]).replace(',', '.'));
+      if(Number.isFinite(base)) return Math.round(base * 1000000);
+    }
+
+    const kUnit = t.match(/(\d{2,4})\s*k\b/);
+    if(kUnit){
+      const base = Number(kUnit[1]);
+      if(Number.isFinite(base)) return base * 1000;
+    }
+
+    const plain = t.match(/\b(\d{5,8})\b/);
+    if(plain){
+      const num = Number(plain[1]);
+      if(Number.isFinite(num)) return num;
+    }
+    return null;
+  }
+
+  function extractPriceRangeFromText(text, profileBudget){
+    const fallback = getBudgetRange(profileBudget);
+    const t = simplifyText(text);
+    if(!t) return fallback;
+
+    const between = t.match(/(?:tu|khoang)\s*(\d+(?:[\.,]\d+)?\s*(?:k|trieu|cu|m)?)\s*(?:den|-|toi)\s*(\d+(?:[\.,]\d+)?\s*(?:k|trieu|cu|m)?)/);
+    if(between){
+      const a = parseMoneyValue(between[1]);
+      const b = parseMoneyValue(between[2]);
+      if(a != null && b != null){
+        const min = Math.min(a, b);
+        const max = Math.max(a, b);
+        return { min, max };
+      }
+    }
+
+    const under = t.match(/(?:duoi|toi da|khong qua|max)\s*(\d+(?:[\.,]\d+)?\s*(?:k|trieu|cu|m)?)/);
+    if(under){
+      const max = parseMoneyValue(under[1]);
+      if(max != null) return { min: 0, max };
+    }
+
+    const above = t.match(/(?:tren|tu)\s*(\d+(?:[\.,]\d+)?\s*(?:k|trieu|cu|m)?)\s*(?:tro len|up|\+)/);
+    if(above){
+      const min = parseMoneyValue(above[1]);
+      if(min != null) return { min, max: Infinity };
+    }
+
+    const around = t.match(/(?:tam|khoang|gan)\s*(\d+(?:[\.,]\d+)?\s*(?:k|trieu|cu|m)?)/);
+    if(around){
+      const center = parseMoneyValue(around[1]);
+      if(center != null){
+        const delta = Math.max(120000, Math.round(center * 0.25));
+        return { min: Math.max(0, center - delta), max: center + delta };
+      }
+    }
+
+    if(/re|tiet kiem|sinh vien/.test(t)) return { min: 0, max: 500000 };
+    if(/cao cap|hang xin|sang|premium/.test(t)) return { min: 900000, max: Infinity };
+
+    return fallback;
+  }
+
+  function withinRange(product, range){
+    const price = Number(product && product.price) || 0;
+    return price >= range.min && price <= range.max;
+  }
+
+  function withinBudget(product, budget){
+    const { min, max } = getBudgetRange(budget);
+    const price = Number(product && product.price) || 0;
+    return price >= min && price <= max;
+  }
+
+  function applyBudgetFilter(items, budget){
+    if(!Array.isArray(items) || !items.length) return [];
+    return items.filter((item) => withinBudget(item, budget));
+  }
+
+  function applyPriceRangeFilter(items, range){
+    if(!Array.isArray(items) || !items.length || !range) return [];
+    return items.filter((item) => withinRange(item, range));
+  }
+
+  function buildThumbGrid(title, items){
+    if(!items || !items.length) return '';
+    return `
+      <div class="product-suggest">
+        <div class="product-suggest-title">${escapeHtml(title)}</div>
+        <div class="thumb-grid">
+          ${items.map((p) => `
+            <div class="thumb-card">
+              <a href="product.html?id=${p.id}">
+                <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" onerror="this.onerror=null;this.src='${escapeHtml(getImageFallback(p.name, p.category))}'">
+                <div class="thumb-info">
+                  <div class="thumb-name">${escapeHtml(p.name)}</div>
+                  <div class="thumb-price">${Number(p.price || 0).toLocaleString('vi-VN')}đ</div>
+                </div>
+              </a>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  async function askAdvisor(userText){
+    const profile = collectProfile();
+    saveProfile(profile);
+    const history = Array.from(document.querySelectorAll('#chatLog .bubble')).map((el) => ({ role: el.closest('.chat-row')?.classList.contains('user') ? 'user' : 'assistant', content: el.textContent }));
+
+    const res = await fetch('/api/tu-van-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        hoSoKhachHang: profile,
+        cauHoi: userText,
+        history,
+        imageBase64: state.cachedImageBase64,
+        imageMimeType: state.cachedImageMime
+      })
+    });
+
+    const data = await res.json();
+    if(!res.ok || (data && data.error)){
+      throw new Error((data && data.error) || 'Server error');
+    }
+    return data || {};
+  }
+
+  function fileToResizedBase64(file, maxSize = 1000){
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const reader = new FileReader();
+      reader.onload = () => { img.src = String(reader.result || ''); };
+      reader.onerror = reject;
+      img.onload = () => {
+        const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
+        const w = Math.round(img.width * ratio);
+        const h = Math.round(img.height * ratio);
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        const mime = file.type || 'image/jpeg';
+        const dataUrl = canvas.toDataURL(mime, 0.85);
+        resolve({ base64: dataUrl.split(',')[1], mime });
+      };
+      img.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   function rgbToHsl(r,g,b){
     r/=255; g/=255; b/=255;
     const max = Math.max(r,g,b), min = Math.min(r,g,b);
-    let h,s,l = (max+min)/2;
-    if(max === min){ h = s = 0; }
+    let h,s,l=(max+min)/2;
+    if(max===min){ h=0; s=0; }
     else {
-      const d = max-min;
-      s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+      const d=max-min;
+      s = l>0.5 ? d/(2-max-min) : d/(max+min);
       switch(max){
-        case r: h = (g-b)/d + (g < b ? 6 : 0); break;
-        case g: h = (b-r)/d + 2; break;
-        default: h = (r-g)/d + 4; break;
+        case r: h=(g-b)/d + (g<b?6:0); break;
+        case g: h=(b-r)/d + 2; break;
+        default: h=(r-g)/d + 4; break;
       }
-      h /= 6;
+      h/=6;
     }
-    return { h: Math.round(h*360), s: Math.round(s*100), l: Math.round(l*100) };
+    return { h:Math.round(h*360), s:Math.round(s*100), l:Math.round(l*100) };
   }
 
-  function hueToColorName(h, s, l){
+  function hueToColorName(h,s,l){
     if(l < 20) return 'đen';
     if(l > 80) return 'trắng';
     if(s < 15) return 'xám';
@@ -156,548 +520,245 @@
       const r = data[i], g = data[i+1], b = data[i+2];
       const {h,s,l} = rgbToHsl(r,g,b);
       const name = hueToColorName(h,s,l);
-      buckets.set(name, (buckets.get(name)||0)+1);
+      buckets.set(name, (buckets.get(name) || 0) + 1);
     }
-    return Array.from(buckets.entries()).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+    return Array.from(buckets.entries()).sort((a,b)=>b[1]-a[1]).slice(0,3).map((x)=>x[0]);
   }
 
-  function detectStyleFromImageStats({avg, saturation, contrast, palette}){
-    const avgLight = (avg.r + avg.g + avg.b) / 3;
-    if(contrast > 60 && avgLight < 90) return 'Formal / Evening';
-    if(saturation > 55) return 'Streetwear / Party';
-    if(avgLight > 170 && saturation < 35) return 'Minimal / Office';
-    if(palette.includes('đen') || palette.includes('xám')) return 'Smart Casual';
-    return 'Casual';
-  }
+  async function findSimilarByImage(file){
+    if(!file) return [];
+    const img = new Image();
+    const url = URL.createObjectURL(file);
 
-  function getImageFallback(name, category){
-    try{
-      if(typeof getImageForProduct !== 'undefined') return getImageForProduct(name, category);
-    }catch(_){ /* ignore */ }
-    return 'https://images.unsplash.com/photo-1520974692088-5cb9130b7003';
-  }
-
-  function normalizeProduct(p){
-    const name = p.name || `#${p.id}`;
-    const category = String(p.category||'').toLowerCase();
-    const price = (p.salePrice != null ? Number(p.salePrice) : Number(p.price)) || 0;
-    const img = (p.images && (p.images.cover || (p.images.gallery && p.images.gallery[0]))) || p.image || '';
-    return { id:Number(p.id)||Date.now(), name, category, price, image: img || getImageFallback(name, category) };
-  }
-
-  let catalogCache = null;
-  async function getCatalog(){
-    if(Array.isArray(catalogCache) && catalogCache.length) return catalogCache;
-    try{
-      if(typeof products !== 'undefined' && Array.isArray(products) && products.length){
-        catalogCache = products.map(p => normalizeProduct(p));
-        return catalogCache;
-      }
-    }catch(_){ /* ignore */ }
-    try{
-      const res = await fetch('/api/products');
-      if(res.ok){
-        const list = await res.json();
-        if(Array.isArray(list)){
-          catalogCache = list.map(p => normalizeProduct(p));
-          return catalogCache;
-        }
-      }
-    }catch(_){ /* ignore */ }
-    return [];
-  }
-
-  function renderProductCards(container, items){
-    if(!container) return;
-    container.innerHTML = (items||[]).map(p => {
-      const price = Number(p.price||0).toLocaleString('vi-VN') + 'đ';
-      return `
-        <div class="product-card-mini" data-id="${p.id}">
-          <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='${getImageFallback(p.name, p.category)}'">
-          <div class="info">
-            <div class="name">${p.name}</div>
-            <div class="price">${price}</div>
-            <div class="actions">
-              <button class="btn-secondary js-add-to-cart" data-id="${p.id}">Thêm vào giỏ</button>
-              <a class="btn-secondary" href="product.html?id=${p.id}">Xem</a>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    container.querySelectorAll('.js-add-to-cart').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = Number(btn.dataset.id || 0);
-        if(!id) return;
+    return new Promise((resolve) => {
+      img.onload = async () => {
         try{
-          if(typeof addToCart !== 'undefined') await addToCart(id);
-          else if(window && window.addToCart) await window.addToCart(id);
-          try{ window.updateCartCount && window.updateCartCount(); }catch(_){ }
-          try{ window.showToast && window.showToast('Đã thêm vào giỏ hàng!','success'); }catch(_){ }
-        }catch(_){ /* ignore */ }
-      });
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const size = 60;
+          canvas.width = size;
+          canvas.height = size;
+          ctx.drawImage(img, 0, 0, size, size);
+          const data = ctx.getImageData(0,0,size,size).data;
+          const palette = colorPaletteFromPixels(data);
+          $('imageSearchNote').textContent = `Màu nổi bật từ ảnh: ${palette.join(', ')}.`;
+
+          const catalog = await getCatalog();
+          const profile = collectProfile();
+          let picks = findProductsByKeywords(catalog, palette, 6, profile.gender);
+          picks = applyBudgetFilter(picks, profile.budget).slice(0, 4);
+          if(!picks.length){
+            const budgetPool = catalog.filter((p) => withinBudget(p, profile.budget));
+            const genderPool = budgetPool.filter((p) => profile.gender === 'unisex' || p.category === profile.gender);
+            const fallbackPool = genderPool.length ? genderPool : budgetPool;
+            picks = fallbackPool.slice(0, 4);
+          }
+          resolve(picks);
+        }catch(_){ resolve([]); }
+      };
+      img.onerror = () => resolve([]);
+      img.src = url;
     });
   }
 
-  function addProductCardsToChat(title, items){
-    if(!items || !items.length) return;
-    const html = `
-      <div><strong>${title}</strong></div>
-      <div class="product-cards">${items.map(p => {
-        const price = Number(p.price||0).toLocaleString('vi-VN') + 'đ';
-        return `
-          <div class="product-card-mini" data-id="${p.id}">
-            <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='${getImageFallback(p.name, p.category)}'">
-            <div class="info">
-              <div class="name">${p.name}</div>
-              <div class="price">${price}</div>
-              <div class="actions">
-                <button class="btn-secondary js-add-to-cart" data-id="${p.id}">Thêm vào giỏ</button>
-                <a class="btn-secondary" href="product.html?id=${p.id}">Xem</a>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('')}</div>
-    `;
-    addHtmlMsg(html);
-    const log = $('chatLog');
-    if(!log) return;
-    const latest = log.lastElementChild;
-    if(latest){ renderProductCards(latest.querySelector('.product-cards'), items); }
+  function renderImageResults(items){
+    const wrap = $('imageSearchResults');
+    if(!wrap) return;
+    wrap.innerHTML = buildThumbGrid('Sản phẩm tương tự từ ảnh', items);
   }
 
-  function scoreProductByText(product, text){
+  function addGenderOverrideFromText(text){
+    const t = String(text || '').toLowerCase();
+    let override = null;
+    if(t.includes('nam') || t.includes('men')) override = 'men';
+    else if(t.includes('nữ') || t.includes('women')) override = 'women';
+    else if(t.includes('unisex')) override = 'unisex';
+    if(override && $('gender').value !== override){
+      $('gender').value = override;
+    }
+  }
+
+  function isGreetingOnly(text){
     const t = simplifyText(text);
-    const name = simplifyText(product.name);
-    let score = 0;
-    const rules = [
-      { keys: ['ao', 'shirt', 'so mi', 'polo', 'hoodie', 'blazer', 'khoac', 'cardigan'], boost: 3, test: /ao|shirt|so mi|polo|hoodie|blazer|khoac|cardigan/ },
-      { keys: ['quan', 'jean', 'chinos', 'jogger', 'short'], boost: 3, test: /quan|jean|chinos|jogger|short/ },
-      { keys: ['vay', 'dam', 'dress', 'skirt'], boost: 3, test: /vay|dam|dress|skirt/ },
-      { keys: ['giay', 'sneaker', 'loafer', 'boot'], boost: 3, test: /giay|sneaker|loafer|boot/ },
-      { keys: ['tui', 'vi', 'bag', 'wallet'], boost: 3, test: /tui|vi|bag|wallet/ },
-      { keys: ['that lung', 'belt'], boost: 3, test: /that lung|belt/ },
-      { keys: ['phu kien', 'accessory'], boost: 2, test: /phu kien|accessory/ }
+    if(!t) return true;
+    const greetingTokens = [
+      'hi', 'hello', 'hey', 'yo', 'xin chao', 'chao', 'alo', 'ad oi', 'shop oi'
     ];
-    rules.forEach(r => {
-      if(r.test.test(t) && r.test.test(name)) score += r.boost;
-    });
-    if(t.includes('nam') && product.category === 'men') score += 2;
-    if(t.includes('nu') && product.category === 'women') score += 2;
-    if(t.includes('phu kien') && product.category === 'accessories') score += 2;
-    return score;
-  }
-
-  async function getSuggestedProducts(text, profile, limit=4){
-    const catalog = await getCatalog();
-    if(!catalog.length) return [];
-    const scored = catalog.map(p => ({ p, s: scoreProductByText(p, text) }))
-      .sort((a,b)=>b.s-a.s);
-    let picks = scored.filter(x => x.s > 0).slice(0, limit).map(x=>x.p);
-    if(picks.length < limit){
-      const gender = (profile && profile.gender) || 'unisex';
-      const pool = catalog.filter(p => gender === 'unisex' || p.category === gender);
-      while(picks.length < limit && pool.length){
-        const cand = pool[Math.floor(Math.random()*pool.length)];
-        if(!picks.find(x=>x.id===cand.id)) picks.push(cand);
-      }
+    const cleaned = t.replace(/[^a-z0-9\s]/g, ' ').trim();
+    if(cleaned.length <= 14 && greetingTokens.some((g) => cleaned === g || cleaned.startsWith(g + ' '))){
+      return true;
     }
-    return picks.slice(0, limit);
+    return false;
   }
 
-  // Infer gender from free text and update the form/profile
-  function applyGenderOverrideFromText(text){
-    try{
-      const t = String(text||'').toLowerCase();
-      let override = null;
-      if(t.includes('nam') || t.includes('men') || t.includes('male')) override = 'men';
-      else if(t.includes('nữ') || t.includes('women') || t.includes('female')) override = 'women';
-      else if(t.includes('unisex')) override = 'unisex';
-      if(override){
-        const current = $('gender').value;
-        if(current !== override){
-          $('gender').value = override;
-          const updated = collectProfile();
-          saveProfile(updated);
-          try{ window.showToast && window.showToast(`Đã nhận diện yêu cầu và chuyển giới tính sang "${override==='men'?'Nam':override==='women'?'Nữ':'Unisex'}".`, 'info'); }catch(_){ }
-        }
-      }
-    }catch(_){ /* ignore */ }
-  }
-
-  async function askAdvisor(userText, imageBase64 = null, imageMimeType = null){
-    const profile = collectProfile();
-    saveProfile(profile);
-    const history = Array.from($('chatLog').querySelectorAll('.msg'))
-      .map(el => ({ role: el.classList.contains('user') ? 'user' : 'assistant', content: el.textContent }));
-    const res = await fetch('/api/tu-van-ai', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        hoSoKhachHang: profile,
-        cauHoi: userText,
-        history,
-        imageBase64,
-        imageMimeType
-      })
-    });
-    const data = await res.json();
-    if(!res.ok || (data && data.error)){
-      throw new Error((data && data.error) || 'Server error');
-    }
-    $('sourceBadge').textContent = 'Nguồn: Gemini';
-    return data || {};
-  }
-
-  function findProductsByKeywords(catalog, keywords, limit=6, gender=''){
+  function pickFallbackProducts(catalog, profile, text, limit = 4){
     if(!Array.isArray(catalog) || !catalog.length) return [];
-    const raw = Array.isArray(keywords)
-      ? keywords
-      : String(keywords||'').split(/[,;\n]/g);
-    const keys = raw.map(k=>simplifyText(k)).filter(Boolean);
-    if(!keys.length) return [];
+    const t = simplifyText(text);
+    const gender = (profile && profile.gender) || 'unisex';
+    const pool = catalog.filter((p) => gender === 'unisex' || p.category === gender);
+    const source = pool.length ? pool : catalog;
 
-    const mapWord = (k) => {
-      const repl = [
-        ['white','trang'],['black','den'],['beige','be'],['gray','xam'],['grey','xam'],
-        ['shirt','ao'],['tshirt','ao thun'],['t-shirt','ao thun'],['tee','ao thun'],
-        ['polo','ao polo'],['dress','dam'],['skirt','vay'],['pants','quan'],['trousers','quan tay'],
-        ['jeans','jean'],['jacket','ao khoac'],['blazer','blazer'],['coat','ao khoac'],
-        ['bag','tui'],['handbag','tui'],['wallet','vi'],['belt','that lung'],
-        ['shoes','giay'],['loafer','loafer'],['sneaker','sneaker']
-      ];
-      let out = k;
-      repl.forEach(([a,b]) => { out = out.replace(new RegExp(`\\b${a}\\b`,'g'), b); });
-      return out;
-    };
-
-    const genderKey = gender === 'women' ? 'nu' : (gender === 'men' ? 'nam' : '');
-    const expanded = keys.flatMap(k => {
-      const mapped = simplifyText(mapWord(k));
-      const base = [k, mapped].filter(Boolean);
-      if(genderKey){
-        return base.concat(base.map(b => `${b} ${genderKey}`));
-      }
-      return base;
-    });
-
-    const scored = catalog.map(p=>{
+    const scored = source.map((p) => {
       const name = simplifyText(p.name);
       let score = 0;
-      expanded.forEach(k=>{ if(name.includes(k)) score += 4; });
+
+      if(/di lam|cong so|office/.test(t) && /so mi|shirt|blazer|quan tay|chinos|loafer/.test(name)) score += 4;
+      if(/di choi|casual/.test(t) && /ao thun|tshirt|jean|sneaker|polo/.test(name)) score += 4;
+      if(/party|tiec/.test(t) && /dam|vay|blazer|ao khoac|boot/.test(name)) score += 4;
+      if(/formal|su kien/.test(t) && /suit|vest|so mi|quan tay|giay/.test(name)) score += 4;
+
+      if(/ao|shirt|polo|blazer|khoac/.test(t) && /ao|shirt|polo|blazer|khoac/.test(name)) score += 3;
+      if(/quan|jean|chinos|jogger|short/.test(t) && /quan|jean|chinos|jogger|short/.test(name)) score += 3;
+      if(/giay|loafer|sneaker|boot/.test(t) && /giay|loafer|sneaker|boot/.test(name)) score += 3;
+      if(/tui|vi|that lung|phu kien/.test(t) && /tui|vi|that lung|phu kien|bag|wallet|belt/.test(name)) score += 3;
+
       return { p, score };
-    }).sort((a,b)=>b.score-a.score);
-    return scored.filter(x=>x.score>0).slice(0, limit).map(x=>x.p);
+    }).sort((a,b) => b.score - a.score);
+
+    const out = scored.filter((x) => x.score > 0).slice(0, limit).map((x) => x.p);
+    if(out.length >= limit) return out;
+
+    for(const item of source){
+      if(out.length >= limit) break;
+      if(!out.find((x) => x.id === item.id)) out.push(item);
+    }
+    return out.slice(0, limit);
   }
 
-  function buildRuleBasedAdvice(profile, note){
-    const {
-      gender = 'unisex', age, height_cm, weight_kg,
-      occasions = [], colors = [], fit_preference = 'regular',
-      climate = 'temperate', budget = 'mid'
-    } = profile || {};
+  function shouldSuggestProductsFromText(text){
+    const t = simplifyText(text);
+    if(!t) return false;
 
-    // Heuristics: infer gender/occasion/colors from free-text "note"
-    const text = String(note||'').toLowerCase();
-    const hasAny = (arr)=>arr.some(k=>text.includes(k));
-    const genderOverride = hasAny(['nam','men','male']) ? 'men' : (hasAny(['nữ','women','female']) ? 'women' : null);
-    const occHints = new Set(occasions);
-    if(hasAny(['công sở','office','đi làm'])) occHints.add('office');
-    if(hasAny(['đi chơi','casual'])) occHints.add('casual');
-    if(hasAny(['tiệc','party'])) occHints.add('party');
-    if(hasAny(['lễ','formal','sự kiện trang trọng'])) occHints.add('formal');
-    const wantNeutral = hasAny(['trung tính','neutral']);
-
-    let bmi = null;
-    if(height_cm && weight_kg){
-      const h = Number(height_cm) / 100;
-      const w = Number(weight_kg);
-      bmi = (h > 0 && w > 0) ? (w / (h*h)) : null;
-    }
-
-    const bodyNote = (()=>{
-      if(bmi == null) return 'Chọn phom vừa vặn, tránh quá bó hoặc quá rộng.';
-      if(bmi < 18.5) return 'Dáng gầy: ưu tiên lớp áo, chất liệu có độ phồng nhẹ.';
-      if(bmi < 25) return 'Dáng cân đối: hầu hết phom dáng đều phù hợp.';
-      if(bmi < 30) return 'Dáng hơi đầy: ưu tiên phom suông, tối màu, đơn giản.';
-      return 'Dáng đầy: chọn phom suông, tối màu, tránh họa tiết to.';
-    })();
-
-    let palette = colors.length ? colors : (climate === 'tropical' ? ['trắng','be','pastel','xanh biển'] : ['đen','xám','navy','trắng']);
-    if(wantNeutral){ palette = ['đen','xám','trắng','navy']; }
-
-    const effGender = genderOverride || gender;
-    const basePieces = (()=>{
-      const common = ['áo thun chất lượng', 'quần jean vừa vặn', 'áo sơ mi cổ điển', 'giày đa dụng'];
-      if(effGender === 'women') return ['váy midi', 'áo blouse', 'quần ống rộng', ...common];
-      if(effGender === 'men') return ['áo polo', 'quần chinos', 'áo khoác nhẹ', ...common];
-      return [...common, 'cardigan mỏng', 'áo khoác đa dụng'];
-    })();
-
-    const byOccasion = (occ)=>{
-      const fit = fit_preference;
-      const pick = {
-        casual: [
-          `Áo thun ${fit}, quần jean/shorts`,
-          `Sneakers trắng, phụ kiện tối giản`,
-        ],
-        office: [
-          effGender==='men' ? `Sơ mi ${fit}, quần tây/chinos` : `Sơ mi/blouse ${fit}, quần tây/đầm công sở`,
-          effGender==='men' ? `Giày tây/loafer, thắt lưng cùng tông` : `Giày cao gót/loafer, túi tối giản`,
-        ],
-        party: [
-          `Áo/blouse thời thượng, quần/váy nhấn nhá`,
-          `Giày cao gót/boot (nữ) hoặc loafer (nam)`,
-        ],
-        formal: [
-          effGender==='men' ? `Suit ${fit}, sơ mi trắng` : `Vest/suit ${fit}, sơ mi/blouse trắng`,
-          `Giày da, thắt lưng/túi cùng tông`,
-        ]
-      };
-      return pick[occ] || pick.casual;
-    };
-
-    const effOccs = Array.from(occHints);
-    const occs = (effOccs.length ? effOccs : ['casual','office']);
-    const outfits = occs.map(occ=>({ occasion: occ, suggestions: byOccasion(occ) }));
-
-    const tips = [
-      bodyNote,
-      `Bảng màu gợi ý: ${palette.join(', ')}`,
-      climate === 'tropical' ? 'Chất liệu thoáng mát (cotton, linen), màu sáng.' : 'Layer hợp lý, chất liệu giữ ấm (len, dạ).',
-      budget === 'low' ? 'Tập trung vào các món cơ bản dễ phối, bền.' : budget === 'high' ? 'Đầu tư một vài món signature chất lượng cao.' : 'Cân bằng cơ bản và một vài món điểm nhấn.'
+    // Only suggest products when user explicitly mentions product needs.
+    const productTerms = [
+      'ao', 'ao thun', 'ao so mi', 'polo', 'hoodie', 'blazer', 'ao khoac',
+      'quan', 'jean', 'chinos', 'jogger', 'short',
+      'vay', 'dam', 'chan vay',
+      'giay', 'sneaker', 'loafer', 'boot',
+      'tui', 'vi', 'that lung', 'phu kien',
+      'set do', 'outfit'
     ];
 
-    const head = note ? `Nhu cầu: ${note}` : '';
-    const intentNote = genderOverride ? `Đã nhận diện "${genderOverride==='men'?'nam':'nữ'}" trong yêu cầu và tối ưu gợi ý theo giới tính này.` : '';
-    const reply = [
-      head,
-      intentNote,
-      'Dựa trên thông tin của bạn, đây là gợi ý phong cách:',
-      `Các món cơ bản nên có: ${basePieces.join(', ')}.`,
-      'Một số set đồ theo dịp:',
-      ...outfits.map(o=>`- ${o.occasion}: ${o.suggestions.join(' | ')}`),
-      `Mẹo thêm: ${tips.join(' | ')}`
-    ].filter(Boolean).join('\n');
+    return productTerms.some((term) => t.includes(term));
+  }
 
-    return { reply, data: { bmi, palette, basePieces, outfits, tips } };
+  async function onSend(){
+    const input = $('userMsg');
+    const text = String(input?.value || '').trim();
+    if(!text) return;
+    input.value = '';
+
+    addMessage('user', text);
+    addGenderOverrideFromText(text);
+    showTyping();
+
+    try{
+      const data = await askAdvisor(text);
+      hideTyping();
+
+      const reply = data.loi_tu_van || data.reply || 'Mình chưa có gợi ý chính xác, bạn mô tả thêm bối cảnh nhé.';
+      addMessage('assistant', reply);
+
+      // Show products for real consulting requests; skip only pure greetings.
+      const wantsProducts = !isGreetingOnly(text);
+      if(wantsProducts){
+        const profile = collectProfile();
+        const catalog = await getCatalog();
+        const requestedRange = extractPriceRangeFromText(text, profile.budget);
+        let picks = findProductsByKeywords(catalog, data.tu_khoa_tim_kiem, 6, profile.gender);
+        if(!picks.length){
+          picks = findProductsByKeywords(catalog, `${text} ${reply}`, 4, profile.gender);
+        }
+        if(!picks.length){
+          picks = pickFallbackProducts(catalog, profile, `${text} ${reply}`, 4);
+        }
+
+        // Respect price needed from chat text first, then profile budget.
+        const rangedPicks = applyPriceRangeFilter(picks, requestedRange);
+        if(rangedPicks.length){
+          picks = rangedPicks.slice(0, 4);
+        }else{
+          const budgetPool = catalog.filter((p) => withinRange(p, requestedRange));
+          const genderPool = budgetPool.filter((p) => profile.gender === 'unisex' || p.category === profile.gender);
+          const fallbackPool = genderPool.length ? genderPool : budgetPool;
+          if(fallbackPool.length){
+            picks = pickFallbackProducts(fallbackPool, profile, `${text} ${reply}`, 4);
+          }
+        }
+
+        if(picks.length){
+          const row = addHtmlMessage(buildThumbGrid('Sản phẩm để bạn chọn', picks));
+          if(row){
+            const log = $('chatLog');
+            log.scrollTop = log.scrollHeight;
+          }
+        }
+      }
+      $('sourceBadge').textContent = 'Nguồn: Gemini';
+    }catch(err){
+      hideTyping();
+      $('sourceBadge').textContent = 'Nguồn: Lỗi kết nối';
+      addMessage('assistant', `Không kết nối được tới AI (${err.message || 'unknown error'}). Vui lòng thử lại.`);
+    }
   }
 
   function boot(){
+    const profile = getProfile();
+    fillForm(profile);
+
+    addMessage('assistant', 'Xin chào! Mình là Stylist AI của SGB. Hãy cho mình biết dịp sử dụng, vibe bạn muốn và giới hạn ngân sách nhé.');
+
+    bindStepper();
+    bindInteractiveInputs();
+    initTheme();
+
+    $('sendBtn')?.addEventListener('click', onSend);
+    $('userMsg')?.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') onSend();
+    });
+
+    $('imageSearchTrigger')?.addEventListener('click', () => $('imageSearchInput')?.click());
+    $('imageSearchInput')?.addEventListener('change', async (e) => {
+      const file = e.target.files && e.target.files[0] ? e.target.files[0] : null;
+      state.cachedImageFile = file;
+      state.cachedImageBase64 = null;
+      state.cachedImageMime = file ? (file.type || 'image/jpeg') : null;
+
+      const preview = $('imagePreview');
+      if(!file){
+        preview.textContent = 'Chọn ảnh outfit để AI nhận diện màu và vibe';
+        $('imageSearchResults').innerHTML = '';
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${objectUrl}" alt="preview">`;
+
+      try{
+        const resized = await fileToResizedBase64(file, 1000);
+        state.cachedImageBase64 = resized.base64;
+        state.cachedImageMime = resized.mime;
+      }catch(_){ }
+
+      $('imageSearchNote').textContent = 'Đang phân tích ảnh...';
+      const picks = await findSimilarByImage(file);
+      if(!picks.length){
+        $('imageSearchNote').textContent = 'Chưa tìm được sản phẩm tương tự từ ảnh này.';
+      }
+      renderImageResults(picks);
+    });
+
     try{
-      const p = getProfile();
-      fillForm(p);
-      addMsg('assistant', 'Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...).');
-
-      const saveBtn = $('saveProfile');
-      if(saveBtn){
-        saveBtn.addEventListener('click', () => {
-          const updated = collectProfile();
-          saveProfile(updated);
-          addMsg('assistant', 'Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?');
-        });
+      const logged = JSON.parse(localStorage.getItem('sgb_logged_in') || 'null');
+      if(!logged){
+        addMessage('assistant', 'Bạn đang dùng chế độ khách. Hồ sơ sẽ được lưu cục bộ trên trình duyệt này.');
       }
-
-      const send = $('sendBtn');
-      if(send){
-        send.addEventListener('click', async () => {
-          const input = $('userMsg');
-          const txt = input && input.value ? input.value.trim() : '';
-          if(!txt) return;
-          if(input) input.value = '';
-          addMsg('user', txt);
-          applyGenderOverrideFromText(txt);
-          addMsg('assistant', 'Đang phân tích hồ sơ và nhu cầu…');
-          try{
-            const data = await askAdvisor(txt, cachedImageBase64, cachedImageMime);
-            const replyText = data.loi_tu_van || data.reply || 'Xin lỗi, chưa có gợi ý phù hợp.';
-            const log = $('chatLog');
-            const last = log && log.lastElementChild;
-            if(last && last.classList.contains('bot')) last.textContent = replyText;
-            else addMsg('assistant', replyText);
-            // Suggest matching products in chat
-            try{
-              const catalog = await getCatalog();
-              const picks = findProductsByKeywords(catalog, data.tu_khoa_tim_kiem, 6, profile.gender);
-              if(picks.length){
-                addProductCardsToChat('Sản phẩm đề xuất từ AI', picks);
-              } else {
-                const profile = collectProfile();
-                const fallback = await getSuggestedProducts(`${txt} ${replyText}`, profile, 4);
-                if(fallback.length){ addProductCardsToChat('Gợi ý bổ sung', fallback); }
-              }
-            }catch(_){ /* ignore */ }
-          }catch(e){
-            $('sourceBadge').textContent = 'Nguồn: Lỗi kết nối';
-            addMsg('assistant', 'Không kết nối được tới AI. Vui lòng kiểm tra server và thử lại.');
-          }
-        });
-      }
-
-      // Image search feature
-      const imgInput = $('imageSearchInput');
-      const imgTrigger = $('imageSearchTrigger');
-      const imgPreview = $('imagePreview');
-      const imgNote = $('imageSearchNote');
-      const imgResults = $('imageSearchResults');
-
-      let cachedImageFile = null;
-      let cachedImageBase64 = null;
-      let cachedImageMime = null;
-      function previewImage(file){
-        if(!imgPreview) return;
-        if(!file){ imgPreview.textContent = 'Chọn ảnh để phân tích'; return; }
-        const url = URL.createObjectURL(file);
-        imgPreview.innerHTML = `<img src="${url}" alt="preview">`;
-      }
-
-      function fileToResizedBase64(file, maxSize=1000){
-        return new Promise((resolve, reject)=>{
-          const img = new Image();
-          const reader = new FileReader();
-          reader.onload = () => { img.src = String(reader.result || ''); };
-          reader.onerror = reject;
-          img.onload = () => {
-            const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
-            const w = Math.round(img.width * ratio);
-            const h = Math.round(img.height * ratio);
-            const canvas = document.createElement('canvas');
-            canvas.width = w; canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            const mime = file.type || 'image/jpeg';
-            const dataUrl = canvas.toDataURL(mime, 0.85);
-            resolve({ base64: dataUrl.split(',')[1], mime });
-          };
-          img.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      }
-
-      function getAvgColor(img){
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const size = 40;
-        canvas.width = size; canvas.height = size;
-        ctx.drawImage(img, 0, 0, size, size);
-        const data = ctx.getImageData(0,0,size,size).data;
-        let r=0,g=0,b=0,count=0;
-        let varR=0,varG=0,varB=0;
-        for(let i=0;i<data.length;i+=4){
-          r += data[i]; g += data[i+1]; b += data[i+2]; count++;
-        }
-        const avg = { r:Math.round(r/count), g:Math.round(g/count), b:Math.round(b/count) };
-        for(let i=0;i<data.length;i+=4){
-          varR += Math.pow(data[i]-avg.r,2);
-          varG += Math.pow(data[i+1]-avg.g,2);
-          varB += Math.pow(data[i+2]-avg.b,2);
-        }
-        const contrast = Math.sqrt((varR+varG+varB)/(count*3));
-        const { s } = rgbToHsl(avg.r, avg.g, avg.b);
-        const palette = colorPaletteFromPixels(data);
-        return { avg, saturation: s, contrast, palette };
-      }
-
-      function colorToLabel({r,g,b}){
-        const max = Math.max(r,g,b);
-        const min = Math.min(r,g,b);
-        const light = (r+g+b)/3;
-        if(light < 80) return 'dark';
-        if(light > 180) return 'light';
-        if(max === r) return 'warm';
-        if(max === b) return 'cool';
-        return 'neutral';
-      }
-
-      async function findSimilarByImage(file){
-        if(!file) return [];
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        return new Promise((resolve) => {
-          img.onload = async () => {
-            try{
-              const stats = getAvgColor(img);
-              const label = colorToLabel(stats.avg);
-              const style = detectStyleFromImageStats(stats);
-              if(imgNote){
-                const palette = stats.palette.join(', ');
-                imgNote.textContent = `Phong cách: ${style}. Màu chủ đạo: ${palette}.`;
-              }
-              addMsg('assistant', `AI nhận diện phong cách ảnh: ${style}. Bảng màu chính: ${stats.palette.join(', ')}.`);
-              const catalog = await getCatalog();
-              const profile = collectProfile();
-              const gender = profile.gender || 'unisex';
-              const scored = catalog.map(p => {
-                const name = simplifyText(p.name);
-                let score = 0;
-                if(gender !== 'unisex' && p.category === gender) score += 2;
-                if(label === 'dark' && /(den|black)/.test(name)) score += 3;
-                if(label === 'light' && /(trang|white|be|kem)/.test(name)) score += 3;
-                if(label === 'warm' && /(nau|brown|vang|gold)/.test(name)) score += 2;
-                if(label === 'cool' && /(xanh|blue)/.test(name)) score += 2;
-                if(style.includes('Formal') && /(so mi|blazer|vest|tui|giay|loafer|quan tay)/.test(name)) score += 3;
-                if(style.includes('Streetwear') && /(hoodie|oversize|jogger|sneaker)/.test(name)) score += 3;
-                if(style.includes('Minimal') && /(so mi|quan tay|ao polo|tui|giay)/.test(name)) score += 2;
-                if(style.includes('Casual') && /(ao thun|jean|polo|sneaker)/.test(name)) score += 2;
-                return { p, score };
-              }).sort((a,b)=>b.score-a.score);
-              const picks = scored.filter(x=>x.score>0).slice(0,4).map(x=>x.p);
-              if(picks.length < 4){
-                const pool = catalog.slice();
-                while(picks.length < 4 && pool.length){
-                  const cand = pool.splice(Math.floor(Math.random()*pool.length),1)[0];
-                  if(!picks.find(x=>x.id===cand.id)) picks.push(cand);
-                }
-              }
-              resolve(picks);
-            }catch(_){ resolve([]); }
-          };
-          img.onerror = () => resolve([]);
-          img.src = url;
-        });
-      }
-
-      async function handleImageSearch(){
-        if(!cachedImageFile){ if(imgNote) imgNote.textContent = 'Vui lòng chọn ảnh trước.'; return; }
-        if(imgNote) imgNote.textContent = 'Đang phân tích ảnh...';
-        const picks = await findSimilarByImage(cachedImageFile);
-        if(imgNote){
-          const base = imgNote.textContent && !/Đang phân tích/.test(imgNote.textContent) ? imgNote.textContent : '';
-          const tail = picks.length ? 'Gợi ý sản phẩm tương tự bên dưới.' : 'Chưa tìm thấy sản phẩm phù hợp.';
-          imgNote.textContent = base ? `${base} ${tail}` : tail;
-        }
-        renderProductCards(imgResults, picks);
-      }
-
-      if(imgInput){
-        imgInput.addEventListener('change', async (e)=>{
-          cachedImageFile = e.target.files && e.target.files[0] ? e.target.files[0] : null;
-          cachedImageBase64 = null;
-          cachedImageMime = cachedImageFile ? (cachedImageFile.type || 'image/jpeg') : null;
-          previewImage(cachedImageFile);
-          if(cachedImageFile){
-            try{
-              const resized = await fileToResizedBase64(cachedImageFile, 1000);
-              cachedImageBase64 = resized.base64;
-              cachedImageMime = resized.mime;
-            }catch(_){ cachedImageBase64 = null; }
-            handleImageSearch();
-          }
-        });
-      }
-      if(imgTrigger){ imgTrigger.addEventListener('click', ()=>{ imgInput && imgInput.click(); }); }
-
-      window.sgbStyleAdvisorBooted = true;
-    }catch(err){
-      safeAddMsg('assistant', 'Khởi tạo AI gặp lỗi: ' + (err && err.message ? err.message : err));
-    }
+    }catch(_){ }
   }
 
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', boot);
   }else{
-    // run soon to ensure DOM exists
-    setTimeout(boot, 0);
+    boot();
   }
 })();

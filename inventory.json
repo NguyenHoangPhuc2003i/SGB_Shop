@@ -1,0 +1,402 @@
+[
+  {
+    "low_stock_threshold": 5,
+    "product_id": "1",
+    "product_name": "Áo Sơ Mi Cao Cấp",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "10",
+    "product_name": "Quần Jeans Slim",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "11",
+    "product_name": "Áo Len Dệt Kim",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "12",
+    "product_name": "Chân Váy Plisse",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "13",
+    "product_name": "Mũ Lưỡi Trai",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "14",
+    "product_name": "Khăn Choàng",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "15",
+    "product_name": "Áo Khoác Dạ",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "16",
+    "product_name": "Giày Sneaker Trắng",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "17",
+    "product_name": "Túi Tote Vải",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "18",
+    "product_name": "Áo Sơ Mi Satin",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "19",
+    "product_name": "Áo Hoodie Basic",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "2",
+    "product_name": "Váy Dạ Hội",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "20",
+    "product_name": "Áo Khoác Gió",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "21",
+    "product_name": "Đầm Xòe Vintage",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "22",
+    "product_name": "Jumpsuit Thanh Lịch",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "23",
+    "product_name": "Thắt Lưng Vải",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "24",
+    "product_name": "Ví Da Mini",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "25",
+    "product_name": "Áo Polo",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "26",
+    "product_name": "Quần Jogger",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "27",
+    "product_name": "Áo Khoác Bomber",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "28",
+    "product_name": "Đầm Bodycon",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "29",
+    "product_name": "Áo Cardigan Mềm",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "3",
+    "product_name": "Túi Xách Da",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "30",
+    "product_name": "Khuyên Tai Vàng",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "31",
+    "product_name": "Vòng Cổ Ngọc Trai",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "32",
+    "product_name": "Áo Khoác Denim",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "33",
+    "product_name": "Áo Sơ Mi Kẻ",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "34",
+    "product_name": "Quần Short Linen",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "35",
+    "product_name": "Áo Blouse Tay Phồng",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "36",
+    "product_name": "Đầm Slip Dress",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "37",
+    "product_name": "Kính Mát Retro",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "38",
+    "product_name": "Mũ Len Beanie",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "39",
+    "product_name": "Áo Khoác Dù",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "4",
+    "product_name": "Quần Tây Nam",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "40",
+    "product_name": "Áo Vest Nữ",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "41",
+    "product_name": "Tất Cổ Cao",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "42",
+    "product_name": "Thắt Lưng Vải Ken",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "43",
+    "product_name": "Áo Thun Oversize",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "44",
+    "product_name": "Quần Ống Rộng",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "45",
+    "product_name": "Đầm Midi Chấm Bi",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "46",
+    "product_name": "Balo Vải Canvas",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "47",
+    "product_name": "Áo Khoác Lông Vũ",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "48",
+    "product_name": "Áo Len Cổ Lọ",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "49",
+    "product_name": "Khăn Bandana",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "5",
+    "product_name": "Đầm Công Sở",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "50",
+    "product_name": "Giày Loafer Da",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "6",
+    "product_name": "Thắt Lưng Da",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "7",
+    "product_name": "Áo Khoác Blazer",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "8",
+    "product_name": "Váy Maxi",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "9",
+    "product_name": "Áo Thun Logo",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-07T19:50:03.999Z"
+  }
+]

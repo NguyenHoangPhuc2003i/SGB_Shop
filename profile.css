@@ -36,6 +36,9 @@ body{background:var(--profile-bg)}
 .voucher-card{border:1px dashed #d4af37;background:#fffdf4;border-radius:12px;padding:12px;margin-bottom:10px}
 .voucher-code{font-weight:800;font-size:1rem;color:#b67b00}
 .muted{color:var(--muted)}
+.profile-video-block{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.profile-video-block h3{margin:0 0 10px;color:var(--text);font-size:1.05rem}
+.profile-video{display:block;width:100%;max-height:460px;border-radius:12px;border:1px solid var(--border);background:#000;object-fit:cover}
 @media (max-width:900px){
   .profile-container{grid-template-columns:1fr}
   .profile-sidebar{position:static}

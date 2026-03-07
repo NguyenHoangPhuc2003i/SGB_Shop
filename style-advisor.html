@@ -3,180 +3,374 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tư vấn phong cách (AI) — STYLE GLAMOUR BEATS</title>
-  <link rel="stylesheet" href="site.css">
+  <title>Tư vấn phong cách (AI) - STYLE GLAMOUR BEATS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="site.css?v=13">
   <link rel="stylesheet" href="modern.css?v=1">
   <style>
-    body{font-family:system-ui,Segoe UI,Roboto,Arial}
-    .container{max-width:1100px;margin:0 auto;padding:16px}
-    .page{display:grid;grid-template-columns:320px 1fr;gap:24px}
-    .card{background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.06)}
-    .card h2{margin:0;padding:16px;border-bottom:1px solid #f0f0f0}
-    .card .content{padding:16px}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .form-group{margin-bottom:12px}
-    label{font-weight:600;display:block;margin-bottom:6px}
-    input[type=text],input[type=number],select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
-    .pill{display:inline-block;padding:8px 10px;border:1px solid #ddd;border-radius:999px;margin:4px 6px 0 0;cursor:pointer}
-    .pill input{margin-right:6px}
-    .chat{display:flex;flex-direction:column;height:560px}
-    .chat-log{flex:1;overflow:auto;padding:16px}
-    .msg{max-width:80%;padding:10px 12px;border-radius:12px;margin:8px 0;white-space:pre-wrap}
-    .msg.user{margin-left:auto;background:#e8f3ff;border:1px solid #cfe6ff}
-    .msg.bot{margin-right:auto;background:#f7f7f7;border:1px solid #eee}
-    .chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid #eee;align-items:center}
-    .chat-input input{flex:1}
-    .btn-icon{width:40px;height:40px;border-radius:10px;background:#111;color:#fff;border:none;cursor:pointer;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
-    .file-hidden{display:none}
-    .badge{font-size:12px;color:#555;margin-left:8px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px}
-    .btn{display:inline-flex;align-items:center;gap:8px;background:#111;color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer;text-decoration:none}
-    .btn:link,.btn:visited{ text-decoration:none; }
-    .card .content{padding:16px}
-    .product-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:10px}
-    .product-card-mini{border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(0,0,0,.06)}
-    .product-card-mini img{width:100%;height:140px;object-fit:cover}
-    .product-card-mini .info{padding:10px;display:flex;flex-direction:column;gap:6px}
-    .product-card-mini .name{font-weight:700;font-size:.92rem;line-height:1.3}
-    .product-card-mini .price{font-weight:800;color:#0f172a}
-    .product-card-mini .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .product-card-mini .actions button,.product-card-mini .actions a{flex:1;text-align:center}
-    .btn-secondary{background:#f1f5f9;color:#0f172a;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;font-weight:600}
-    .image-search{display:flex;flex-direction:column;gap:10px}
-    .image-preview{border:1px dashed #ddd;border-radius:10px;padding:8px;min-height:120px;display:flex;align-items:center;justify-content:center;color:#666;font-size:.9rem;background:#fafafa}
-    .image-preview img{max-width:100%;max-height:220px;border-radius:10px;object-fit:contain}
-
-    /* Responsive tweaks for mobile */
-    @media (max-width: 900px){
-      .page{grid-template-columns:1fr}
-      .chat{height:480px}
+    :root{
+      --sa-bg:#f2f4fb;
+      --sa-surface:rgba(255,255,255,.72);
+      --sa-surface-strong:#ffffff;
+      --sa-text:#1e2433;
+      --sa-muted:#697089;
+      --sa-border:rgba(95,118,179,.18);
+      --sa-primary:#1d4ed8;
+      --sa-primary-2:#2563eb;
+      --sa-accent:#10b981;
+      --sa-shadow:0 20px 45px rgba(25,38,74,.12);
+      --sa-bot:#eef4ff;
+      --sa-user:#162542;
+      --sa-user-text:#f2f7ff;
+      --sa-dot:#8ca7e8;
     }
-    @media (max-width: 600px){
+
+    body[data-theme="dark"]{
+      --sa-bg:#090e1d;
+      --sa-surface:rgba(17,23,43,.78);
+      --sa-surface-strong:#111729;
+      --sa-text:#e8eeff;
+      --sa-muted:#99a8ce;
+      --sa-border:rgba(133,159,233,.2);
+      --sa-primary:#5b8dff;
+      --sa-primary-2:#7ca4ff;
+      --sa-accent:#2dd4bf;
+      --sa-shadow:0 22px 54px rgba(0,0,0,.45);
+      --sa-bot:#1a2544;
+      --sa-user:#3556a9;
+      --sa-user-text:#f8fbff;
+      --sa-dot:#b1c3ff;
+    }
+
+    body.style-advisor-page{
+      margin:0;
+      min-height:100vh;
+      font-family:"Be Vietnam Pro",sans-serif;
+      color:var(--sa-text);
+      background:
+        radial-gradient(circle at 10% 12%, rgba(37,99,235,.2), transparent 35%),
+        radial-gradient(circle at 84% -4%, rgba(16,185,129,.18), transparent 28%),
+        var(--sa-bg);
+    }
+
+    .sa-wrap{max-width:1240px;margin:0 auto;padding:28px 20px 34px}
+    .sa-topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
+    .sa-title{
+      font-family:"Space Grotesk",sans-serif;
+      font-size:clamp(2rem,4vw,2.9rem);
+      line-height:1.1;
+      margin:0;
+      letter-spacing:.2px;
+    }
+    .sa-title small{display:block;font-family:"Be Vietnam Pro",sans-serif;font-size:.98rem;color:var(--sa-muted);font-weight:600;margin-top:6px}
+    .sa-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .sa-btn{
+      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--sa-border);
+      text-decoration:none;font-weight:700;font-size:.94rem;color:var(--sa-text);background:var(--sa-surface-strong);cursor:pointer;
+      box-shadow:0 8px 16px rgba(15,22,42,.08);
+    }
+    .sa-btn:hover{transform:translateY(-1px)}
+    .sa-btn-primary{background:linear-gradient(130deg,var(--sa-primary),var(--sa-primary-2));color:#fff;border-color:transparent}
+
+    .sa-grid{display:grid;grid-template-columns:370px 1fr;gap:18px;align-items:start}
+
+    .sa-card{
+      border:1px solid var(--sa-border);
+      border-radius:18px;
+      background:var(--sa-surface);
+      box-shadow:var(--sa-shadow);
+      backdrop-filter:blur(14px) saturate(130%);
+      -webkit-backdrop-filter:blur(14px) saturate(130%);
+      overflow:hidden;
+    }
+    .sa-card-head{padding:18px 18px 14px;border-bottom:1px solid var(--sa-border)}
+    .sa-card-head h2{margin:0;font-family:"Space Grotesk",sans-serif;font-size:1.7rem;letter-spacing:.2px}
+    .sa-card-head p{margin:6px 0 0;color:var(--sa-muted);font-size:.92rem}
+    .sa-card-body{padding:16px 18px 18px}
+
+    .stepper-track{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+    .step-dot{
+      border:1px solid var(--sa-border);border-radius:12px;padding:8px 10px;background:var(--sa-surface-strong);
+      font-size:.83rem;font-weight:700;color:var(--sa-muted);text-align:center;cursor:pointer;transition:all .2s ease;
+    }
+    .step-dot.active{color:#fff;background:linear-gradient(130deg,var(--sa-primary),var(--sa-primary-2));border-color:transparent}
+
+    .form-step{display:none}
+    .form-step.active{display:block}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .form-group{margin-bottom:12px}
+    .form-group label{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;font-weight:700;margin-bottom:6px}
+    .value-pill{font-size:.78rem;color:var(--sa-primary);font-weight:700;background:rgba(37,99,235,.13);padding:2px 8px;border-radius:999px}
+    input[type="text"],input[type="number"],select{
+      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--sa-border);background:var(--sa-surface-strong);color:var(--sa-text);font-size:.96rem;
+    }
+
+    .slider-wrap{display:grid;gap:6px}
+    input[type="range"]{width:100%;accent-color:var(--sa-primary)}
+
+    .chip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .chip-btn{
+      border:1px solid var(--sa-border);border-radius:12px;padding:10px 8px;background:var(--sa-surface-strong);color:var(--sa-text);
+      display:flex;align-items:center;justify-content:center;gap:7px;font-weight:700;font-size:.88rem;cursor:pointer;
+    }
+    .chip-btn.active{background:rgba(37,99,235,.12);border-color:rgba(37,99,235,.45);color:var(--sa-primary)}
+
+    .color-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    .color-chip{height:34px;border-radius:11px;border:2px solid transparent;cursor:pointer;position:relative}
+    .color-chip.active{border-color:#111;box-shadow:0 0 0 2px rgba(255,255,255,.7) inset}
+    body[data-theme="dark"] .color-chip.active{border-color:#fff;box-shadow:none}
+    .color-chip i{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.35);font-size:.9rem}
+    .color-chip.active i{display:flex}
+
+    .occasion-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .occasion-btn{
+      border:1px solid var(--sa-border);border-radius:13px;padding:11px 10px;background:var(--sa-surface-strong);display:flex;gap:8px;align-items:center;
+      color:var(--sa-text);font-weight:700;cursor:pointer
+    }
+    .occasion-btn.active{background:rgba(16,185,129,.14);border-color:rgba(16,185,129,.48);color:#0f9d78}
+
+    .step-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+    .source-badge{font-size:.82rem;color:var(--sa-muted);font-weight:600}
+
+    .chat-shell{display:flex;flex-direction:column;height:730px}
+    .chat-log{flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+    .chat-row{display:flex;align-items:flex-end;gap:9px;max-width:92%}
+    .chat-row.user{margin-left:auto;flex-direction:row-reverse}
+
+    .avatar-ai{
+      width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(130deg,var(--sa-primary),var(--sa-accent));color:#fff;font-size:1rem;flex-shrink:0;
+    }
+    .chat-row.user .avatar-ai{display:none}
+
+    .bubble{
+      border-radius:16px;padding:11px 13px;border:1px solid var(--sa-border);background:var(--sa-bot);white-space:pre-wrap;line-height:1.52;
+      font-size:.97rem;
+    }
+    .chat-row.user .bubble{background:var(--sa-user);color:var(--sa-user-text);border-color:transparent}
+
+    .typing{display:flex;gap:5px;align-items:center;padding:8px 2px}
+    .typing span{width:7px;height:7px;border-radius:50%;background:var(--sa-dot);animation:typing-bounce 1.2s infinite ease-in-out}
+    .typing span:nth-child(2){animation-delay:.2s}
+    .typing span:nth-child(3){animation-delay:.4s}
+    @keyframes typing-bounce{0%,80%,100%{transform:translateY(0);opacity:.45}40%{transform:translateY(-5px);opacity:1}}
+
+    .product-suggest{width:min(100%,680px);white-space:normal}
+    .product-suggest-title{font-weight:700;margin-bottom:8px}
+    .product-suggest .thumb-grid{
+      display:flex;
+      gap:10px;
+      margin-top:0;
+      max-width:100%;
+      overflow-x:auto;
+      overscroll-behavior-x:contain;
+      scrollbar-width:thin;
+      padding:2px 2px 6px;
+      scroll-snap-type:x proximity;
+      align-items:flex-start;
+    }
+    .product-suggest .thumb-card{
+      background:var(--sa-surface-strong);
+      border:1px solid var(--sa-border);
+      border-radius:13px;
+      overflow:hidden;
+      flex:0 0 170px;
+      min-height:0;
+      height:auto;
+      scroll-snap-align:start;
+    }
+    .product-suggest .thumb-card a{text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:stretch}
+    .product-suggest .thumb-card img{width:100%;height:104px;object-fit:cover;object-position:center 24%;display:block;background:#0b1430}
+    .product-suggest .thumb-info{padding:7px 8px 8px}
+    .product-suggest .thumb-name{font-weight:700;font-size:.84rem;line-height:1.28;min-height:0;display:-webkit-box;line-clamp:2;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .product-suggest .thumb-price{margin-top:4px;font-weight:800;color:var(--sa-primary);font-size:.84rem}
+
+    .chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--sa-border);background:var(--sa-surface)}
+    .chat-input input{flex:1;border-radius:12px}
+    .btn-icon{width:40px;height:40px;border-radius:12px;border:1px solid var(--sa-border);background:var(--sa-surface-strong);cursor:pointer;color:var(--sa-text)}
+
+    .image-search{padding:12px 16px 14px;border-top:1px solid var(--sa-border);background:rgba(255,255,255,.38)}
+    body[data-theme="dark"] .image-search{background:rgba(7,11,21,.36)}
+    .image-preview{border:1px dashed var(--sa-border);border-radius:13px;padding:8px;min-height:110px;display:flex;align-items:center;justify-content:center;color:var(--sa-muted);font-size:.9rem}
+    .image-preview img{max-width:100%;max-height:220px;border-radius:10px;object-fit:contain}
+    .image-search-note{display:block;margin-top:8px;font-size:.84rem;color:var(--sa-muted);font-weight:600}
+    .file-hidden{display:none}
+
+    @media (max-width: 1024px){
+      .sa-grid{grid-template-columns:1fr}
+      .chat-shell{height:640px}
+    }
+    @media (max-width: 640px){
+      .sa-wrap{padding:16px 12px 24px}
+      .sa-topbar{flex-direction:column;align-items:flex-start}
       .form-row{grid-template-columns:1fr}
-      .container{padding:12px}
-      .card .content{padding:12px}
-      input[type=text],input[type=number],select,textarea{padding:12px 14px;font-size:.95rem}
-      .product-cards{grid-template-columns:1fr}
+      .chip-grid{grid-template-columns:1fr 1fr}
+      .color-grid{grid-template-columns:repeat(5,1fr)}
+      .occasion-grid{grid-template-columns:1fr}
+      .product-suggest .thumb-grid{gap:8px;padding-bottom:4px}
+      .product-suggest .thumb-card{flex-basis:154px}
+      .product-suggest{width:100%}
+      .chat-shell{height:600px}
     }
   </style>
 </head>
-<body>
-  <script>
-  // Soft gating: allow guest usage, but show a note if not logged in
-  try{
-    const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
-    if(!logged){
-      document.addEventListener('DOMContentLoaded', function(){
-        const container = document.querySelector('.container');
-        const note = document.createElement('div');
-        note.style.cssText = 'background:#fff3cd;border:1px solid #ffeeba;color:#856404;padding:10px 12px;border-radius:10px;margin-bottom:12px;font-size:.9rem;';
-        note.innerHTML = '<strong>Lưu ý:</strong> Bạn đang dùng chế độ khách. Bạn có thể tư vấn ngay, nhưng hồ sơ sẽ lưu cục bộ trên thiết bị.';
-        container?.insertBefore(note, container.firstChild);
-      });
-    }
-  }catch(e){ /* ignore */ }
-  </script>
-
-  <div class="container">
-    <div class="topbar">
-      <h1>Tư vấn phong cách (AI)</h1>
-      <a class="btn" href="SGBweb.html">← Quay lại Trang chủ</a>
+<body class="style-advisor-page" data-theme="light">
+  <div class="sa-wrap">
+    <div class="sa-topbar">
+      <h1 class="sa-title">Tư vấn phong cách (AI)<small>Gợi ý outfit theo hồ sơ, dịp sử dụng và hình ảnh thực tế</small></h1>
+      <div class="sa-actions">
+        <button class="sa-btn" id="themeToggle" type="button"><i class="fa-solid fa-moon"></i> Chế độ tối</button>
+        <a class="sa-btn sa-btn-primary" href="SGBweb.html"><i class="fa-solid fa-arrow-left"></i> Quay lại Trang chủ</a>
+      </div>
     </div>
-    <div class="page">
-      <section class="card">
-        <h2>Hồ sơ của bạn</h2>
-        <div class="content">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Giới tính</label>
-              <select id="gender">
-                <option value="women">Nữ</option>
-                <option value="men">Nam</option>
-                <option value="unisex">Khác / Unisex</option>
-              </select>
+
+    <div class="sa-grid">
+      <section class="sa-card">
+        <div class="sa-card-head">
+          <h2>Hồ sơ của bạn</h2>
+          <p>Đi theo từng bước để AI hiểu rõ gu của bạn.</p>
+        </div>
+        <div class="sa-card-body">
+          <div class="stepper-track" id="stepperTrack">
+            <button class="step-dot active" data-step="0" type="button">1. Cơ bản</button>
+            <button class="step-dot" data-step="1" type="button">2. Sở thích</button>
+            <button class="step-dot" data-step="2" type="button">3. Dịp mặc</button>
+          </div>
+
+          <div class="form-step active" data-step-panel="0">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Giới tính</label>
+                <select id="gender">
+                  <option value="women">Nữ</option>
+                  <option value="men">Nam</option>
+                  <option value="unisex">Khác / Unisex</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Tuổi</label>
+                <input id="age" type="number" min="10" max="100" placeholder="25">
+              </div>
             </div>
-            <div class="form-group">
-              <label>Tuổi</label>
-              <input id="age" type="number" min="10" max="100" placeholder="25">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Chiều cao (cm) <span class="value-pill" id="heightValue">165</span></label>
+                <div class="slider-wrap">
+                  <input id="height_cm" type="range" min="130" max="220" step="1" value="165">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Cân nặng (kg) <span class="value-pill" id="weightValue">55</span></label>
+                <div class="slider-wrap">
+                  <input id="weight_kg" type="range" min="35" max="150" step="1" value="55">
+                </div>
+              </div>
             </div>
           </div>
-          <div class="form-row">
+
+          <div class="form-step" data-step-panel="1">
             <div class="form-group">
-              <label>Chiều cao (cm)</label>
-              <input id="height_cm" type="number" min="130" max="220" placeholder="165">
+              <label>Bảng màu yêu thích</label>
+              <div class="color-grid" id="colorGrid">
+                <button class="color-chip" type="button" data-color="đen" style="background:#151515"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="trắng" style="background:#f4f4f4"><i class="fa-solid fa-check" style="color:#111"></i></button>
+                <button class="color-chip" type="button" data-color="xám" style="background:#8f94a3"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="xanh navy" style="background:#1f3461"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="be" style="background:#dbc7a5"><i class="fa-solid fa-check" style="color:#111"></i></button>
+                <button class="color-chip" type="button" data-color="hồng pastel" style="background:#f3becf"><i class="fa-solid fa-check" style="color:#111"></i></button>
+                <button class="color-chip" type="button" data-color="xanh rêu" style="background:#5a6645"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="xanh dương" style="background:#2f6bd4"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="đỏ đô" style="background:#7f2233"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="nâu" style="background:#6d4f39"><i class="fa-solid fa-check"></i></button>
+                <button class="color-chip" type="button" data-color="vàng" style="background:#d9b738"><i class="fa-solid fa-check" style="color:#111"></i></button>
+                <button class="color-chip" type="button" data-color="tím" style="background:#593da7"><i class="fa-solid fa-check"></i></button>
+              </div>
+              <input id="colors" type="text" placeholder="Màu bổ sung (phân tách bằng dấu phẩy)" style="margin-top:8px">
             </div>
-            <div class="form-group">
-              <label>Cân nặng (kg)</label>
-              <input id="weight_kg" type="number" min="35" max="150" placeholder="55">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Sở thích màu sắc</label>
-              <input id="colors" type="text" placeholder="Đen, trắng, pastel">
-            </div>
+
             <div class="form-group">
               <label>Khí hậu nơi ở</label>
-              <select id="climate">
-                <option value="tropical">Nhiệt đới</option>
-                <option value="temperate">Ôn hòa</option>
-                <option value="cold">Lạnh</option>
-              </select>
+              <div class="chip-grid" id="climateChoices">
+                <button class="chip-btn active" data-value="tropical" type="button"><i class="fa-solid fa-sun"></i> Nhiệt đới</button>
+                <button class="chip-btn" data-value="temperate" type="button"><i class="fa-solid fa-cloud-sun"></i> Ôn hòa</button>
+                <button class="chip-btn" data-value="cold" type="button"><i class="fa-solid fa-snowflake"></i> Lạnh</button>
+              </div>
+              <input id="climate" type="text" value="temperate" hidden>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Ngân sách</label>
+                <select id="budget">
+                  <option value="low">Tiết kiệm</option>
+                  <option value="mid" selected>Vừa phải</option>
+                  <option value="high">Đầu tư</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Phom dáng ưa thích</label>
+                <select id="fit_preference">
+                  <option value="regular" selected>Vừa vặn</option>
+                  <option value="slim">Ôm / Slim</option>
+                  <option value="oversize">Rộng / Oversize</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div class="form-row">
+
+          <div class="form-step" data-step-panel="2">
             <div class="form-group">
-              <label>Ngân sách</label>
-              <select id="budget">
-                <option value="low">Tiết kiệm</option>
-                <option value="mid" selected>Vừa phải</option>
-                <option value="high">Đầu tư</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Phom dáng ưa thích</label>
-              <select id="fit_preference">
-                <option value="regular" selected>Vừa vặn</option>
-                <option value="slim">Ôm / Slim</option>
-                <option value="oversize">Rộng / Oversize</option>
-              </select>
+              <label>Dịp sử dụng chính</label>
+              <div class="occasion-grid" id="occasions" aria-label="chọn dịp" role="group">
+                <button class="occasion-btn active" type="button" data-value="casual"><i class="fa-solid fa-shirt"></i> Casual</button>
+                <button class="occasion-btn" type="button" data-value="office"><i class="fa-solid fa-briefcase"></i> Công sở</button>
+                <button class="occasion-btn" type="button" data-value="party"><i class="fa-solid fa-martini-glass-citrus"></i> Party</button>
+                <button class="occasion-btn" type="button" data-value="formal"><i class="fa-solid fa-user-tie"></i> Formal</button>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <label>Dịp</label>
-            <div id="occasions" aria-label="chọn dịp" role="group">
-              <label class="pill"><input type="checkbox" value="casual" checked> Casual</label>
-              <label class="pill"><input type="checkbox" value="office"> Công sở</label>
-              <label class="pill"><input type="checkbox" value="party"> Party</label>
-              <label class="pill"><input type="checkbox" value="formal"> Formal</label>
-            </div>
+
+          <div class="step-actions">
+            <button class="sa-btn" id="prevStep" type="button"><i class="fa-solid fa-arrow-left"></i> Quay lại</button>
+            <span class="source-badge" id="sourceBadge">Nguồn: Chưa gửi</span>
+            <button class="sa-btn sa-btn-primary" id="nextStep" type="button">Tiếp tục <i class="fa-solid fa-arrow-right"></i></button>
           </div>
-          <button class="btn" id="saveProfile">Lưu hồ sơ</button>
-          <span class="badge" id="sourceBadge"></span>
+          <div style="margin-top:10px;display:flex;justify-content:flex-end">
+            <button class="sa-btn" id="saveProfile" type="button"><i class="fa-solid fa-floppy-disk"></i> Lưu hồ sơ</button>
+          </div>
         </div>
       </section>
 
-      <section class="card">
-        <h2>Trợ lý phong cách</h2>
-        <div class="chat">
+      <section class="sa-card">
+        <div class="sa-card-head">
+          <h2>Trợ lý phong cách</h2>
+          <p>Trò chuyện theo ngữ cảnh, AI sẽ gợi ý kèm sản phẩm có thể bấm xem ngay.</p>
+        </div>
+
+        <div class="chat-shell">
           <div class="chat-log" id="chatLog"></div>
           <div class="chat-input">
-            <input id="userMsg" type="text" placeholder="Mô tả nhu cầu: ví dụ set đồ đi làm, màu trung tính…">
-            <button class="btn-icon" id="imageSearchTrigger" title="Tìm bằng ảnh" aria-label="Tìm bằng ảnh">+</button>
-            <button class="btn" id="sendBtn">Gợi ý</button>
+            <input id="userMsg" type="text" placeholder="Mô tả nhu cầu: set đồ đi làm, màu trung tính, dự tiệc...">
+            <button class="btn-icon" id="imageSearchTrigger" title="Tìm bằng ảnh" aria-label="Tìm bằng ảnh"><i class="fa-solid fa-image"></i></button>
+            <button class="sa-btn sa-btn-primary" id="sendBtn" type="button"><i class="fa-solid fa-paper-plane"></i> Gợi ý</button>
           </div>
           <input id="imageSearchInput" class="file-hidden" type="file" accept="image/*" />
-        </div>
-        <div class="content image-search">
-          <div id="imagePreview" class="image-preview">Chọn ảnh để phân tích</div>
-          <div id="imageSearchNote" class="badge"></div>
-          <div id="imageSearchResults" class="product-cards"></div>
+
+          <div class="image-search">
+            <div id="imagePreview" class="image-preview">Chọn ảnh outfit để AI nhận diện màu và vibe</div>
+            <small id="imageSearchNote" class="image-search-note"></small>
+            <div id="imageSearchResults" class="thumb-grid" style="margin-top:10px"></div>
+          </div>
         </div>
       </section>
     </div>
   </div>
 
-  <script src="style-advisor.js"></script>
-  <script src="site.js?v=3"></script>
+  <script src="style-advisor.js?v=6"></script>
+  <script src="site.js?v=13"></script>
 </body>
 </html>

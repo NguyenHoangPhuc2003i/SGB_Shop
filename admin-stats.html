@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin - Thống kê tháng</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=5">
   <link rel="stylesheet" href="modern.css?v=1">
 </head>
 <body>
@@ -14,17 +14,20 @@
       <nav class="admin-nav">
         <a href="/admin.html">Người dùng</a>
         <a href="/admin-dashboard.html">Tổng quan</a>
-        <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-products.html">Quản lý sản phẩm</a>
+        <a href="/admin-inventory.html">Quản lý kho</a>
         <a href="/admin-categories.html">Danh mục</a>
         <a href="/admin-orders.html">Đơn hàng</a>
         <a href="/admin-coupons.html">Mã giảm giá</a>
         <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-support.html">Hỗ trợ KH</a>
         <a href="/admin-ai-logs.html">Logs AI</a>
+        <a href="/SGBweb.html">Trang chủ</a>
       </nav>
-      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
       <button id="adminThemeToggle" class="theme-toggle">Theme</button>
     </div>
   </header>
+
   <div class="admin-container">
     <div class="card">
       <div class="card-header">
@@ -39,127 +42,170 @@
       <div class="card-body">
         <p class="muted">Tổng hợp đơn hàng theo tháng từ hệ thống.</p>
 
-    <div id="guard" style="display:none" class="alert">
-      Bạn cần đăng nhập với quyền admin để xem trang này.
-      <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
-    </div>
-    <div id="content" style="display:none">
-      <div class="grid" style="margin-bottom:12px">
-        <div class="card"><h3>Tổng đơn</h3><div class="num" id="ordersCount">0</div><div class="muted" id="ordersCountNote"></div></div>
-        <div class="card"><h3>Doanh thu</h3><div class="num" id="revenueTotal">0đ</div><div class="muted" id="revenueNote"></div></div>
-        <div class="card"><h3>AOV</h3><div class="num" id="avgOrder">0đ</div><div class="muted">Giá trị đơn trung bình</div></div>
-      </div>
-      <div class="grid">
-        <div class="card"><h3>Doanh thu theo ngày</h3><canvas id="dailyChart" height="180"></canvas></div>
-        <div class="card"><h3>Top sản phẩm bán chạy</h3><canvas id="topProductsChart" height="180"></canvas></div>
-        <div class="card"><h3>Phương thức thanh toán</h3><canvas id="paymentChart" height="180"></canvas></div>
-      </div>
-    </div>
+        <div id="guard" style="display:none" class="alert">
+          Bạn cần đăng nhập với quyền admin để xem trang này.
+          <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
+        </div>
+
+        <div id="content" style="display:none">
+          <div class="grid" style="margin-bottom:12px">
+            <div class="card"><h3>Tổng đơn</h3><div class="num" id="ordersCount">0</div><div class="muted" id="ordersCountNote"></div></div>
+            <div class="card"><h3>Doanh thu</h3><div class="num" id="revenueTotal">0đ</div><div class="muted" id="revenueNote"></div></div>
+            <div class="card"><h3>AOV</h3><div class="num" id="avgOrder">0đ</div><div class="muted">Giá trị đơn trung bình</div></div>
+          </div>
+          <div class="grid">
+            <div class="card"><h3>Doanh thu theo ngày</h3><canvas id="dailyChart" height="180"></canvas></div>
+            <div class="card"><h3>Top sản phẩm bán chạy</h3><canvas id="topProductsChart" height="180"></canvas></div>
+            <div class="card"><h3>Phương thức thanh toán</h3><canvas id="paymentChart" height="180"></canvas></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=6"></script>
   <script>
     function getLogged(){ try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(_){ return null; } }
-    function requireAdmin(){ const lg = getLogged(); if(!lg || lg.role!== 'admin'){ document.getElementById('guard').style.display=''; return false; } return true; }
+    function requireAdmin(){
+      const lg = getLogged();
+      if(!lg || lg.role !== 'admin'){
+        document.getElementById('guard').style.display = '';
+        return false;
+      }
+      return true;
+    }
 
-    const monthSelect = document.getElementById('monthSelect');
+    const sel = document.getElementById('monthSelect');
     const reloadBtn = document.getElementById('reloadBtn');
+    const importLocalBtn = document.getElementById('importLocalBtn');
     let charts = { daily:null, top:null, payment:null };
 
-    function formatVND(n){ try{ return (n||0).toLocaleString('vi-VN')+ 'đ'; }catch(_){ return String(n)+'đ'; } }
+    function formatVND(n){
+      try{ return (n || 0).toLocaleString('vi-VN') + 'd'; }
+      catch(_){ return String(n || 0) + 'd'; }
+    }
 
     function buildMonthOptions(){
       const now = new Date();
-      const sel = monthSelect; sel.innerHTML='';
-      for(let i=0;i<12;i++){
-        const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
-        const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0');
+      sel.innerHTML = '';
+      for(let i = 0; i < 12; i++){
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
         const opt = document.createElement('option');
-        opt.value = `${y}-${m}`; opt.textContent = `Tháng ${m}/${y}`;
-        if(i===0) opt.selected = true;
+        opt.value = `${y}-${m}`;
+        opt.textContent = `Tháng ${m}/${y}`;
+        if(i === 0) opt.selected = true;
         sel.appendChild(opt);
       }
     }
 
     async function loadStats(){
-      if(!requireAdmin()) return;
-      document.getElementById('content').style.display='none';
-      const lg = getLogged();
-      const month = monthSelect.value;
+      const month = sel.value;
+      const [y, m] = month.split('-').map(Number);
+      const from = `${y}-${String(m).padStart(2, '0')}-01`;
+      const toDate = new Date(y, m, 0);
+      const to = `${y}-${String(m).padStart(2, '0')}-${String(toDate.getDate()).padStart(2, '0')}`;
       try{
-        const res = await fetch(`/api/orders?month=${encodeURIComponent(month)}`, { headers: { 'X-User-Email': lg?.email || '' } });
+        const res = await fetch(`/api/orders?from=${from}&to=${to}`, { headers:{ 'X-User-Email': getLogged()?.email || '' } });
         if(!res.ok){
           if(res.status === 401){
-            document.getElementById('guard').style.display='';
+            document.getElementById('guard').style.display = '';
             return;
           }
           throw new Error('Không thể tải dữ liệu đơn hàng');
         }
         const orders = await res.json();
         renderStats(orders, month);
-        document.getElementById('content').style.display='';
-      }catch(err){ alert(err.message); }
+        document.getElementById('content').style.display = '';
+      }catch(err){
+        alert(err.message || 'Lỗi tải thống kê');
+      }
     }
 
     function renderStats(orders, month){
       const count = orders.length;
-      const revenue = orders.reduce((s,o)=> s + (Number(o.total)||0), 0);
+      const revenue = orders.reduce((s,o)=> s + (Number(o.total) || 0), 0);
       const avg = count ? Math.round(revenue / count) : 0;
+
       document.getElementById('ordersCount').textContent = count;
       document.getElementById('revenueTotal').textContent = formatVND(revenue);
       document.getElementById('avgOrder').textContent = formatVND(avg);
       document.getElementById('ordersCountNote').textContent = `Tháng ${month}`;
       document.getElementById('revenueNote').textContent = `Đã hoàn tất: ${count} đơn`;
 
-      // Daily revenue
       const byDay = new Map();
-      orders.forEach(o=>{ const d = new Date(o.createdAt); const day = String(d.getDate()).padStart(2,'0'); byDay.set(day, (byDay.get(day)||0) + (Number(o.total)||0)); });
-      const days = Array.from({length:31}, (_,i)=> String(i+1).padStart(2,'0'));
-      const dailyVals = days.map(d=> byDay.get(d)||0);
+      orders.forEach(o=>{
+        const day = String(o.createdAt || '').slice(0,10);
+        byDay.set(day, (byDay.get(day) || 0) + (Number(o.total) || 0));
+      });
+      const days = Array.from(byDay.keys()).sort();
+      const dailyVals = days.map(d => byDay.get(d) || 0);
+
       charts.daily && charts.daily.destroy();
       charts.daily = new Chart(document.getElementById('dailyChart'), {
-        type: 'line', data: { labels: days, datasets: [{ label:'Doanh thu (đ)', data: dailyVals, borderColor:'#0ea5a4', backgroundColor:'rgba(14,165,164,0.15)', tension:0.2 }] }, options: { plugins:{ legend:{ display:false } }, scales:{ y:{ ticks:{ callback:(v)=> v.toLocaleString('vi-VN') } } } }
+        type: 'line',
+        data: { labels: days, datasets: [{ label:'Doanh thu (đ)', data: dailyVals, borderColor:'#0ea5a4', backgroundColor:'rgba(14,165,164,0.15)', tension:0.2 }] },
+        options: { plugins:{ legend:{ display:false } }, scales:{ y:{ ticks:{ callback:(v)=> v.toLocaleString('vi-VN') } } } }
       });
 
-      // Top products by qty
       const qtyMap = new Map();
-      orders.forEach(o=>{ (o.items||[]).forEach(it=>{ qtyMap.set(it.name||`#${it.id}`, (qtyMap.get(it.name||`#${it.id}`)||0) + (it.qty||1)); }); });
-      const top = Array.from(qtyMap.entries()).sort((a,b)=> b[1]-a[1]).slice(0,8);
+      orders.forEach(o=>{
+        (Array.isArray(o.items) ? o.items : []).forEach(it=>{
+          const key = String(it.name || `#${it.id || ''}`);
+          qtyMap.set(key, (qtyMap.get(key) || 0) + (Number(it.qty) || 0));
+        });
+      });
+      const top = Array.from(qtyMap.entries()).sort((a,b)=> b[1] - a[1]).slice(0, 8);
       charts.top && charts.top.destroy();
       charts.top = new Chart(document.getElementById('topProductsChart'), {
-        type:'bar', data:{ labels: top.map(t=> t[0]), datasets:[{ label:'Số lượng', data: top.map(t=> t[1]), backgroundColor:'#f59e0b' }] }, options:{ plugins:{ legend:{ display:false } }, indexAxis:'y' }
+        type: 'bar',
+        data: { labels: top.map(t=> t[0]), datasets:[{ label:'Số lượng', data: top.map(t=> t[1]), backgroundColor:'#f59e0b' }] },
+        options: { plugins:{ legend:{ display:false } }, indexAxis:'y' }
       });
 
-      // Payment method distribution
       const pm = { cod:0, bank:0, wallet:0 };
-      orders.forEach(o=>{ const k = (o.payment||'cod'); pm[k] = (pm[k]||0) + 1; });
+      orders.forEach(o=>{ const k = String(o.payment || 'cod'); pm[k] = (pm[k] || 0) + 1; });
       charts.payment && charts.payment.destroy();
       charts.payment = new Chart(document.getElementById('paymentChart'), {
-        type:'doughnut', data:{ labels:['COD','Chuyển khoản','Ví điện tử'], datasets:[{ data:[pm.cod||0, pm.bank||0, pm.wallet||0], backgroundColor:['#111','#3b82f6','#ef4444'] }] }, options:{ plugins:{ legend:{ position:'bottom' } } }
+        type:'doughnut',
+        data:{ labels:['COD','Chuyển khoản','Ví điện tử'], datasets:[{ data:[pm.cod || 0, pm.bank || 0, pm.wallet || 0], backgroundColor:['#111','#3b82f6','#ef4444'] }] },
+        options:{ plugins:{ legend:{ position:'bottom' } } }
       });
     }
 
-    // events
-    buildMonthOptions();
-    reloadBtn.addEventListener('click', loadStats);
-    monthSelect.addEventListener('change', loadStats);
-    document.getElementById('importLocalBtn').addEventListener('click', async ()=>{
+    reloadBtn.addEventListener('click', ()=>{ if(requireAdmin()) loadStats(); });
+    sel.addEventListener('change', ()=>{ if(requireAdmin()) loadStats(); });
+    importLocalBtn.addEventListener('click', async ()=>{
       if(!requireAdmin()) return;
       try{
-        const local = JSON.parse(localStorage.getItem('sgb_orders')||'[]');
-        if(!Array.isArray(local) || local.length===0){ alert('Không có đơn local để nhập.'); return; }
+        const local = JSON.parse(localStorage.getItem('sgb_orders') || '[]');
+        if(!Array.isArray(local) || local.length === 0){ alert('Không có đơn local để nhập.'); return; }
         for(const o of local){
           await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(o) });
         }
         alert('Đã nhập đơn local lên server.');
         await loadStats();
-      }catch(e){ alert('Nhập thất bại: ' + e.message); }
+      }catch(e){
+        alert('Nhập thất bại: ' + e.message);
+      }
     });
-    // initial
+
+    buildMonthOptions();
     if(requireAdmin()) loadStats();
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

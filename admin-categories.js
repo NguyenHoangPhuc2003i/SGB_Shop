@@ -47,6 +47,9 @@
       });
       table.style.display = '';
       empty.textContent = '';
+      if(window.AdminUI && window.AdminUI.enhanceTable){
+        window.AdminUI.enhanceTable(table, { pageSize: 8 });
+      }
     }catch(err){ empty.textContent = 'Lỗi: ' + err.message; }
   }
 

@@ -16,6 +16,7 @@ param(
   [string]$GeminiModel = 'gemini-1.5-flash',
   [switch]$EnableFirebase,
   [string]$FirebaseCredsPath = '',
+  [string]$FirebaseCollections = '*',
   [switch]$ImportData,
   [switch]$SyncDelete
 )
@@ -62,6 +63,7 @@ $ServerUrl = "http://$($env:HOST):$($env:PORT)"
 
 if ($EnableFirebase -or $ImportData -or $FirebaseCredsPath) {
   $env:FIREBASE_ENABLED = 'true'
+  if ($FirebaseCollections) { $env:FIREBASE_COLLECTIONS = $FirebaseCollections }
   if ($FirebaseCredsPath) {
     # Prefer GOOGLE_APPLICATION_CREDENTIALS, fallback to FIREBASE_CREDENTIALS
     $env:GOOGLE_APPLICATION_CREDENTIALS = $FirebaseCredsPath
@@ -74,7 +76,8 @@ if ($EnableFirebase -or $ImportData -or $FirebaseCredsPath) {
 if ($ImportData -or ($EnableFirebase -and $FirebaseCredsPath)) {
   Write-Host "Importing local JSON data to Firestore..." -ForegroundColor Yellow
   $syncArg = if ($SyncDelete) { '--sync' } else { '' }
-  node scripts\import-to-firestore.js $syncArg
+  $collectionArg = if ($FirebaseCollections) { @('--collections', $FirebaseCollections) } else { @() }
+  node scripts\import-to-firestore.js $syncArg @collectionArg
 }
 
 # Warm-up AI + open browser once server is ready

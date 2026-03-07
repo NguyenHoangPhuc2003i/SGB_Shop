@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin - Quản lý danh mục</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=5">
   <link rel="stylesheet" href="modern.css?v=1">
 </head>
 <body>
@@ -14,17 +14,20 @@
       <nav class="admin-nav">
         <a href="/admin.html">Người dùng</a>
         <a href="/admin-dashboard.html">Tổng quan</a>
-        <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-products.html">Quản lý sản phẩm</a>
+        <a href="/admin-inventory.html">Quản lý kho</a>
         <a href="/admin-categories.html">Danh mục</a>
         <a href="/admin-orders.html">Đơn hàng</a>
         <a href="/admin-coupons.html">Mã giảm giá</a>
         <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-support.html">Hỗ trợ KH</a>
         <a href="/admin-ai-logs.html">Logs AI</a>
+        <a href="/SGBweb.html">Trang chủ</a>
       </nav>
-      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
       <button id="adminThemeToggle" class="theme-toggle">Theme</button>
     </div>
   </header>
+
   <div class="admin-container">
     <div class="card">
       <div class="card-header"><div class="card-title">Admin - Quản lý danh mục</div>
@@ -32,50 +35,55 @@
       </div>
       <div class="card-body">
 
-    <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
-      Bạn cần đăng nhập với quyền admin để tạo/sửa/xóa danh mục. <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
-    </div>
+        <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
+          Bạn cần đăng nhập với quyền admin để tạo/sửa/xóa danh mục. <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
+        </div>
 
-    <fieldset class="card" style="padding:0">
-      <div class="card-header"><div class="card-title">Thêm/Sửa danh mục</div></div>
-      <div class="card-body">
-      <legend>Thêm/Sửa danh mục</legend>
-      <div>
-        <label>Tên danh mục</label>
-        <input id="name" type="text" placeholder="Bộ sưu tập Hè 2025">
-      </div>
-      <div style="margin-top:8px">
-        <label>Mô tả</label>
-        <textarea id="description" rows="2" placeholder="Ghi chú (tùy chọn)"></textarea>
-      </div>
-      <div style="margin-top:8px">
-        <label><input type="checkbox" id="active" checked> Kích hoạt</label>
-      </div>
-      <div style="margin-top:12px">
-        <button id="submit" class="btn btn-primary">Lưu danh mục</button>
-        <button id="reset" class="btn btn-warning">Xóa form</button>
-      </div>
-      </div>
-    </fieldset>
+        <fieldset class="card" style="padding:0">
+          <div class="card-header"><div class="card-title">Thêm/Sửa danh mục</div></div>
+          <div class="card-body">
+            <legend>Thêm/Sửa danh mục</legend>
+            <div>
+              <label>Tên danh mục</label>
+              <input id="name" type="text" placeholder="Bộ sưu tập Hè 2025">
+            </div>
+            <div style="margin-top:8px">
+              <label>Mô tả</label>
+              <textarea id="description" rows="2" placeholder="Ghi chú (tùy chọn)"></textarea>
+            </div>
+            <div style="margin-top:8px">
+              <label><input type="checkbox" id="active" checked> Kích hoạt</label>
+            </div>
+            <div style="margin-top:12px">
+              <button id="submit" class="btn btn-primary">Lưu danh mục</button>
+              <button id="reset" class="btn btn-warning">Xóa form</button>
+            </div>
+          </div>
+        </fieldset>
 
-    <table id="list" class="table" style="display:none">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Tên</th>
-          <th>Trạng thái</th>
-          <th>Mô tả</th>
-          <th>Thao tác</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <div id="empty" style="margin-top:12px;color:#a8adbf">Chưa có danh mục.</div>
+        <table id="list" class="table" style="display:none">
+          <thead><tr><th>ID</th><th>Tên</th><th>Trạng thái</th><th>Mô tả</th><th>Thao tác</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div id="empty" style="margin-top:12px;color:#a8adbf">Chưa có danh mục.</div>
       </div>
     </div>
   </div>
 
-  <script src="admin.js"></script>
+  <script src="admin.js?v=6"></script>
   <script src="admin-categories.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

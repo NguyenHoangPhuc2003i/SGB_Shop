@@ -1,0 +1,80 @@
+[
+  {
+    "actor": "phuc2k3i@gmail.com",
+    "reason": "quick-update",
+    "color": "Be",
+    "size": "F",
+    "product_id": "1714828810000",
+    "delta": 1,
+    "quantity_after": 15,
+    "id": 1772910309884,
+    "product_name": "Áo Cardigan Mềm",
+    "quantity_before": 14,
+    "ts": "2026-03-07T19:05:09.566Z"
+  },
+  {
+    "actor": "phuc2k3i@gmail.com",
+    "reason": "import-stock",
+    "color": "Be",
+    "size": "F",
+    "product_id": "1714828810000",
+    "delta": 2,
+    "quantity_after": 17,
+    "id": 1772910311606,
+    "product_name": "Áo Cardigan Mềm",
+    "quantity_before": 15,
+    "ts": "2026-03-07T19:05:11.267Z"
+  },
+  {
+    "actor": "phuc2k3i@gmail.com",
+    "reason": "quick-update",
+    "color": "Be",
+    "size": "F",
+    "product_id": "1714828810000",
+    "delta": 1,
+    "quantity_after": 18,
+    "id": 1772910358105,
+    "product_name": "Áo Cardigan Mềm",
+    "quantity_before": 17,
+    "ts": "2026-03-07T19:05:57.235Z"
+  },
+  {
+    "actor": "phuc2k3i@gmail.com",
+    "reason": "import-stock",
+    "color": "Be",
+    "size": "F",
+    "product_id": "1714828810000",
+    "delta": 2,
+    "quantity_after": 20,
+    "id": 1772910376049,
+    "product_name": "Áo Cardigan Mềm",
+    "quantity_before": 18,
+    "ts": "2026-03-07T19:06:15.904Z"
+  },
+  {
+    "actor": "phuc2k3i@gmail.com",
+    "reason": "order-created:TINV1772910802546",
+    "color": "Be",
+    "size": "F",
+    "product_id": "1714828810000",
+    "delta": -1,
+    "quantity_after": 19,
+    "id": 1772910803166,
+    "product_name": "Áo Cardigan Mềm",
+    "quantity_before": 20,
+    "ts": "2026-03-07T19:13:22.844Z"
+  },
+  {
+    "id": 1772910804685,
+    "ts": "2026-03-07T19:13:24.098Z",
+    "product_id": "1714828810000",
+    "product_name": "Áo Cardigan Mềm",
+    "size": "F",
+    "color": "Be",
+    "delta": 1,
+    "quantity_before": 19,
+    "quantity_after": 20,
+    "reason": "order-status-canceled:TINV1772910802546",
+    "actor": "phuc2k3i@gmail.com"
+  }
+]

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin - Mã giảm giá</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=5">
   <link rel="stylesheet" href="modern.css?v=1">
 </head>
 <body>
@@ -14,17 +14,20 @@
       <nav class="admin-nav">
         <a href="/admin.html">Người dùng</a>
         <a href="/admin-dashboard.html">Tổng quan</a>
-        <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-products.html">Quản lý sản phẩm</a>
+        <a href="/admin-inventory.html">Quản lý kho</a>
         <a href="/admin-categories.html">Danh mục</a>
         <a href="/admin-orders.html">Đơn hàng</a>
         <a href="/admin-coupons.html">Mã giảm giá</a>
         <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-support.html">Hỗ trợ KH</a>
         <a href="/admin-ai-logs.html">Logs AI</a>
+        <a href="/SGBweb.html">Trang chủ</a>
       </nav>
-      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
       <button id="adminThemeToggle" class="theme-toggle">Theme</button>
     </div>
   </header>
+
   <div class="admin-container">
     <div class="card">
       <div class="card-header"><div class="card-title">Admin - Mã giảm giá</div>
@@ -32,56 +35,67 @@
       </div>
       <div class="card-body">
 
-    <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
-      Cần quyền admin.
-    </div>
+        <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">Cần quyền admin.</div>
 
-    <fieldset class="card" style="padding:0">
-      <div class="card-header"><div class="card-title">Thêm/Sửa mã giảm giá</div></div>
-      <div class="card-body">
-      <legend>Thêm/Sửa mã giảm giá</legend>
-      <label>Mã code</label>
-      <input id="code" type="text" placeholder="SGB10">
-      <div class="grid-2" style="margin-top:8px">
-        <div>
-          <label>Loại</label>
-          <select id="type">
-            <option value="percent">Phần trăm</option>
-            <option value="amount">Số tiền</option>
-            <option value="freeship">Miễn phí ship</option>
-          </select>
-        </div>
-        <div>
-          <label>Giá trị</label>
-          <input id="value" type="number" min="0" step="1" placeholder="10">
-        </div>
-      </div>
-      <div class="grid-2" style="margin-top:8px">
-        <div>
-          <label>Hết hạn (tùy chọn)</label>
-          <input id="expiresAt" type="date">
-        </div>
-        <div>
-          <label><input id="active" type="checkbox" checked> Kích hoạt</label>
-        </div>
-      </div>
-      <div style="margin-top:12px">
-        <button id="submit" class="btn btn-primary">Lưu</button>
-        <button id="reset" class="btn btn-warning">Xóa form</button>
-      </div>
-      </div>
-    </fieldset>
+        <fieldset class="card" style="padding:0">
+          <div class="card-header"><div class="card-title">Thêm/Sửa mã giảm giá</div></div>
+          <div class="card-body">
+            <legend>Thêm/Sửa mã giảm giá</legend>
+            <label>Mã code</label>
+            <input id="code" type="text" placeholder="SGB10">
+            <div class="grid-2" style="margin-top:8px">
+              <div>
+                <label>Loại</label>
+                <select id="type">
+                  <option value="percent">Phần trăm</option>
+                  <option value="amount">Số tiền</option>
+                  <option value="freeship">Miễn phí ship</option>
+                </select>
+              </div>
+              <div>
+                <label>Giá trị</label>
+                <input id="value" type="number" min="0" step="1" placeholder="10">
+              </div>
+            </div>
+            <div class="grid-2" style="margin-top:8px">
+              <div>
+                <label>Hết hạn (tùy chọn)</label>
+                <input id="expiresAt" type="date">
+              </div>
+              <div>
+                <label><input id="active" type="checkbox" checked> Kích hoạt</label>
+              </div>
+            </div>
+            <div style="margin-top:12px">
+              <button id="submit" class="btn btn-primary">Lưu</button>
+              <button id="reset" class="btn btn-warning">Xóa form</button>
+            </div>
+          </div>
+        </fieldset>
 
-    <table id="list" class="table" style="display:none">
-      <thead><tr><th>ID</th><th>Code</th><th>Loại</th><th>Giá trị</th><th>Hết hạn</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <div id="empty" style="margin-top:12px;color:#a8adbf">Chưa có mã giảm giá.</div>
+        <table id="list" class="table" style="display:none">
+          <thead><tr><th>ID</th><th>Code</th><th>Loại</th><th>Giá trị</th><th>Het han</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div id="empty" style="margin-top:12px;color:#a8adbf">Chưa có mã giảm giá.</div>
       </div>
     </div>
   </div>
 
-  <script src="admin.js"></script>
+  <script src="admin.js?v=6"></script>
   <script src="admin-coupons.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

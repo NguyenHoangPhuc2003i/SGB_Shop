@@ -27,3 +27,18 @@ PowerShell -ExecutionPolicy Bypass -File .\SGB_Shop\scripts\start-all.ps1 `
 Notes:
 - `-ImportData` upserts docs from local JSON to Firestore.
 - `-SyncDelete` additionally removes docs not present in local JSON (use with care).
+
+## Hybrid data mode (recommended)
+
+Khi chạy server, nên cấu hình Firestore chỉ cho dữ liệu động:
+
+```powershell
+$env:FIREBASE_ENABLED = "true"
+$env:FIREBASE_COLLECTIONS = "*"
+$env:JSON_BACKUP_ENABLED = "true"
+node server.js
+```
+
+Gợi ý:
+- Chế độ `*` đồng bộ liên tục toàn bộ dữ liệu vận hành lên Firestore.
+- JSON local vẫn có thể dùng làm seed/backup.

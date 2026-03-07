@@ -5,6 +5,8 @@
   const empty = document.getElementById('empty');
   const guard = document.getElementById('guard');
   const detail = document.getElementById('detail');
+  let autoRefreshTimer = null;
+  let isLoading = false;
 
   const STATUSES = [
     { value:'pending', label:'Chờ xác nhận' },
@@ -26,6 +28,8 @@
   function statusLabel(v){ const s = STATUSES.find(x=>x.value===String(v)); return s ? s.label : v; }
 
   async function load(){
+    if(isLoading) return;
+    isLoading = true;
     tbody.innerHTML = '';
     table.style.display = 'none';
     detail.style.display = 'none';
@@ -55,7 +59,14 @@
       });
       table.style.display = '';
       empty.textContent = '';
-    }catch(err){ empty.textContent = 'Lỗi: ' + err.message; }
+      if(window.AdminUI && window.AdminUI.enhanceTable){
+        window.AdminUI.enhanceTable(table, { pageSize: 8 });
+      }
+    }catch(err){
+      empty.textContent = 'Lỗi: ' + err.message;
+    }finally{
+      isLoading = false;
+    }
   }
 
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -132,5 +143,26 @@
   }
 
   refreshBtn.addEventListener('click', (e)=>{ e.preventDefault(); load(); });
+
+  function setupAutoRefresh(){
+    if(autoRefreshTimer) clearInterval(autoRefreshTimer);
+    autoRefreshTimer = setInterval(() => {
+      if(document.hidden) return;
+      if(!requireAdmin()) return;
+      load();
+    }, 8000);
+
+    document.addEventListener('visibilitychange', () => {
+      if(document.hidden) return;
+      if(!requireAdmin()) return;
+      load();
+    });
+  }
+
+  window.addEventListener('beforeunload', () => {
+    if(autoRefreshTimer) clearInterval(autoRefreshTimer);
+  });
+
+  setupAutoRefresh();
   load();
 })();

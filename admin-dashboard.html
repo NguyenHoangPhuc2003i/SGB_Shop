@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin - Tổng quan</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=5">
   <link rel="stylesheet" href="modern.css?v=1">
 </head>
 <body>
@@ -14,65 +14,86 @@
       <nav class="admin-nav">
         <a href="/admin.html">Người dùng</a>
         <a href="/admin-dashboard.html">Tổng quan</a>
-        <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-products.html">Quản lý sản phẩm</a>
+        <a href="/admin-inventory.html">Quản lý kho</a>
         <a href="/admin-categories.html">Danh mục</a>
         <a href="/admin-orders.html">Đơn hàng</a>
         <a href="/admin-coupons.html">Mã giảm giá</a>
         <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-support.html">Hỗ trợ KH</a>
         <a href="/admin-ai-logs.html">Logs AI</a>
+        <a href="/SGBweb.html">Trang chủ</a>
       </nav>
-      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
       <button id="adminThemeToggle" class="theme-toggle">Theme</button>
     </div>
   </header>
+
   <div class="admin-container">
     <div class="card">
-      <div class="card-header"><div class="card-title">Admin - Tổng quan</div>
+      <div class="card-header">
+        <div class="card-title">Admin - Tổng quan</div>
         <div class="table-actions" style="margin-left:auto"><button id="refresh" class="btn btn-outline">Làm mới</button></div>
       </div>
       <div class="card-body">
+        <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
+          Bạn cần đăng nhập với quyền admin để xem Tổng quan. <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
+        </div>
 
-    <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
-      Bạn cần đăng nhập với quyền admin để xem Tổng quan. <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
-    </div>
+        <div class="range">
+          <label>Khoảng thời gian:</label>
+          <select id="preset">
+            <option value="month">Tháng này</option>
+            <option value="lastMonth">Tháng trước</option>
+            <option value="week">7 ngày qua</option>
+            <option value="day">Hôm nay</option>
+            <option value="custom">Tùy chọn</option>
+          </select>
+          <input id="from" type="date">
+          <input id="to" type="date">
+          <button id="importLocalBtn" class="btn btn-primary" title="Nhập đơn local từ trình duyệt">Nhập đơn local</button>
+        </div>
 
-    <div class="range">
-      <label>Khoảng thời gian:</label>
-      <select id="preset">
-        <option value="month">Tháng này</option>
-        <option value="lastMonth">Tháng trước</option>
-        <option value="week">7 ngày qua</option>
-        <option value="day">Hôm nay</option>
-        <option value="custom">Tùy chọn</option>
-      </select>
-      <input id="from" type="date">
-      <input id="to" type="date">
-      <button id="importLocalBtn" class="btn btn-primary" title="Nhập đơn local từ trình duyệt">Nhập đơn local</button>
-    </div>
+        <div class="grid" style="margin-top:12px">
+          <div class="card"><h3>Tổng đơn</h3><div class="num" id="ordersCount">0</div><div class="muted" id="ordersNote"></div></div>
+          <div class="card"><h3>Doanh thu</h3><div class="num" id="revenueTotal">0đ</div><div class="muted" id="revenueNote"></div></div>
+          <div class="card"><h3>AOV</h3><div class="num" id="avgOrder">0đ</div><div class="muted">Giá trị đơn trung bình</div></div>
+        </div>
 
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Tổng đơn</h3><div class="num" id="ordersCount">0</div><div class="muted" id="ordersNote"></div></div>
-      <div class="card"><h3>Doanh thu</h3><div class="num" id="revenueTotal">0đ</div><div class="muted" id="revenueNote"></div></div>
-      <div class="card"><h3>AOV</h3><div class="num" id="avgOrder">0đ</div><div class="muted">Giá trị đơn trung bình</div></div>
-    </div>
+        <div class="grid" style="margin-top:12px">
+          <div class="card"><h3>Doanh thu theo ngày</h3><canvas id="chartDay" height="180"></canvas></div>
+          <div class="card"><h3>Doanh thu theo tuần</h3><canvas id="chartWeek" height="180"></canvas></div>
+          <div class="card"><h3>Doanh thu theo tháng</h3><canvas id="chartMonth" height="180"></canvas></div>
+        </div>
 
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Doanh thu theo ngày</h3><canvas id="chartDay" height="180"></canvas></div>
-      <div class="card"><h3>Doanh thu theo tuần</h3><canvas id="chartWeek" height="180"></canvas></div>
-      <div class="card"><h3>Doanh thu theo tháng</h3><canvas id="chartMonth" height="180"></canvas></div>
-    </div>
+        <div class="grid" style="margin-top:12px">
+          <div class="card"><h3>Top sản phẩm bán chạy</h3><canvas id="chartTop" height="180"></canvas></div>
+          <div class="card"><h3>Top 5 sản phẩm (ảnh)</h3><div id="topProductsList" class="top-products-list"></div></div>
+          <div class="card"><h3>Cảnh báo tồn kho thấp</h3><div id="lowStock"></div></div>
+        </div>
 
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Top sản phẩm bán chạy</h3><canvas id="chartTop" height="180"></canvas></div>
-      <div class="card"><h3>Cảnh báo tồn kho thấp</h3><div id="lowStock"></div></div>
-      <div class="card"><h3>Phương thức thanh toán</h3><canvas id="chartPayment" height="180"></canvas></div>
-    </div>
+        <div class="grid" style="margin-top:12px">
+          <div class="card"><h3>Phương thức thanh toán</h3><canvas id="chartPayment" height="180"></canvas></div>
+        </div>
+
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=6"></script>
   <script src="admin-dashboard.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

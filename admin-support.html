@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - Há»— trá»£ khÃ¡ch hÃ ng</title>
+  <link rel="stylesheet" href="admin.css?v=6">
+  <link rel="stylesheet" href="modern.css?v=1">
+</head>
+<body>
+  <header class="admin-appbar">
+    <div class="bar">
+      <div class="admin-brand"><span class="dot"></span> Admin</div>
+      <nav class="admin-nav">
+        <a href="/admin.html">NgÆ°á»i dÃ¹ng</a>
+        <a href="/admin-dashboard.html">Tá»•ng quan</a>
+        <a href="/admin-products.html">Sáº£n pháº©m</a>
+        <a href="/admin-inventory.html">Quản lý kho</a>
+        <a href="/admin-categories.html">Danh má»¥c</a>
+        <a href="/admin-orders.html">ÄÆ¡n hÃ ng</a>
+        <a href="/admin-coupons.html">MÃ£ giáº£m giÃ¡</a>
+        <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-support.html">Há»— trá»£ KH</a>
+        <a href="/admin-ai-logs.html">Logs AI</a>
+        <a href="/SGBweb.html">Trang chá»§</a>
+      </nav>
+      <button id="adminThemeToggle" class="theme-toggle">Theme</button>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Admin - Há»— trá»£ khÃ¡ch hÃ ng</div>
+        <div class="table-actions" style="margin-left:auto;align-items:center">
+          <span id="supportCountBadge" class="status-badge status-warning">0 má»›i</span>
+          <button id="supportRefreshBtn" class="btn btn-outline">LÃ m má»›i há»— trá»£</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
+          Báº¡n cáº§n Ä‘Äƒng nháº­p vá»›i quyá»n admin Ä‘á»ƒ xem trang nÃ y.
+          <a href="auth.html" style="margin-left:8px">ÄÄƒng nháº­p</a>
+        </div>
+        <div id="supportRequestsList" class="support-requests-list">Äang táº£i yÃªu cáº§u há»— trá»£...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const supportList = document.getElementById('supportRequestsList');
+    const supportCountBadge = document.getElementById('supportCountBadge');
+    const supportRefreshBtn = document.getElementById('supportRefreshBtn');
+
+    function getLogged(){
+      try { return JSON.parse(localStorage.getItem('sgb_logged_in') || 'null'); } catch (e) { return null; }
+    }
+
+    function requireAdminGuard(){
+      const logged = getLogged();
+      const ok = !!(logged && logged.role === 'admin');
+      document.getElementById('guard').style.display = ok ? 'none' : '';
+      return ok;
+    }
+
+    function escapeHtml(s){
+      return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
+    function formatDateTime(iso){
+      try{ return new Date(iso).toLocaleString('vi-VN'); }catch(_){ return String(iso || ''); }
+    }
+
+    function renderSupportRequests(items){
+      if(!supportList) return;
+      if(!items.length){
+        supportList.textContent = 'ChÆ°a cÃ³ yÃªu cáº§u há»— trá»£ nÃ o.';
+        return;
+      }
+      supportList.innerHTML = items.map((x)=>{
+        const id = Number(x.id) || 0;
+        const who = [x.customerName, x.customerEmail].filter(Boolean).join(' - ') || 'KhÃ¡ch vÃ£ng lai';
+        const statusLabel = x.status === 'handled' ? 'ÄÃ£ xá»­ lÃ½' : 'Má»›i';
+        const statusClass = x.status === 'handled' ? 'status-success' : 'status-warning';
+        return `
+          <div class="support-request-item" data-id="${id}">
+            <div class="support-request-top">
+              <div class="support-request-meta"><strong>${escapeHtml(who)}</strong> â€¢ ${escapeHtml(formatDateTime(x.createdAt))}</div>
+              <span class="status-badge ${statusClass}">${statusLabel}</span>
+            </div>
+            <p class="support-request-message">${escapeHtml(x.message || '')}</p>
+            ${x.trackingCode ? `<div class="support-request-note"><strong>MÃ£ há»— trá»£:</strong> ${escapeHtml(x.trackingCode)}</div>` : ''}
+            ${x.note ? `<div class="support-request-note"><strong>Pháº£n há»“i:</strong> ${escapeHtml(x.note)}</div>` : ''}
+            <div class="support-request-actions">
+              <span class="support-request-page">Trang: ${escapeHtml(x.page || '')}</span>
+              ${x.status === 'pending' ? `
+                <textarea class="support-reply-input" data-id="${id}" placeholder="Nháº­p pháº£n há»“i cho khÃ¡ch hÃ ng..."></textarea>
+                <button class="btn btn-primary" data-action="reply" data-id="${id}">Gá»­i pháº£n há»“i & xá»­ lÃ½</button>
+              ` : `<span class="status-badge status-success">ÄÃ£ pháº£n há»“i</span>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function loadSupportRequests(){
+      if(!supportList) return;
+      if(!requireAdminGuard()) return;
+      supportList.textContent = 'Äang táº£i yÃªu cáº§u há»— trá»£...';
+      try{
+        const logged = getLogged();
+        const res = await fetch('/api/support-requests?status=all&limit=40', {
+          headers: { 'X-User-Email': logged?.email || '' }
+        });
+        if(!res.ok) throw new Error('KhÃ´ng táº£i Ä‘Æ°á»£c yÃªu cáº§u há»— trá»£');
+        const data = await res.json();
+        const items = Array.isArray(data.items) ? data.items : [];
+        const pendingCount = Number(data.pendingCount || 0) || 0;
+        if(supportCountBadge) supportCountBadge.textContent = `${pendingCount} má»›i`;
+        renderSupportRequests(items);
+      }catch(err){
+        supportList.textContent = 'Lá»—i táº£i há»— trá»£: ' + err.message;
+        if(supportCountBadge) supportCountBadge.textContent = '0 má»›i';
+      }
+    }
+
+    supportRefreshBtn && supportRefreshBtn.addEventListener('click', loadSupportRequests);
+
+    supportList && supportList.addEventListener('click', async (e)=>{
+      const btn = e.target.closest('button[data-action="reply"]');
+      if(!btn) return;
+      if(!requireAdminGuard()) return;
+      const id = Number(btn.dataset.id || 0);
+      if(!id) return;
+
+      const input = supportList.querySelector(`.support-reply-input[data-id="${id}"]`);
+      const note = String(input?.value || '').trim();
+      if(!note){
+        alert('Vui lÃ²ng nháº­p ná»™i dung pháº£n há»“i trÆ°á»›c khi gá»­i.');
+        input && input.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Äang gá»­i...';
+      try{
+        const logged = getLogged();
+        const res = await fetch(`/api/support-requests/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-User-Email': logged?.email || ''
+          },
+          body: JSON.stringify({ status: 'handled', note })
+        });
+        if(!res.ok){
+          const t = await res.text();
+          throw new Error(t || 'Gá»­i pháº£n há»“i tháº¥t báº¡i');
+        }
+        await loadSupportRequests();
+      }catch(err){
+        alert(err.message || 'KhÃ´ng gá»­i Ä‘Æ°á»£c pháº£n há»“i');
+        btn.disabled = false;
+        btn.textContent = 'Gá»­i pháº£n há»“i & xá»­ lÃ½';
+      }
+    });
+
+    loadSupportRequests();
+  </script>
+  <script src="admin.js?v=6"></script>
+</body>
+</html>
+

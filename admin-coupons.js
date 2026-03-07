@@ -12,12 +12,66 @@
   const activeEl = document.getElementById('active');
   const submitBtn = document.getElementById('submit');
   const resetBtn = document.getElementById('reset');
+  const formCard = codeEl.closest('fieldset');
+
+  let forecastBox = null;
 
   let editingId = null;
 
   function getLogged(){ try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ return null; } }
   function requireAdmin(){ const l = getLogged(); const ok = !!(l && l.role==='admin'); guard.style.display = ok ? 'none' : ''; return ok; }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function ensureForecastBox(){
+    if(document.getElementById('forecastAiCard') || !formCard) return;
+    const card = document.createElement('div');
+    card.id = 'forecastAiCard';
+    card.className = 'summary-box';
+    card.style.marginTop = '12px';
+    card.innerHTML = `
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+        <button id="forecastBtn" class="btn btn-outline" type="button">Dự báo flash sale AI</button>
+        <small class="muted">Dựa trên dữ liệu đơn hàng gần đây.</small>
+      </div>
+      <pre id="forecastResult">Chưa có dữ liệu dự báo.</pre>
+    `;
+    formCard.insertAdjacentElement('afterend', card);
+    forecastBox = document.getElementById('forecastResult');
+    const btn = document.getElementById('forecastBtn');
+    if(btn){ btn.addEventListener('click', runFlashForecast); }
+  }
+
+  async function runFlashForecast(){
+    if(!requireAdmin()) return;
+    if(forecastBox) forecastBox.textContent = 'Đang phân tích...';
+    const logged = getLogged();
+    try{
+      const res = await fetch('/api/admin/ai/forecast-flash-sale', {
+        method:'POST',
+        headers: { 'Content-Type':'application/json', 'X-User-Email': logged?.email || '' },
+        body: JSON.stringify({ days: 30 })
+      });
+      if(!res.ok) throw new Error('Không gọi được AI');
+      const data = await res.json();
+      const topCat = (data.heuristic?.topCategories || []).map(x => `${x.name} (${x.qty})`).join(', ');
+      const topProducts = (data.heuristic?.topProducts || []).map(x => `- ${x.name}: ${x.qty}`).join('\n');
+      const lines = [
+        `Nguồn: ${data.source || 'N/A'}`,
+        `Đơn trong kỳ: ${data.heuristic?.totalOrders || 0}`,
+        `Mức giảm đề xuất: ${data.heuristic?.recommendedDiscount || 0}%`,
+        `Danh mục nổi bật: ${topCat || 'N/A'}`,
+        '',
+        'Top sản phẩm:',
+        topProducts || '- Chưa có',
+        '',
+        'Tóm tắt:',
+        data.summary || 'Không có tóm tắt'
+      ];
+      if(forecastBox) forecastBox.textContent = lines.join('\n');
+    }catch(err){
+      if(forecastBox) forecastBox.textContent = `Lỗi dự báo: ${err.message}`;
+    }
+  }
 
   async function load(){
     tbody.innerHTML = ''; table.style.display = 'none'; empty.textContent = 'Đang tải...';
@@ -44,6 +98,9 @@
     });
     table.style.display = '';
     empty.textContent = '';
+    if(window.AdminUI && window.AdminUI.enhanceTable){
+      window.AdminUI.enhanceTable(table, { pageSize: 8 });
+    }
   }
 
   async function submit(){
@@ -89,5 +146,6 @@
   document.getElementById('submit').addEventListener('click', (e)=>{ e.preventDefault(); submit(); });
   document.getElementById('reset').addEventListener('click', (e)=>{ e.preventDefault(); clearForm(); });
   refreshBtn.addEventListener('click', (e)=>{ e.preventDefault(); load(); });
+  ensureForecastBox();
   load();
 })();

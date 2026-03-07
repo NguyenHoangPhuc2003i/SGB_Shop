@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin - Danh sách người dùng</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=6">
   <link rel="stylesheet" href="modern.css?v=1">
 </head>
 <body>
@@ -15,17 +15,19 @@
         <a href="/admin.html">Người dùng</a>
         <a href="/admin-dashboard.html">Tổng quan</a>
         <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-inventory.html">Quản lý kho</a>
         <a href="/admin-categories.html">Danh mục</a>
         <a href="/admin-orders.html">Đơn hàng</a>
         <a href="/admin-coupons.html">Mã giảm giá</a>
         <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-support.html">Hỗ trợ KH</a>
         <a href="/admin-ai-logs.html">Logs AI</a>
         <a href="/SGBweb.html">Trang chủ</a>
       </nav>
-      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
       <button id="adminThemeToggle" class="theme-toggle">Theme</button>
     </div>
   </header>
+
   <div class="admin-container">
     <div class="card">
       <div class="card-header"><div class="card-title">Admin - Danh sách người dùng</div></div>
@@ -36,42 +38,44 @@
           <button id="exportBtn" class="btn btn-primary">Xuất JSON</button>
           <button id="createAdminBtn" class="btn btn-success">Tạo Admin</button>
         </div>
-        
-        <!-- Form tạo admin -->
-        <div id="createAdminForm" style="display:none;margin-bottom:20px;padding:20px;background:rgba(255,255,255,.08);border-radius:12px;border:1px solid rgba(255,255,255,.12)">
-          <h3 style="margin-top:0;margin-bottom:20px;color:#e6e8f2;font-size:1.1rem">Tạo tài khoản Admin mới</h3>
-          <div style="margin-bottom:16px">
-            <label style="display:block;margin-bottom:8px;color:#a8adbf;font-size:.85rem;font-weight:500">Tên:</label>
-            <input type="text" id="adminName" placeholder="Nhập tên admin" style="width:100%;padding:10px 12px;background:#0c0f1b;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#e6e8f2;font-size:.95rem">
-          </div>
-          <div style="margin-bottom:16px">
-            <label style="display:block;margin-bottom:8px;color:#a8adbf;font-size:.85rem;font-weight:500">Email:</label>
-            <input type="email" id="adminEmail" placeholder="Nhập email admin" style="width:100%;padding:10px 12px;background:#0c0f1b;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#e6e8f2;font-size:.95rem">
-          </div>
-          <div style="margin-bottom:20px">
-            <label style="display:block;margin-bottom:8px;color:#a8adbf;font-size:.85rem;font-weight:500">Mật khẩu (tối thiểu 6 ký tự):</label>
-            <input type="password" id="adminPassword" placeholder="Nhập mật khẩu" style="width:100%;padding:10px 12px;background:#0c0f1b;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#e6e8f2;font-size:.95rem">
-          </div>
-          <div style="display:flex;gap:10px">
-            <button id="submitAdminBtn" class="btn btn-success" style="background:#3bd189;border:none;color:#fff;font-weight:600">Tạo tài khoản</button>
-            <button id="cancelAdminBtn" class="btn" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);color:#e6e8f2">Hủy</button>
-          </div>
-          <div id="createAdminMsg" style="margin-top:16px;display:none;padding:10px 12px;border-radius:10px;font-size:.9rem"></div>
-        </div>
-        <div id="result">
-      <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
-        Bạn cần đăng nhập với quyền admin để xem trang này.
-        <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
-      </div>
+        <div id="storageStatus" style="display:none;margin:8px 0 12px 0;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.15);font-size:14px"></div>
 
-      <table id="usersTable" style="display:none">
-        <thead>
-          <tr><th>ID</th><th>Tên</th><th>Email</th><th>Vai trò</th><th>Thao tác</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+        <div id="createAdminForm" class="create-admin-panel" style="display:none">
+          <h3 class="create-admin-title">Tạo tài khoản Admin mới</h3>
+          <div class="create-admin-field">
+            <label>Tên:</label>
+            <input type="text" id="adminName" placeholder="Nhập tên admin">
+          </div>
+          <div class="create-admin-field">
+            <label>Email:</label>
+            <input type="email" id="adminEmail" placeholder="Nhập email admin">
+          </div>
+          <div class="create-admin-field">
+            <label>Mật khẩu (tối thiểu 6 ký tự):</label>
+            <input type="password" id="adminPassword" placeholder="Nhập mật khẩu">
+          </div>
+          <div class="create-admin-actions">
+            <button id="submitAdminBtn" class="btn btn-success">Tạo tài khoản</button>
+            <button id="cancelAdminBtn" class="btn">Hủy</button>
+          </div>
+          <div id="createAdminMsg" class="create-admin-msg" style="display:none"></div>
+        </div>
+
+        <div id="result">
+          <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
+            Bạn cần đăng nhập với quyền admin để xem trang này.
+            <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
+          </div>
+
+          <table id="usersTable" class="table" style="display:none">
+            <thead>
+              <tr><th>ID</th><th>Tên</th><th>Email</th><th>Vai trò</th><th>Thao tác</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
 
           <div id="emptyMsg" style="margin-top:12px;color:#a8adbf">Chưa có user nào.</div>
+
         </div>
       </div>
     </div>
@@ -89,7 +93,7 @@
     const emptyMsg = document.getElementById('emptyMsg');
 
     function getLogged(){
-      try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ return null; }
+      try { return JSON.parse(localStorage.getItem('sgb_logged_in') || 'null'); } catch (e) { return null; }
     }
 
     function requireAdminGuard(){
@@ -104,22 +108,33 @@
       return true;
     }
 
+    function escapeHtml(s){
+      return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
     async function loadUsers(){
       tbody.innerHTML = '';
       usersTable.style.display = 'none';
       emptyMsg.textContent = 'Đang tải...';
       if(!requireAdminGuard()) return;
+
       try{
         const logged = getLogged();
+        await loadStorageStatus(logged);
         const res = await fetch('/api/users', {
           headers: { 'X-User-Email': logged?.email || '' }
         });
-        if(!res.ok) throw new Error('Không thể lấy dữ liệu');
+        if(!res.ok) throw new Error('Khong the lay du lieu');
+
         const users = await res.json();
-        if(!users || users.length===0){ emptyMsg.textContent = 'Chưa có user nào.'; return; }
-        users.forEach(u=>{
+        if(!users || users.length === 0){
+          emptyMsg.textContent = 'Chưa có user nào.';
+          return;
+        }
+
+        users.forEach(u => {
           const tr = document.createElement('tr');
-          const role = String(u.role||'user');
+          const role = String(u.role || 'user');
           const isAdmin = role === 'admin';
           const adminAttrs = isAdmin ? 'disabled style="opacity:.5;cursor:not-allowed"' : '';
           const userAttrs = !isAdmin ? 'disabled style="opacity:.5;cursor:not-allowed"' : '';
@@ -131,72 +146,90 @@
             </td>`;
           tbody.appendChild(tr);
         });
+
         usersTable.style.display = '';
         emptyMsg.textContent = '';
+        if(window.AdminUI && window.AdminUI.enhanceTable){
+          window.AdminUI.enhanceTable(usersTable, { pageSize: 8 });
+        }
       }catch(err){
         emptyMsg.textContent = 'Lỗi khi tải user: ' + err.message;
       }
     }
 
-    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    async function loadStorageStatus(logged){
+      const box = document.getElementById('storageStatus');
+      if(!box) return;
+      box.style.display = 'none';
+      try{
+        const res = await fetch('/api/admin/storage-status', { headers: { 'X-User-Email': logged?.email || '' } });
+        if(!res.ok) return;
+        const data = await res.json();
+        const usersStorage = (data.byCollection && data.byCollection.users) ? data.byCollection.users : 'unknown';
+        const isFs = usersStorage === 'firestore';
+        box.style.display = '';
+        box.style.background = isFs ? 'rgba(59,209,137,.12)' : 'rgba(255,95,116,.12)';
+        box.style.borderColor = isFs ? 'rgba(59,209,137,.35)' : 'rgba(255,95,116,.35)';
+        box.style.color = isFs ? '#3bd189' : '#ff5f74';
+        box.textContent = isFs
+          ? 'Nguồn users hiện tại: Firestore (đồng bộ chuẩn).'
+          : 'Nguồn users hiện tại: JSON/local. Vì vậy tài khoản mới có thể không xuất hiện trên Firebase.';
+      }catch(_){ }
+    }
 
     refreshBtn.addEventListener('click', loadUsers);
-    
-    // Hiển thị/ẩn form tạo admin
+
     createAdminBtn.addEventListener('click', ()=>{
       createAdminForm.style.display = createAdminForm.style.display === 'none' ? '' : 'none';
       document.getElementById('createAdminMsg').style.display = 'none';
-      // Reset form
       document.getElementById('adminName').value = '';
       document.getElementById('adminEmail').value = '';
       document.getElementById('adminPassword').value = '';
     });
-    
+
     cancelAdminBtn.addEventListener('click', ()=>{
       createAdminForm.style.display = 'none';
     });
-    
-    // Xử lý tạo admin
+
     submitAdminBtn.addEventListener('click', async ()=>{
       const name = document.getElementById('adminName').value.trim();
       const email = document.getElementById('adminEmail').value.trim().toLowerCase();
       const password = document.getElementById('adminPassword').value;
       const msgDiv = document.getElementById('createAdminMsg');
-      
+
       msgDiv.style.display = 'none';
-      
+
       if(!name || !email || !password){
-        msgDiv.textContent = '❌ Vui lòng điền đầy đủ thông tin!';
-          msgDiv.style.color = '#ff5f74';
-          msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
-          msgDiv.style.borderColor = 'rgba(255, 95, 116, 0.25)';
-          msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
-          msgDiv.style.display = '';
-          return;
-        }
-        
-        if(password.length < 6){
-          msgDiv.textContent = '❌ Mật khẩu phải có ít nhất 6 ký tự!';
-          msgDiv.style.color = '#ff5f74';
-          msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
-          msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
-          msgDiv.style.display = '';
-          return;
-        }
-        
-        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-          msgDiv.textContent = '❌ Email không hợp lệ!';
-          msgDiv.style.color = '#ff5f74';
-          msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
-          msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
-          msgDiv.style.display = '';
-          return;
-        }
-        
-        try{
-          submitAdminBtn.disabled = true;
-          submitAdminBtn.textContent = 'Đang tạo...';
-        
+        msgDiv.textContent = 'Vui lòng điền đầy đủ thông tin!';
+        msgDiv.style.color = '#ff5f74';
+        msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
+        msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
+        msgDiv.style.display = '';
+        return;
+      }
+
+      if(password.length < 6){
+        msgDiv.textContent = 'Mật khẩu phải có ít nhất 6 ký tự!';
+        msgDiv.style.color = '#ff5f74';
+        msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
+        msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
+        msgDiv.style.display = '';
+        return;
+      }
+
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        msgDiv.textContent = 'Email không hợp lệ!';
+        msgDiv.style.color = '#ff5f74';
+        msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
+        msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
+        msgDiv.style.display = '';
+        return;
+      }
+
+      try{
+        submitAdminBtn.disabled = true;
+        submitAdminBtn.textContent = 'Đang tạo...';
+
         const logged = getLogged();
         const res = await fetch('/api/register', {
           method: 'POST',
@@ -206,20 +239,17 @@
           },
           body: JSON.stringify({ name, email, password, role: 'admin' })
         });
-        
+
         const data = await res.json();
-        
-        if(!res.ok){
-          throw new Error(data.error || 'Không thể tạo tài khoản');
-        }
-        
-        msgDiv.textContent = '✅ Tạo tài khoản admin thành công!';
+        if(!res.ok) throw new Error(data.error || 'Không thể tạo tài khoản');
+
+        const storageTxt = data && data.storage ? ` (lưu: ${data.storage})` : '';
+        msgDiv.textContent = 'Tạo tài khoản admin thành công!' + storageTxt;
         msgDiv.style.color = '#3bd189';
         msgDiv.style.background = 'rgba(59, 209, 137, 0.12)';
         msgDiv.style.border = '1px solid rgba(59, 209, 137, 0.25)';
         msgDiv.style.display = '';
-        
-        // Reset form và ẩn sau 2 giây
+
         setTimeout(()=>{
           createAdminForm.style.display = 'none';
           document.getElementById('adminName').value = '';
@@ -227,12 +257,10 @@
           document.getElementById('adminPassword').value = '';
           msgDiv.style.display = 'none';
         }, 2000);
-        
-        // Reload danh sách user
+
         await loadUsers();
-        
       }catch(err){
-        msgDiv.textContent = '❌ Lỗi: ' + err.message;
+        msgDiv.textContent = 'Lỗi: ' + err.message;
         msgDiv.style.color = '#ff5f74';
         msgDiv.style.background = 'rgba(255, 95, 116, 0.12)';
         msgDiv.style.border = '1px solid rgba(255, 95, 116, 0.25)';
@@ -242,43 +270,74 @@
         submitAdminBtn.textContent = 'Tạo tài khoản';
       }
     });
-    
+
     exportBtn.addEventListener('click', async ()=>{
       try{
         const logged = getLogged();
-        const res = await fetch('/api/users', { headers: { 'X-User-Email': logged?.email || '' } }); if(!res.ok) throw new Error('fail');
+        const res = await fetch('/api/users', { headers: { 'X-User-Email': logged?.email || '' } });
+        if(!res.ok) throw new Error('fail');
         const users = await res.json();
-        const blob = new Blob([JSON.stringify(users,null,2)], {type:'application/json'});
+        const blob = new Blob([JSON.stringify(users, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'users.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-      }catch(e){ alert('Không thể xuất: '+e.message); }
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'users.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }catch(e){
+        alert('Không thể xuất: ' + e.message);
+      }
     });
 
-    // Table actions: promote/demote/delete
     usersTable.addEventListener('click', async (e)=>{
       const btn = e.target.closest('button[data-action]');
       if(!btn) return;
       const action = btn.dataset.action;
       const email = btn.dataset.email;
       const logged = getLogged();
+
       try{
         if(action === 'delete'){
           const ok = confirm('Xóa tài khoản này?');
           if(!ok) return;
-          const res = await fetch('/api/users', { method:'DELETE', headers:{'Content-Type':'application/json','X-User-Email': logged?.email || ''}, body: JSON.stringify({ email }) });
-          if(!res.ok) throw new Error('Xóa thất bại');
+          const res = await fetch('/api/users', {
+            method:'DELETE',
+            headers:{ 'Content-Type':'application/json', 'X-User-Email': logged?.email || '' },
+            body: JSON.stringify({ email })
+          });
+          if(!res.ok) throw new Error('Xóa that bai');
         } else if(action === 'promote' || action === 'demote'){
           const role = action === 'promote' ? 'admin' : 'user';
-          const res = await fetch('/api/users/role', { method:'POST', headers:{'Content-Type':'application/json','X-User-Email': logged?.email || ''}, body: JSON.stringify({ email, role }) });
+          const res = await fetch('/api/users/role', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json', 'X-User-Email': logged?.email || '' },
+            body: JSON.stringify({ email, role })
+          });
           if(!res.ok) throw new Error('Cập nhật vai trò thất bại');
         }
         await loadUsers();
-      }catch(err){ alert(err.message); }
+      }catch(err){
+        alert(err.message);
+      }
     });
 
-    // initial load
     loadUsers();
   </script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=6"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

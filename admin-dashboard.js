@@ -6,6 +6,8 @@
   const importLocalBtn = document.getElementById('importLocalBtn');
 
   let charts = { day:null, week:null, month:null, top:null, payment:null };
+  let autoRefreshTimer = null;
+  let isLoading = false;
 
   function getLogged(){ try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ return null; } }
   function requireAdmin(){ const l = getLogged(); const ok = !!(l && l.role==='admin'); document.getElementById('guard').style.display = ok ? 'none' : ''; return ok; }
@@ -37,18 +39,71 @@
   }
 
   async function load(){
+    if(isLoading) return;
+    isLoading = true;
     if(!requireAdmin()) return;
-    const from = fromEl.value; const to = toEl.value;
-    const logged = getLogged();
-    // orders in range
-    const url = `/api/orders?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
-    const res = await fetch(url, { headers: { 'X-User-Email': logged?.email || '' } });
-    if(!res.ok){ alert('Không thể tải đơn hàng'); return; }
-    const orders = await res.json();
-    renderOrders(orders, { from, to });
-    // low inventory
-    const lowRes = await fetch(`/api/inventory/low?threshold=5`, { headers: { 'X-User-Email': logged?.email || '' } });
-    if(lowRes.ok){ const data = await lowRes.json(); renderLowStock(data.items||[]); }
+    try{
+      const from = fromEl.value; const to = toEl.value;
+      const logged = getLogged();
+      // orders in range
+      const url = `/api/orders?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+      const res = await fetch(url, { headers: { 'X-User-Email': logged?.email || '' } });
+      if(!res.ok){
+        alert('Không thể tải đơn hàng');
+        return;
+      }
+      const orders = await res.json();
+      renderOrders(orders, { from, to });
+      await renderTopProductsWithThumbs(orders);
+      // low inventory
+      const lowRes = await fetch(`/api/inventory/low?threshold=5`, { headers: { 'X-User-Email': logged?.email || '' } });
+      if(lowRes.ok){
+        const data = await lowRes.json();
+        renderLowStock(data.items||[]);
+      }
+    }finally{
+      isLoading = false;
+    }
+  }
+
+  async function renderTopProductsWithThumbs(orders){
+    const wrap = document.getElementById('topProductsList');
+    if(!wrap) return;
+    wrap.innerHTML = 'Đang tải...';
+    try{
+      const productRes = await fetch('/api/products');
+      const products = productRes.ok ? await productRes.json() : [];
+      const imgByName = new Map();
+      (Array.isArray(products) ? products : []).forEach(p => {
+        const src = (p.images && p.images.cover) || (p.images && p.images.gallery && p.images.gallery[0]) || '';
+        imgByName.set(String(p.name || '').toLowerCase(), src);
+      });
+
+      const qtyMap = new Map();
+      orders.forEach(o => {
+        (Array.isArray(o.items) ? o.items : []).forEach(it => {
+          const name = String(it.name || `#${it.id || ''}`).trim();
+          const qty = Number(it.qty || 1);
+          if(!name) return;
+          qtyMap.set(name, (qtyMap.get(name) || 0) + qty);
+        });
+      });
+
+      const top = Array.from(qtyMap.entries()).sort((a,b)=> b[1]-a[1]).slice(0,5);
+      if(!top.length){ wrap.textContent = 'Chưa có dữ liệu sản phẩm.'; return; }
+      wrap.innerHTML = top.map(([name, qty]) => {
+        const img = imgByName.get(String(name).toLowerCase()) || '/uploads/placeholder.svg';
+        return `
+          <div class="top-product-item">
+            <img src="${escapeHtml(img)}" alt="${escapeHtml(name)}" onerror="this.onerror=null;this.src='/uploads/placeholder.svg'">
+            <div>${escapeHtml(name)}</div>
+            <strong>${qty}</strong>
+          </div>
+        `;
+      }).join('');
+    }catch(err){
+      wrap.textContent = 'Không tải được top sản phẩm.';
+    }
   }
 
   function renderOrders(orders, range){
@@ -134,7 +189,27 @@
   });
 
   // init
+  function setupAutoRefresh(){
+    if(autoRefreshTimer) clearInterval(autoRefreshTimer);
+    autoRefreshTimer = setInterval(() => {
+      if(document.hidden) return;
+      if(!requireAdmin()) return;
+      load();
+    }, 12000);
+
+    document.addEventListener('visibilitychange', () => {
+      if(document.hidden) return;
+      if(!requireAdmin()) return;
+      load();
+    });
+  }
+
+  window.addEventListener('beforeunload', () => {
+    if(autoRefreshTimer) clearInterval(autoRefreshTimer);
+  });
+
   if(requireAdmin()){
+    setupAutoRefresh();
     setPreset('month');
     load();
   }

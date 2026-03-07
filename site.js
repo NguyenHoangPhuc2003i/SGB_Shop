@@ -61,56 +61,57 @@ const PLACEHOLDER_IMG = '/uploads/placeholder.svg';
 // Replace placeholder images with realistic, category-appropriate photos from curated Unsplash IDs
 // Chọn ảnh đúng loại sản phẩm theo từ khoá tên để KHỚP món: áo khoác, áo polo, quần tây âu, quần jeans, balo, túi xách, giày, thắt lưng
 function getImageForProduct(name, category) {
+    const seedImg = (seed) => `https://picsum.photos/seed/${seed}/900/1200`;
     const n = name.toLowerCase();
     // áo khoác (jacket/coat/windbreaker/bomber)
     if (n.includes('khoác') || n.includes('jacket') || n.includes('bomber') || n.includes('coat') || n.includes('gió') || n.includes('denim')) {
-        return 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d';
+        return seedImg('sgb-jacket');
     }
     // áo polo
     if (n.includes('polo')) {
-        return 'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126';
+        return seedImg('sgb-polo');
     }
     // quần tây âu (trousers/chinos/slacks)
     if (n.includes('quần tây') || n.includes('tây âu') || n.includes('slacks') || n.includes('chinos') || n.includes('tây')) {
-        return 'https://images.unsplash.com/photo-1537202108838-e7072bad1927';
+        return seedImg('sgb-trousers');
     }
     // quần dài jeans / denim
     if (n.includes('jeans') || n.includes('denim') || n.includes('quần jean')) {
-        return 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb';
+        return seedImg('sgb-jeans');
     }
     // balo
     if (n.includes('balo') || n.includes('backpack')) {
-        return 'https://images.unsplash.com/photo-1562158070-1b6b8c6c08b9';
+        return seedImg('sgb-backpack');
     }
     // túi xách / ví
     if (n.includes('túi') || n.includes('bag') || n.includes('ví')) {
-        return 'https://images.unsplash.com/photo-1520975731261-3c590569ae2b';
+        return seedImg('sgb-bag');
     }
     // giày / loafer / sneaker
     if (n.includes('giày') || n.includes('loafer') || n.includes('sneaker') || n.includes('boots')) {
-        return 'https://images.unsplash.com/photo-1542291026-7eec264c27ff';
+        return seedImg('sgb-shoes');
     }
     // thắt lưng / belt
     if (n.includes('thắt lưng') || n.includes('belt')) {
-        return 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62';
+        return seedImg('sgb-belt');
     }
     // áo sơ mi / blouse / tee fallback theo category
     if (n.includes('sơ mi') || n.includes('shirt')) {
-        return 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f';
+        return seedImg('sgb-shirt');
     }
     if (n.includes('áo thun') || n.includes('tee') || n.includes('t-shirt')) {
-        return 'https://images.unsplash.com/photo-1520974692088-5cb9130b7003';
+        return seedImg('sgb-tee');
     }
     // women dresses/blouse fallback
     if (category === 'women' && (n.includes('đầm') || n.includes('dress') || n.includes('blouse'))) {
-        return 'https://images.unsplash.com/photo-1469334031218-e6bfb79f6df4';
+        return seedImg('sgb-dress');
     }
     // accessories fallback
     if (category === 'accessories') {
-        return 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc0';
+        return seedImg('sgb-accessory');
     }
     // default generic fashion
-    return 'https://images.unsplash.com/photo-1520974692088-5cb9130b7003';
+    return seedImg('sgb-fashion');
 }
 
 function shuffleArray(arr){
@@ -153,6 +154,8 @@ products.forEach(p => {
 });
 
 let cart = [];
+let currentFilter = 'all';
+let currentSearchTerm = '';
 
 // Persist cart to localStorage so it survives page navigation
 const CART_KEY = 'sgb_cart';
@@ -209,17 +212,52 @@ async function hydrateProductsFromServer(){
     }catch(err){ console.warn('hydrateProductsFromServer failed, using local catalog', err); }
 }
 
+function normalizeCategory(cat){
+    const c = String(cat || '').trim().toLowerCase();
+    if(!c) return '';
+    if(c === 'men' || c.includes('nam')) return 'men';
+    if(c === 'women' || c.includes('nữ') || c.includes('nu')) return 'women';
+    if(c === 'accessories' || c.includes('phụ kiện') || c.includes('phu kien') || c.includes('phụ-kiện') || c.includes('túi') || c.includes('that lung') || c.includes('thắt lưng') || c.includes('kính') || c.includes('khăn') || c.includes('mũ') || c.includes('ví') || c.includes('giày') || c.includes('giay')) return 'accessories';
+    return c;
+}
+
 // Load Products
-async function loadProducts(filter = 'all') {
+async function loadProducts(filter = currentFilter, searchTerm = currentSearchTerm) {
     await hydrateProductsFromServer();
     const productGrid = document.getElementById('productGrid');
-    const filteredProducts = filter === 'all' ? products : products.filter(p => {
-        const cat = String(p.category||'').toLowerCase();
-        const f = String(filter||'').toLowerCase();
-        return cat === f || cat.includes(f);
+    currentFilter = String(filter || 'all').toLowerCase();
+    currentSearchTerm = String(searchTerm || '').trim().toLowerCase();
+
+    let filteredProducts = products.filter(p => {
+        const cat = normalizeCategory(p.category);
+        const name = String(p.name || '').toLowerCase();
+        const desc = String(p.description || '').toLowerCase();
+        const filterOk = currentFilter === 'all' || cat === currentFilter || cat.includes(currentFilter);
+        const searchOk = !currentSearchTerm || name.includes(currentSearchTerm);
+        const searchDescOk = !currentSearchTerm || desc.includes(currentSearchTerm);
+        return filterOk && (searchOk || searchDescOk);
     });
+
+    // If category is too restrictive for a keyword, gracefully fallback to all categories.
+    let autoExpanded = false;
+    if(!filteredProducts.length && currentFilter !== 'all' && currentSearchTerm){
+        filteredProducts = products.filter(p => {
+            const name = String(p.name || '').toLowerCase();
+            const desc = String(p.description || '').toLowerCase();
+            return name.includes(currentSearchTerm) || desc.includes(currentSearchTerm);
+        });
+        if(filteredProducts.length){
+            autoExpanded = true;
+            currentFilter = 'all';
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+            if(allBtn) allBtn.classList.add('active');
+        }
+    }
     
-    productGrid && (productGrid.innerHTML = filteredProducts.map(product => {
+    if(!productGrid) return;
+
+    productGrid.innerHTML = filteredProducts.map(product => {
         const fallbackImg = getImageForProduct(product.name || '', String(product.category||'').toLowerCase());
         const imgSrc = product.image && String(product.image).trim() ? product.image : fallbackImg;
         // Two-stage onerror: first switch to name-based fallback, then to generic placeholder
@@ -240,7 +278,13 @@ async function loadProducts(filter = 'all') {
                 <div style="margin-top:8px;text-align:center"><a href="product.html?id=${product.id}" style="font-size:.85rem;color:#555;text-decoration:underline">Xem chi tiết</a></div>
             </div>
         </div>`;
-    }).join(''));
+    }).join('');
+
+    if(!filteredProducts.length){
+        productGrid.innerHTML = '<div class="search-empty">Không tìm thấy sản phẩm phù hợp. Hãy thử từ khóa hoặc danh mục khác.</div>';
+    }else if(autoExpanded){
+        productGrid.insertAdjacentHTML('afterbegin', '<div class="search-empty">Không có kết quả trong danh mục đã chọn, hệ thống đã hiển thị theo tất cả danh mục cho từ khóa của bạn.</div>');
+    }
 }
 
 // Filter Products
@@ -248,26 +292,408 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        loadProducts(this.dataset.filter);
+        loadProducts(this.dataset.filter, currentSearchTerm);
     });
 });
 
 // Handle category filter from URL query parameter
 document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
-    const category = params.get('category');
-    if (category) {
-        // Find and click the corresponding filter button
-        const filterBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
-        if (filterBtn) {
-            // Remove active class from all buttons
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            // Add active class and load products for this category
-            filterBtn.classList.add('active');
-            loadProducts(category);
-        }
+    const category = String(params.get('category') || 'all').toLowerCase();
+    const keyword = String(params.get('q') || params.get('search') || '').trim();
+
+    const filterBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`) || document.querySelector('.filter-btn[data-filter="all"]');
+    if (filterBtn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        filterBtn.classList.add('active');
     }
+
+    loadProducts(filterBtn ? filterBtn.dataset.filter : 'all', keyword);
 });
+
+function initHeaderSearch(){
+    const searchButtons = document.querySelectorAll('.search-btn');
+    if(!searchButtons.length) return;
+
+    let modal = document.getElementById('headerSearchModal');
+    if(!modal){
+        modal = document.createElement('div');
+        modal.id = 'headerSearchModal';
+        modal.className = 'search-modal';
+        modal.innerHTML = `
+            <div class="search-modal-backdrop" data-close="1"></div>
+            <div class="search-modal-dialog" role="dialog" aria-modal="true" aria-label="Tìm kiếm sản phẩm">
+                <button class="search-modal-close" type="button" data-close="1" aria-label="Đóng">&times;</button>
+                <h3>Tìm sản phẩm nhanh</h3>
+                <p>Chọn danh mục và nhập tên sản phẩm bạn muốn tìm.</p>
+                <div class="search-modal-form">
+                    <label for="headerSearchCategory">Danh mục</label>
+                    <select id="headerSearchCategory">
+                        <option value="all">Tất cả</option>
+                        <option value="women">Nữ</option>
+                        <option value="men">Nam</option>
+                        <option value="accessories">Phụ kiện</option>
+                    </select>
+                    <label for="headerSearchInput">Tên sản phẩm</label>
+                    <input id="headerSearchInput" type="text" placeholder="Ví dụ: áo khoác, váy, túi..." maxlength="80">
+                    <button id="headerSearchSubmit" type="button" class="btn-search-submit"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    const openModal = () => {
+        try{
+            const params = new URLSearchParams(window.location.search);
+            const category = String(params.get('category') || currentFilter || 'all').toLowerCase();
+            const q = String(params.get('q') || params.get('search') || currentSearchTerm || '');
+            const categoryEl = document.getElementById('headerSearchCategory');
+            const inputEl = document.getElementById('headerSearchInput');
+            if(categoryEl) categoryEl.value = ['all','women','men','accessories'].includes(category) ? category : 'all';
+            if(inputEl) inputEl.value = q;
+        }catch(_){ }
+        modal.classList.add('open');
+        document.body.classList.add('search-modal-open');
+        const inputEl = document.getElementById('headerSearchInput');
+        inputEl && setTimeout(()=>inputEl.focus(), 20);
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('open');
+        document.body.classList.remove('search-modal-open');
+    };
+
+    const submitSearch = () => {
+        const category = (document.getElementById('headerSearchCategory')?.value || 'all').trim();
+        const keyword = (document.getElementById('headerSearchInput')?.value || '').trim();
+        const q = new URLSearchParams();
+        if(category && category !== 'all') q.set('category', category);
+        if(keyword) q.set('q', keyword);
+        window.location.href = `products.html${q.toString() ? `?${q.toString()}` : ''}`;
+    };
+
+    searchButtons.forEach(btn => {
+        if(btn.__searchBound) return;
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+        btn.__searchBound = true;
+    });
+
+    modal.addEventListener('click', (e) => {
+        if(e.target?.dataset?.close === '1') closeModal();
+    });
+
+    document.getElementById('headerSearchSubmit')?.addEventListener('click', submitSearch);
+    document.getElementById('headerSearchInput')?.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') submitSearch();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+}
+
+function initSupportRequestWidget(){
+    try{
+        if(document.getElementById('supportWidget')) return;
+        const path = String(window.location.pathname || '').toLowerCase();
+        if(path.includes('/admin')) return;
+        const SUPPORT_IDS_KEY = 'sgb_support_request_ids';
+        const SUPPORT_CODES_KEY = 'sgb_support_tracking_codes';
+        let refreshTimer = null;
+
+        const readSupportIds = ()=>{
+            try{
+                const raw = JSON.parse(localStorage.getItem(SUPPORT_IDS_KEY) || '[]');
+                if(!Array.isArray(raw)) return [];
+                return raw.map((x)=> Number(x)).filter((x)=> Number.isFinite(x) && x > 0).slice(0, 40);
+            }catch(_){ return []; }
+        };
+        const writeSupportIds = (ids)=>{
+            try{ localStorage.setItem(SUPPORT_IDS_KEY, JSON.stringify(ids.slice(0, 40))); }catch(_){ }
+        };
+        const readSupportCodes = ()=>{
+            try{
+                const raw = JSON.parse(localStorage.getItem(SUPPORT_CODES_KEY) || '[]');
+                if(!Array.isArray(raw)) return [];
+                return raw.map((x)=> String(x || '').trim().toUpperCase()).filter(Boolean).slice(0, 40);
+            }catch(_){ return []; }
+        };
+        const writeSupportCodes = (codes)=>{
+            try{ localStorage.setItem(SUPPORT_CODES_KEY, JSON.stringify(codes.slice(0, 40))); }catch(_){ }
+        };
+        const escapeHtml = (s)=> String(s || '').replace(/[&<>"']/g, (c)=> ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+        const wrap = document.createElement('div');
+        wrap.id = 'supportWidget';
+        wrap.className = 'support-widget';
+        wrap.innerHTML = `
+            <button class="support-btn" id="supportOpenBtn" type="button" aria-label="Yêu cầu hỗ trợ">
+                <i class="fas fa-headset"></i>
+                <span>Cần nhân viên hỗ trợ</span>
+            </button>
+            <div class="support-panel" id="supportPanel" aria-hidden="true">
+                <div class="support-head">
+                    <strong>Yêu cầu hỗ trợ</strong>
+                    <button type="button" id="supportCloseBtn" aria-label="Đóng">&times;</button>
+                </div>
+                <p>Mô tả ngắn để nhân viên hỗ trợ bạn nhanh hơn.</p>
+                <textarea id="supportMessage" maxlength="500" placeholder="Ví dụ: Mình cần tư vấn size áo sơ mi nam, cao 1m72 nặng 68kg."></textarea>
+                <div class="support-actions">
+                    <button type="button" class="support-send" id="supportSendBtn">Gửi yêu cầu</button>
+                </div>
+                <div id="supportCodeBox" class="support-code-box" style="display:none">
+                    <span>Mã hỗ trợ của bạn:</span>
+                    <strong id="supportCodeText"></strong>
+                    <button type="button" id="supportCopyCodeBtn">Copy</button>
+                </div>
+                <div class="support-lookup">
+                    <input id="supportTrackingCode" type="text" maxlength="20" placeholder="Nhập mã hỗ trợ (vd: HT-AB12CD)">
+                    <button type="button" class="support-lookup-btn" id="supportLookupBtn">Tra cứu mã</button>
+                </div>
+                <div class="support-history">
+                    <div class="support-history-title">Phản hồi gần đây</div>
+                    <div id="supportHistoryList" class="support-history-list">Bạn chưa gửi yêu cầu hỗ trợ nào.</div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(wrap);
+
+        const openBtn = document.getElementById('supportOpenBtn');
+        const closeBtn = document.getElementById('supportCloseBtn');
+        const panel = document.getElementById('supportPanel');
+        const sendBtn = document.getElementById('supportSendBtn');
+        const lookupBtn = document.getElementById('supportLookupBtn');
+        const codeInput = document.getElementById('supportTrackingCode');
+        const codeBox = document.getElementById('supportCodeBox');
+        const codeText = document.getElementById('supportCodeText');
+        const copyCodeBtn = document.getElementById('supportCopyCodeBtn');
+        const msgEl = document.getElementById('supportMessage');
+        const historyEl = document.getElementById('supportHistoryList');
+
+        const showCode = (code)=>{
+            const c = String(code || '').trim().toUpperCase();
+            if(!c || !codeBox || !codeText) return;
+            codeText.textContent = c;
+            codeBox.style.display = '';
+        };
+
+        const renderHistory = (items)=>{
+            if(!historyEl) return;
+            if(!items || !items.length){
+                historyEl.textContent = 'Bạn chưa gửi yêu cầu hỗ trợ nào.';
+                return;
+            }
+            historyEl.innerHTML = items.map((x)=>{
+                const statusLabel = x.status === 'handled' ? 'Da xu ly' : 'Dang cho';
+                const statusClass = x.status === 'handled' ? 'done' : 'pending';
+                const replyText = x.note ? escapeHtml(x.note) : (x.status === 'handled' ? 'Nhan vien da xu ly yeu cau cua ban.' : 'Nhan vien chua phan hoi.');
+                const timeText = x.handledAt ? `Cap nhat: ${escapeHtml(new Date(x.handledAt).toLocaleString('vi-VN'))}` : `Gui luc: ${escapeHtml(new Date(x.createdAt).toLocaleString('vi-VN'))}`;
+                return `
+                    <div class="support-history-item">
+                        <div class="support-history-line"><span class="support-tag ${statusClass}">${statusLabel}</span> <small>${timeText}</small></div>
+                        ${x.trackingCode ? `<div class="support-history-code">Mã: ${escapeHtml(x.trackingCode)}</div>` : ''}
+                        <div class="support-history-message">${escapeHtml(x.message || '')}</div>
+                        <div class="support-history-reply">${replyText}</div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        const loadHistory = async ()=>{
+            if(!historyEl) return;
+            const ids = readSupportIds();
+            const codes = readSupportCodes();
+            let logged = null;
+            try{ logged = JSON.parse(localStorage.getItem('sgb_logged_in') || 'null'); }catch(_){ logged = null; }
+            const customerEmail = String(logged?.email || '').trim().toLowerCase();
+            if(!ids.length && !codes.length && !customerEmail){ renderHistory([]); return; }
+            historyEl.textContent = 'Dang tai phan hoi...';
+            try{
+                const res = await fetch('/api/support-requests/check', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ids, codes, customerEmail })
+                });
+                if(!res.ok) throw new Error('Khong tai duoc phan hoi');
+                const data = await res.json();
+                const items = Array.isArray(data.items) ? data.items : [];
+                renderHistory(items);
+            }catch(_){
+                historyEl.textContent = 'Tam thoi khong tai duoc phan hoi tu nhan vien.';
+            }
+        };
+
+        const setOpen = (open)=>{
+            panel.classList.toggle('open', !!open);
+            panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+            if(open){
+                setTimeout(()=> msgEl && msgEl.focus(), 30);
+                const storedCodes = readSupportCodes();
+                if(storedCodes.length){
+                    showCode(storedCodes[0]);
+                    if(codeInput && !codeInput.value) codeInput.value = storedCodes[0];
+                }
+                loadHistory();
+                if(refreshTimer) clearInterval(refreshTimer);
+                refreshTimer = setInterval(loadHistory, 20000);
+            }else if(refreshTimer){
+                clearInterval(refreshTimer);
+                refreshTimer = null;
+            }
+        };
+
+        openBtn && openBtn.addEventListener('click', ()=> setOpen(true));
+        closeBtn && closeBtn.addEventListener('click', ()=> setOpen(false));
+
+        sendBtn && sendBtn.addEventListener('click', async ()=>{
+            const message = String(msgEl && msgEl.value || '').trim();
+            if(message.length < 3){
+                showToast('Vui lòng nhập nội dung hỗ trợ chi tiết hơn.','info');
+                return;
+            }
+
+            let logged = null;
+            try{ logged = JSON.parse(localStorage.getItem('sgb_logged_in') || 'null'); }catch(_){ logged = null; }
+
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Đang gửi...';
+            try{
+                const res = await fetch('/api/support-requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message,
+                        page: `${window.location.pathname || ''}${window.location.search || ''}`,
+                        customerName: logged?.name || '',
+                        customerEmail: logged?.email || ''
+                    })
+                });
+                const data = await res.json().catch(()=>({}));
+                if(!res.ok) throw new Error(data.error || 'Không gửi được yêu cầu');
+
+                const ids = readSupportIds();
+                const newId = Number(data.id || 0);
+                if(newId && !ids.includes(newId)){
+                    ids.unshift(newId);
+                    writeSupportIds(ids);
+                }
+
+                const newCode = String(data.trackingCode || '').trim().toUpperCase();
+                if(newCode){
+                    const codes = readSupportCodes();
+                    if(!codes.includes(newCode)){
+                        codes.unshift(newCode);
+                        writeSupportCodes(codes);
+                    }
+                    if(codeInput) codeInput.value = newCode;
+                    showCode(newCode);
+                }
+
+                showToast('Đã gửi yêu cầu hỗ trợ. Nhân viên sẽ phản hồi sớm.','success');
+                if(data.trackingCode){
+                    showToast(`Mã hỗ trợ của bạn: ${data.trackingCode}`,'info',{duration:4500});
+                }
+                if(msgEl) msgEl.value = '';
+                await loadHistory();
+            }catch(err){
+                showToast(`Gửi yêu cầu thất bại: ${err.message || 'Lỗi hệ thống'}`,'error');
+            }finally{
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Gửi yêu cầu';
+            }
+        });
+
+        copyCodeBtn && copyCodeBtn.addEventListener('click', async ()=>{
+            const code = String(codeText && codeText.textContent || '').trim();
+            if(!code) return;
+            try{
+                if(navigator.clipboard && navigator.clipboard.writeText){
+                    await navigator.clipboard.writeText(code);
+                }
+                showToast('Đã copy mã hỗ trợ.','success');
+            }catch(_){
+                showToast('Không copy được tự động, bạn hãy sao chép thủ công.','info');
+            }
+        });
+
+        lookupBtn && lookupBtn.addEventListener('click', async ()=>{
+            const code = String(codeInput && codeInput.value || '').trim().toUpperCase();
+            if(!code){
+                showToast('Vui lòng nhập mã hỗ trợ để tra cứu.','info');
+                return;
+            }
+            const valid = /^HT-[A-Z0-9]{4,10}$/.test(code);
+            if(!valid){
+                showToast('Mã hỗ trợ chưa đúng định dạng.','error');
+                return;
+            }
+            const codes = readSupportCodes();
+            if(!codes.includes(code)){
+                codes.unshift(code);
+                writeSupportCodes(codes);
+            }
+            if(historyEl) historyEl.textContent = 'Dang tra cuu ma ho tro...';
+            try{
+                const res = await fetch(`/api/support-requests/code/${encodeURIComponent(code)}`);
+                if(!res.ok){
+                    if(res.status === 404){
+                        historyEl && (historyEl.textContent = 'Khong tim thay ma ho tro. Vui long kiem tra lai.');
+                        return;
+                    }
+                    throw new Error('Khong ket noi duoc he thong tra cuu');
+                }
+                const item = await res.json();
+                renderHistory(item ? [item] : []);
+                showCode(code);
+            }catch(err){
+                historyEl && (historyEl.textContent = 'Tam thoi khong tai duoc phan hoi. Thu lai sau it phut.');
+                showToast(err.message || 'Tra cuu that bai','error');
+            }
+        });
+    }catch(err){
+        console.warn('initSupportRequestWidget failed', err);
+    }
+}
+
+async function applyHeroMediaFromServer(){
+    const heroSection = document.querySelector('.hero');
+    if(!heroSection) return;
+    try{
+        const res = await fetch('/api/hero-media');
+        if(!res.ok) return;
+        const hero = await res.json();
+        const src = String(hero && hero.src || '').trim();
+        if(!src) return;
+
+        const video = heroSection.querySelector('.hero-video');
+        if(hero.type === 'image'){
+            if(video) video.style.display = 'none';
+            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,.38), rgba(0,0,0,.38)), url('${src.replace(/'/g, "\\'")}')`;
+            heroSection.style.backgroundSize = 'cover';
+            heroSection.style.backgroundPosition = 'center';
+            return;
+        }
+
+        if(video){
+            let source = video.querySelector('source');
+            if(!source){
+                source = document.createElement('source');
+                source.type = 'video/mp4';
+                video.appendChild(source);
+            }
+            source.src = src;
+            video.style.display = '';
+            video.load();
+            try{ await video.play(); }catch(_){ }
+        }
+    }catch(err){
+        console.warn('applyHeroMediaFromServer failed', err);
+    }
+}
 
 // Add to Cart
 async function addToCart(productId) {
@@ -415,6 +841,9 @@ try{
 // Also auto-render cart page if the container exists, regardless of pathname differences
 document.addEventListener('DOMContentLoaded', () => {
     try{
+        initHeaderSearch();
+        initSupportRequestWidget();
+        applyHeroMediaFromServer();
         if(document.getElementById('cartPageItems')){
             console.log('DOMContentLoaded: cart page container detected, rendering now');
             renderCartPage();
@@ -1060,6 +1489,32 @@ window.addEventListener('click', (e) => {
     try{
         const isAIPage = /style-advisor\.html$/i.test(window.location.pathname);
 
+        function ensureOffersInNav(){
+            try{
+                const nav = document.querySelector('.nav-menu') || document.querySelector('nav .menu') || document.querySelector('header nav');
+                if(!nav) return;
+                if(nav.querySelector('.nav-offers')) return;
+
+                const li = document.createElement('li');
+                li.className = 'nav-offers';
+                li.innerHTML = `
+                    <a href="products.html?q=sale">Ưu đãi <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
+                    <div class="offer-dropdown" aria-label="Danh sách ưu đãi">
+                        <a href="products.html?q=sơ mi">Sơ Mi Ưu Đãi</a>
+                        <a href="products.html?q=polo">Polo Sale Sốc</a>
+                        <a href="products.html?q=quần">Quần Giá Tốt</a>
+                    </div>
+                `;
+
+                const aiItem = Array.from(nav.querySelectorAll('a')).find(a => /style-advisor\.html$/i.test(a.getAttribute('href') || ''));
+                if(aiItem && aiItem.parentElement){
+                    nav.insertBefore(li, aiItem.parentElement);
+                }else{
+                    nav.appendChild(li);
+                }
+            }catch(_){ /* ignore */ }
+        }
+
         function ensureAIInNav(){
             try{
                 // Try common nav containers
@@ -1099,6 +1554,7 @@ window.addEventListener('click', (e) => {
         }
 
         function init(){
+            ensureOffersInNav();
             ensureAIInNav();
             ensureAIFab();
         }
