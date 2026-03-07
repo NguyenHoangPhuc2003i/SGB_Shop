@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - Banners</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="modern.css?v=1">
+</head>
+<body>
+  <header class="admin-appbar">
+    <div class="bar">
+      <div class="admin-brand"><span class="dot"></span> Admin</div>
+      <nav class="admin-nav">
+        <a href="/admin.html">Người dùng</a>
+        <a href="/admin-dashboard.html">Tổng quan</a>
+        <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-categories.html">Danh mục</a>
+        <a href="/admin-orders.html">Đơn hàng</a>
+        <a href="/admin-coupons.html">Mã giảm giá</a>
+        <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-ai-logs.html">Logs AI</a>
+      </nav>
+      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
+      <button id="adminThemeToggle" class="theme-toggle">Theme</button>
+    </div>
+  </header>
+  <div class="admin-container">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Admin - Banners</div>
+        <div class="table-actions" style="margin-left:auto"><button id="refresh" class="btn btn-outline">Làm mới</button></div>
+      </div>
+      <div class="card-body">
+
+    <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">Cần quyền admin.</div>
+
+    <fieldset class="card" style="padding:0">
+      <div class="card-header"><div class="card-title">Thêm/Sửa banner</div></div>
+      <div class="card-body">
+      <legend>Thêm/Sửa banner</legend>
+      <label>Tiêu đề</label>
+      <input id="title" type="text" placeholder="Hero mùa hè">
+      <div class="grid-2" style="margin-top:8px">
+        <div>
+          <label>Sắp xếp</label>
+          <input id="sortOrder" type="number" min="0" step="1" placeholder="0">
+        </div>
+        <div>
+          <label><input id="active" type="checkbox" checked> Kích hoạt</label>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <label>Ảnh banner</label>
+        <input id="imageFile" type="file" accept="image/*">
+        <div id="imagePreview" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-top:12px">
+        <button id="submit" class="btn btn-primary">Lưu</button>
+        <button id="reset" class="btn btn-warning">Xóa form</button>
+      </div>
+      </div>
+    </fieldset>
+
+    <table id="list" class="table" style="display:none">
+      <thead><tr><th>ID</th><th>Tiêu đề</th><th>Ảnh</th><th>Trạng thái</th><th>Sort</th><th>Thao tác</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div id="empty" style="margin-top:12px;color:#a8adbf">Chưa có banner.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+  <script src="admin-banners.js"></script>
+</body>
+</html>

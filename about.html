@@ -4,17 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Về chúng tôi - STYLE GLAMOUR BEATS</title>
-    <link rel="stylesheet" href="Untitled-1.css">
+    <link rel="stylesheet" href="site.css">
+    <link rel="stylesheet" href="modern.css?v=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
     <body>
-    <script>
-        // Require login before viewing
-        try{
-            const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
-            if(!logged){ window.location.replace('auth.html'); }
-        }catch(e){ window.location.replace('auth.html'); }
-    </script>
     <header class="header">
         <nav class="navbar">
             <div class="container">
@@ -26,6 +20,7 @@
                     <li><a href="products.html">Sản phẩm</a></li>
                     <li><a href="about.html">Về chúng tôi</a></li>
                     <li><a href="contact.html">Liên hệ</a></li>
+                    <li><a href="style-advisor.html">Tư vấn phong cách (AI)</a></li>
                 </ul>
                 <div class="nav-icons">
                     <button class="icon-btn search-btn"><i class="fas fa-search"></i></button>
@@ -105,6 +100,6 @@
         </div>
     </footer>
 
-    <script src="Untitled-1.js"></script>
+    <script src="site.js"></script>
 </body>
 </html>

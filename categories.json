@@ -1,0 +1,6 @@
+[
+  { "id": 1714828800000, "name": "Áo thun", "description": "T-shirt cơ bản", "active": true, "createdAt": "2024-05-04T00:00:00.000Z" },
+  { "id": 1714828801000, "name": "Quần Jean", "description": "Denim", "active": true, "createdAt": "2024-05-04T00:00:01.000Z" },
+  { "id": 1714828802000, "name": "Váy", "description": "Dresses", "active": true, "createdAt": "2024-05-04T00:00:02.000Z" },
+  { "id": 1714828803000, "name": "Áo sơ mi", "description": "Shirts", "active": true, "createdAt": "2024-05-04T00:00:03.000Z" }
+]

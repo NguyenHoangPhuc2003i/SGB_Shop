@@ -55,6 +55,9 @@ const products = [
         { id: 50, name: 'Giày Loafer Da', price: 1150000, category: 'men', image: 'https://th.bing.com/th/id/R.ad9fbcf2bd4f147136867e9b95d9112f?rik=xI76M5zP4M%2fmfA&pid=ImgRaw&r=0' }
 ];
 
+// Final-stage placeholder if all other images fail (local asset served by server)
+const PLACEHOLDER_IMG = '/uploads/placeholder.svg';
+
 // Replace placeholder images with realistic, category-appropriate photos from curated Unsplash IDs
 // Chọn ảnh đúng loại sản phẩm theo từ khoá tên để KHỚP món: áo khoác, áo polo, quần tây âu, quần jeans, balo, túi xách, giày, thắt lưng
 function getImageForProduct(name, category) {
@@ -110,6 +113,38 @@ function getImageForProduct(name, category) {
     return 'https://images.unsplash.com/photo-1520974692088-5cb9130b7003';
 }
 
+function shuffleArray(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+}
+
+function getCrossSellProducts(current, count=4){
+    const pool = products.filter(p => p && p.id !== current.id);
+    if(!pool.length) return [];
+    const cat = String(current.category||'').toLowerCase();
+    let picks = [];
+    if(cat === 'men' || cat === 'women'){
+        const same = pool.filter(p => p.category === cat);
+        const acc = pool.filter(p => p.category === 'accessories');
+        picks = shuffleArray(acc).slice(0,2).concat(shuffleArray(same).slice(0,2));
+    }else if(cat === 'accessories'){
+        const men = pool.filter(p => p.category === 'men');
+        const women = pool.filter(p => p.category === 'women');
+        picks = shuffleArray(men).slice(0,2).concat(shuffleArray(women).slice(0,2));
+    }
+    // Fill remaining
+    const remain = shuffleArray(pool);
+    for(const p of remain){
+        if(picks.length >= count) break;
+        if(!picks.find(x=>x.id===p.id)) picks.push(p);
+    }
+    return picks.slice(0, count);
+}
+
 // Gán ảnh mặc định theo tên/chủng loại chỉ khi chưa có ảnh tùy chỉnh
 products.forEach(p => {
     if (!p.image) {
@@ -144,15 +179,55 @@ function loadCart(){
     }catch(e){ cart = []; }
 }
 
+// Toggle: use server catalog or keep local 50 products
+const ENABLE_SERVER_CATALOG = true;
+
+// Attempt to hydrate local catalog from server once
+let __catalogHydrated = false;
+async function hydrateProductsFromServer(){
+    // Keep original 50 products with old images when disabled
+    if(!ENABLE_SERVER_CATALOG){ __catalogHydrated = true; return; }
+    if(__catalogHydrated) return;
+    try{
+        const resp = await fetch('/api/products');
+        if(!resp.ok) return;
+        const list = await resp.json();
+        if(Array.isArray(list) && list.length){
+            // Normalize into local schema used by UI
+            const normalized = list.map(p=>{
+                const img = (p.images && (p.images.cover || (p.images.gallery && p.images.gallery[0]))) || '';
+                const category = String(p.category||'').toLowerCase();
+                const name = p.name || `#${p.id}`;
+                const price = (p.salePrice != null ? Number(p.salePrice) : Number(p.price)) || 0;
+                return { id:Number(p.id)||Date.now(), name, price, category, image: img || getImageForProduct(name, category), badge: '' };
+            });
+            // Replace contents of local products array so existing code keeps working
+            products.splice(0, products.length, ...normalized);
+            __catalogHydrated = true;
+            console.log('Hydrated products from server:', products.length);
+        }
+    }catch(err){ console.warn('hydrateProductsFromServer failed, using local catalog', err); }
+}
+
 // Load Products
-function loadProducts(filter = 'all') {
+async function loadProducts(filter = 'all') {
+    await hydrateProductsFromServer();
     const productGrid = document.getElementById('productGrid');
-    const filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+    const filteredProducts = filter === 'all' ? products : products.filter(p => {
+        const cat = String(p.category||'').toLowerCase();
+        const f = String(filter||'').toLowerCase();
+        return cat === f || cat.includes(f);
+    });
     
-    productGrid && (productGrid.innerHTML = filteredProducts.map(product => `
+    productGrid && (productGrid.innerHTML = filteredProducts.map(product => {
+        const fallbackImg = getImageForProduct(product.name || '', String(product.category||'').toLowerCase());
+        const imgSrc = product.image && String(product.image).trim() ? product.image : fallbackImg;
+        // Two-stage onerror: first switch to name-based fallback, then to generic placeholder
+        const onErr = `if(!this.dataset.swap){this.dataset.swap='1';this.src='${fallbackImg}';}else{this.onerror=null;this.src='${PLACEHOLDER_IMG}';}`;
+        return `
         <div class="product-card" data-category="${product.category}">
             <div class="product-image">
-                <a href="product.html?id=${product.id}"><img src="${product.image}" alt="${product.name}"></a>
+                <a href="product.html?id=${product.id}"><img src="${imgSrc}" alt="${product.name}" onerror="${onErr}"></a>
                 ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
             </div>
             <div class="product-info">
@@ -164,8 +239,8 @@ function loadProducts(filter = 'all') {
                 <button class="buy-now" data-id="${product.id}" onclick="buyNow(${product.id})" style="width:100%;background:var(--accent-color);color:#fff;border:none;padding:12px;cursor:pointer;font-weight:600;margin-top:8px">Thanh toán</button>
                 <div style="margin-top:8px;text-align:center"><a href="product.html?id=${product.id}" style="font-size:.85rem;color:#555;text-decoration:underline">Xem chi tiết</a></div>
             </div>
-        </div>
-    `).join(''));
+        </div>`;
+    }).join(''));
 }
 
 // Filter Products
@@ -177,8 +252,26 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
+// Handle category filter from URL query parameter
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    if (category) {
+        // Find and click the corresponding filter button
+        const filterBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
+        if (filterBtn) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            // Add active class and load products for this category
+            filterBtn.classList.add('active');
+            loadProducts(category);
+        }
+    }
+});
+
 // Add to Cart
-function addToCart(productId) {
+async function addToCart(productId) {
+    await hydrateProductsFromServer();
     const product = products.find(p => p.id === productId);
     if(!product){
         console.error('addToCart: product not found', productId);
@@ -196,8 +289,9 @@ function addToCart(productId) {
 }
 
 // Buy now: chuyển tới trang chi tiết sản phẩm
-function buyNow(productId){
+async function buyNow(productId){
     try{
+        await hydrateProductsFromServer();
         const product = products.find(p => p.id === Number(productId));
         if(!product){ showToast('Sản phẩm không tồn tại.','error'); return; }
         try{ showToast('Mở trang sản phẩm…','info',{duration:800}); }catch(e){}
@@ -279,15 +373,15 @@ if(closeBtn){
 
 function displayCart() {
     const cartItems = document.getElementById('cartItems');
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    const total = cart.reduce((sum, item) => sum + item.price * (item.qty||1), 0);
     
     console.log('displayCart: items', cart.length);
     if(!cartItems){ console.warn('displayCart: cartItems element not found'); return; }
 
     cartItems.innerHTML = cart.map(item => `
         <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee;">
-            <span>${item.name}</span>
-            <span>${item.price.toLocaleString('vi-VN')}đ</span>
+            <span>${item.name} × ${item.qty||1}</span>
+            <span>${(item.price*(item.qty||1)).toLocaleString('vi-VN')}đ</span>
         </div>
     `).join('');
     
@@ -377,7 +471,8 @@ function getQueryParam(name){
     try{ return new URLSearchParams(window.location.search).get(name); }catch(e){ return null; }
 }
 
-function addConfiguredToCart(productId, {size='F', qty=1}={}){
+async function addConfiguredToCart(productId, {size='F', qty=1}={}){
+    await hydrateProductsFromServer();
     const product = products.find(p => p.id === Number(productId));
     if(!product){ showToast('Sản phẩm không tồn tại.','error'); return; }
     qty = Math.max(1, Number(qty)||1);
@@ -390,19 +485,22 @@ function addConfiguredToCart(productId, {size='F', qty=1}={}){
     showToast('Đã thêm vào giỏ hàng!','success');
 }
 
-function renderProductDetail(){
+async function renderProductDetail(){
     const id = getQueryParam('id');
     const root = document.getElementById('productDetailRoot');
+    await hydrateProductsFromServer();
     const product = products.find(p => p.id === Number(id));
     if(!root) return;
     if(!product){ root.innerHTML = '<p>Không tìm thấy sản phẩm. <a href="products.html">Quay lại danh sách</a></p>'; return; }
     const now = product.price;
     const old = Math.round(now * 1.2);
     const off = Math.round((1 - now/old) * 100);
-    const thumbs = [product.image, product.image, product.image];
+    const heroImg = (product.image && String(product.image).trim()) ? product.image : getImageForProduct(product.name||'', String(product.category||'').toLowerCase());
+    const thumbs = [heroImg, heroImg, heroImg];
+    const cross = getCrossSellProducts(product, 4);
     root.innerHTML = `
         <div class="pd-gallery">
-            <img id="pdHero" class="pd-hero" src="${product.image}" alt="${product.name}">
+            <img id="pdHero" class="pd-hero" src="${heroImg}" alt="${product.name}" onerror="if(!this.dataset.swap){this.dataset.swap='1';this.src='${heroImg}';}else{this.onerror=null;this.src='${PLACEHOLDER_IMG}';}">
             <div class="pd-thumbs">
                 ${thumbs.map((t,i)=>`<img class="pd-thumb" data-src="${t}" src="${t}" alt="thumb ${i+1}">`).join('')}
             </div>
@@ -428,6 +526,24 @@ function renderProductDetail(){
             <div class="pd-actions">
                 <button id="addToCartDetail" class="btn-add"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
                 <button id="buyNowDetail" class="btn-buy">Mua ngay</button>
+            </div>
+        </div>
+        <div class="pd-recommend">
+            <div class="pd-recommend-title">Sản phẩm phối cùng</div>
+            <div class="pd-recommend-grid">
+                ${cross.map(p=>{
+                    const img = (p.image && String(p.image).trim()) ? p.image : getImageForProduct(p.name||'', String(p.category||'').toLowerCase());
+                    return `
+                        <div class="pd-reco-card" data-id="${p.id}">
+                            <a href="product.html?id=${p.id}"><img src="${img}" alt="${p.name}" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMG}'"></a>
+                            <div class="pd-reco-info">
+                                <div class="pd-reco-name">${p.name}</div>
+                                <div class="pd-reco-price">${Number(p.price||0).toLocaleString('vi-VN')}đ</div>
+                                <button class="pd-reco-add" data-id="${p.id}">Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
             </div>
         </div>
     `;
@@ -474,6 +590,16 @@ function renderProductDetail(){
             window.location.href = 'checkout.html';
         });
     }catch(e){ /* ignore */ }
+
+    // cross-sell add to cart buttons
+    try{
+        root.querySelectorAll('.pd-reco-add').forEach(btn => {
+            btn.addEventListener('click', async ()=>{
+                const pid = Number(btn.dataset.id||0);
+                if(pid) await addToCart(pid);
+            });
+        });
+    }catch(_){ /* ignore */ }
 }
 
 if(cartCheckoutBtn){
@@ -666,22 +792,49 @@ try{ initPaymentMethods(); }catch(e){ /* ignore */ }
 const applyPromoBtn = document.getElementById('applyPromo');
 const promoInput = document.getElementById('promoCode');
 if(applyPromoBtn){
-    applyPromoBtn.addEventListener('click', () => {
+    applyPromoBtn.addEventListener('click', async () => {
         const code = (promoInput.value||'').trim().toUpperCase();
-        const subtotal = cart.reduce((s, it) => s + it.price, 0);
+        const subtotal = cart.reduce((s, it) => s + it.price * (it.qty||1), 0);
         let discount = 0;
         let shippingFee = 30000;
         if(!code){ showToast('Nhập mã giảm giá trước khi áp dụng.','info'); return; }
-        // Simple promo rules
-        if(code === 'SGB10'){
-            discount = Math.round(subtotal * 0.10);
-            showToast('Áp dụng mã SGB10: giảm 10%','success');
-        } else if(code === 'FREESHIP'){
-            discount = 0;
-            shippingFee = 0;
-            showToast('Áp dụng mã FREESHIP: Miễn phí vận chuyển','success');
-        } else {
-            showToast('Mã giảm giá không hợp lệ.','error');
+
+        let applied = false;
+        // Try server-side validation first
+        try{
+            const resp = await fetch(`/api/coupons/validate?code=${encodeURIComponent(code)}`);
+            if(resp.ok){
+                const data = await resp.json();
+                if(data && data.valid){
+                    if(data.type === 'percent'){
+                        discount = Math.round(subtotal * (Number(data.value)||0) / 100);
+                        showToast(`Áp dụng mã ${data.code}: giảm ${data.value}%`,'success');
+                    }else if(data.type === 'amount'){
+                        discount = Math.min(subtotal, Number(data.value)||0);
+                        showToast(`Áp dụng mã ${data.code}: giảm ${discount.toLocaleString('vi-VN')}đ`,'success');
+                    }else if(data.type === 'freeship'){
+                        shippingFee = 0;
+                        showToast(`Áp dụng mã ${data.code}: Miễn phí vận chuyển`,'success');
+                    }
+                    applied = true;
+                }
+            }
+        }catch(err){ /* offline/local fallback below */ }
+
+        // Fallback to local rules if not applied via API
+        if(!applied){
+            if(code === 'SGB10'){
+                discount = Math.round(subtotal * 0.10);
+                showToast('Áp dụng mã SGB10: giảm 10%','success');
+                applied = true;
+            } else if(code === 'FREESHIP'){
+                discount = 0;
+                shippingFee = 0;
+                showToast('Áp dụng mã FREESHIP: Miễn phí vận chuyển','success');
+                applied = true;
+            } else {
+                showToast('Mã giảm giá không hợp lệ.','error');
+            }
         }
 
         // update displayed values
@@ -744,7 +897,7 @@ if(checkoutForm){
         }
 
         // Build order
-        const subtotal = cart.reduce((s, it) => s + it.price, 0);
+        const subtotal = cart.reduce((s, it) => s + it.price * (it.qty||1), 0);
         const shippingFee = document.getElementById('shippingFee')?.textContent ? parseInt(document.getElementById('shippingFee').textContent.replace(/\D/g,'')) : 30000;
         const discountRaw = document.getElementById('discount')?.textContent ? parseInt(document.getElementById('discount').textContent.replace(/\D/g,'')) : 0;
         const discount = Math.abs(discountRaw);
@@ -752,14 +905,30 @@ if(checkoutForm){
 
         const orderNumber = Date.now().toString().slice(-6) + Math.floor(Math.random()*90+10).toString();
 
+        let logged = null;
+        try{ logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ logged = null; }
         const order = {
             id: `FS${orderNumber}`,
             name: fullName,
+            email: logged?.email || '',
+            userId: logged?.id || null,
             phone, address, city, district,
             items: cart.slice(),
             subtotal, shippingFee, discount, total, payment,
             createdAt: new Date().toISOString()
         };
+
+        // Try to persist order to server when available
+        (async ()=>{
+            try{
+                const resp = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(order)
+                });
+                if(!resp.ok){ console.warn('Server order save failed:', await resp.text()); }
+            }catch(err){ console.warn('Skip server order save (offline/local mode):', err); }
+        })();
 
         // save to localStorage (simple persistence)
         try{
@@ -812,12 +981,15 @@ if(checkoutForm){
                         <p>Cảm ơn bạn đã mua sắm tại STYLE GLAMOUR BEATS.</p>
                         <div class="actions">
                             <button class="btn-secondary" id="backHomeBtn">Về trang chủ</button>
+                            <button class="btn-secondary" id="viewProfileBtn">Hồ sơ của tôi</button>
                             <button class="btn-accent" id="viewProductsBtn">Xem thêm sản phẩm</button>
                         </div>
                     `;
                     const backBtn = document.getElementById('backHomeBtn');
+                    const profileBtn = document.getElementById('viewProfileBtn');
                     const viewBtn = document.getElementById('viewProductsBtn');
                     backBtn && backBtn.addEventListener('click', ()=>{ window.location.href='SGBweb.html'; });
+                    profileBtn && profileBtn.addEventListener('click', ()=>{ window.location.href='profile.html'; });
                     viewBtn && viewBtn.addEventListener('click', ()=>{ window.location.href='products.html'; });
                 }
                 showToast('Đơn hàng đã được tạo thành công!','success');
@@ -839,3 +1011,126 @@ window.addEventListener('click', (e) => {
     if(e.target === checkoutModal) checkoutModal.style.display = 'none';
     if(e.target === successModal) successModal.style.display = 'none';
 });
+
+// ===== Mobile Orientation Tip =====
+(function(){
+    try{
+        const DISMISS_KEY = 'sgb_orient_tip_dismissed';
+        let tip = null;
+        function ensureTip(){
+            if(tip && document.body.contains(tip)) return tip;
+            tip = document.createElement('div');
+            tip.className = 'orientation-tip';
+            tip.innerHTML = `
+                <div class="msg"><i class="fas fa-mobile-alt"></i><span>Vui lòng xoay ngang (landscape) để trải nghiệm tốt hơn.</span></div>
+                <div class="actions"><button class="btn-close" type="button">Đã hiểu</button></div>
+            `;
+            tip.querySelector('.btn-close').addEventListener('click', ()=>{
+                tip.style.display='none';
+                try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(_){ }
+            });
+            document.body.appendChild(tip);
+            return tip;
+        }
+        function shouldShow(){
+            const dismissed = localStorage.getItem(DISMISS_KEY) === '1';
+            const isPortrait = (window.matchMedia && window.matchMedia('(orientation: portrait)').matches) || (window.innerHeight > window.innerWidth);
+            return !dismissed && isPortrait && window.innerWidth < 820;
+        }
+        function update(){
+            try{
+                const el = ensureTip();
+                el.style.display = shouldShow() ? 'flex' : 'none';
+            }catch(_){ }
+        }
+        const mq = window.matchMedia ? window.matchMedia('(orientation: portrait)') : null;
+        if(mq){
+            if(mq.addEventListener) mq.addEventListener('change', update);
+            else if(mq.addListener) mq.addListener(update);
+        }
+        window.addEventListener('resize', update);
+        document.addEventListener('DOMContentLoaded', update);
+        // initial
+        update();
+    }catch(e){ /* ignore */ }
+})();
+
+// ===== Global AI Access (Nav item + Floating button) =====
+(function(){
+    try{
+        const isAIPage = /style-advisor\.html$/i.test(window.location.pathname);
+
+        function ensureAIInNav(){
+            try{
+                // Try common nav containers
+                const nav = document.querySelector('.nav-menu') || document.querySelector('nav .menu') || document.querySelector('header nav');
+                if(!nav) return;
+                // Check if a link to style-advisor.html already exists
+                const has = nav.querySelector('a[href$="style-advisor.html"]');
+                if(has) return;
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = 'style-advisor.html';
+                a.textContent = 'Tư vấn phong cách (AI)';
+                a.style.fontWeight = '600';
+                li.appendChild(a);
+                // Prefer UL children if present
+                const ul = nav.querySelector('ul');
+                if(ul) ul.appendChild(li); else nav.appendChild(li);
+            }catch(_){ /* ignore */ }
+        }
+
+        function ensureAIFab(){
+            if(isAIPage) return; // don't show on AI page itself
+            // Avoid duplicate
+            if(document.querySelector('.ai-fab')) return;
+            const fab = document.createElement('a');
+            fab.className = 'ai-fab';
+            fab.href = 'style-advisor.html';
+            fab.setAttribute('aria-label','Mở Trợ lý phong cách (AI)');
+            fab.innerHTML = 'AI';
+            fab.style.cssText = [
+                'position:fixed','right:18px','bottom:18px','z-index:9999',
+                'background:#111','color:#fff','width:44px','height:44px','border-radius:50%',
+                'display:flex','align-items:center','justify-content:center','font-weight:700','box-shadow:0 6px 20px rgba(0,0,0,.2)',
+                'text-decoration:none','letter-spacing:.5px'
+            ].join(';');
+            document.body.appendChild(fab);
+        }
+
+        function init(){
+            ensureAIInNav();
+            ensureAIFab();
+        }
+
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+    }catch(_){ /* ignore */ }
+})();
+
+// ===== Profile navigation (user icon/name) =====
+(function(){
+    function getLogged(){
+        try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ return null; }
+    }
+    function goProfile(){
+        const logged = getLogged();
+        if(logged && logged.email){
+            window.location.href = 'profile.html';
+        }else{
+            window.location.href = 'auth.html';
+        }
+    }
+    function init(){
+        const btns = [];
+        const nameBtn = document.getElementById('userNameBtn');
+        if(nameBtn) btns.push(nameBtn);
+        document.querySelectorAll('.user-btn').forEach(b=>btns.push(b));
+        if(btns.length === 0) return;
+        btns.forEach(btn=>{
+            btn.addEventListener('click', (e)=>{ e.preventDefault(); goProfile(); });
+        });
+    }
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+})();

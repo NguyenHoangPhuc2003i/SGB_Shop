@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - Quản lý sản phẩm</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="modern.css?v=1">
+</head>
+<body>
+  <header class="admin-appbar">
+    <div class="bar">
+      <div class="admin-brand"><span class="dot"></span> Admin</div>
+      <nav class="admin-nav">
+        <a href="/admin.html">Người dùng</a>
+        <a href="/admin-dashboard.html">Tổng quan</a>
+        <a href="/admin-products.html">Sản phẩm</a>
+        <a href="/admin-categories.html">Danh mục</a>
+        <a href="/admin-orders.html">Đơn hàng</a>
+        <a href="/admin-coupons.html">Mã giảm giá</a>
+        <a href="/admin-banners.html">Banners</a>
+        <a href="/admin-ai-logs.html">Logs AI</a>
+      </nav>
+      <a class="btn btn-outline" href="/SGBweb.html">Trở lại trang chủ</a>
+      <button id="adminThemeToggle" class="theme-toggle">Theme</button>
+    </div>
+  </header>
+  <div class="admin-container">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Admin - Quản lý sản phẩm</div>
+        <div class="table-actions" style="margin-left:auto"><button id="refresh" class="btn btn-outline">Làm mới</button></div>
+      </div>
+      <div class="card-body">
+
+    <div id="guard" style="display:none;padding:10px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px;color:#856404;margin-top:12px">
+      Bạn cần đăng nhập với quyền admin để thao tác (tạo/sửa/xóa). <a href="auth.html" style="margin-left:8px">Đăng nhập</a>
+    </div>
+
+    <fieldset class="card" style="padding:0">
+      <div class="card-header"><div class="card-title">Thêm/Sửa sản phẩm</div></div>
+      <div class="card-body">
+      <legend>Thêm/Sửa sản phẩm</legend>
+      <div class="grid">
+        <div>
+          <label>Tên sản phẩm</label>
+          <input id="name" type="text" placeholder="Áo thun basic">
+        </div>
+        <div>
+          <label>Danh mục</label>
+          <select id="category"></select>
+          <div style="font-size:12px;color:#666;margin-top:4px">Danh mục hiển thị từ hệ thống. Thêm mới tại "Quản lý danh mục".</div>
+        </div>
+        <div>
+          <label>Thương hiệu</label>
+          <input id="brand" type="text" placeholder="SGB">
+        </div>
+        <div>
+          <label>Giá gốc (VND)</label>
+          <input id="price" type="number" min="0" step="1000" placeholder="199000">
+        </div>
+        <div>
+          <label>Giá khuyến mãi (VND)</label>
+          <input id="salePrice" type="number" min="0" step="1000" placeholder="159000">
+        </div>
+        <div style="grid-column:1/-1">
+          <label>Mô tả</label>
+          <textarea id="description" rows="3" placeholder="Chất liệu cotton, form regular, thoáng mát..."></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <label>Biến thể (Size & Màu sắc)</label>
+        <div class="variants-list" id="variants">
+          <!-- rows here -->
+        </div>
+        <div class="variant-row">
+          <select id="varSize">
+            <option>S</option><option>M</option><option>L</option><option>XL</option>
+          </select>
+          <input id="varColor" type="text" placeholder="Màu (ví dụ: Đỏ)">
+          <input id="varStock" type="number" min="0" step="1" placeholder="Tồn kho">
+          <input id="varSku" type="text" placeholder="SKU (tùy chọn)">
+          <button id="addVariant" class="btn">Thêm biến thể</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <label>Hình ảnh</label>
+        <div>
+          <span class="badge">Ảnh bìa</span>
+          <input id="cover" type="file" accept="image/*">
+        </div>
+        <div style="margin-top:6px">
+          <span class="badge">Ảnh chi tiết</span>
+          <input id="gallery" type="file" accept="image/*" multiple>
+        </div>
+        <div class="images-preview" id="imagesPreview"></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button id="submit" class="btn btn-primary">Lưu sản phẩm</button>
+        <button id="reset" class="btn btn-warning">Xóa form</button>
+      </div>
+      </div>
+    </fieldset>
+
+    <table id="list" class="table" style="display:none">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên</th>
+          <th>Danh mục</th>
+          <th>Thương hiệu</th>
+          <th>Giá</th>
+          <th>Ảnh</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="empty" style="margin-top:12px;color:#a8adbf">Chưa có sản phẩm.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+  <script src="admin-products.js"></script>
+</body>
+</html>

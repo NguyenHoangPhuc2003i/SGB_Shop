@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Đăng nhập / Đăng ký - STYLE GLAMOUR BEATS</title>
-    <link rel="stylesheet" href="Untitled-1.css">
+    <link rel="stylesheet" href="site.css">
+    <link rel="stylesheet" href="modern.css?v=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Improved inline styles for the auth page */
@@ -144,16 +145,21 @@
 
     <script>
         // Detect local Node server and enable API when served from it
-        const SERVER_ENABLED = /^http:\/\/(localhost|127\.0\.0\.1):3000$/i.test(location.origin);
+        const SERVER_ENABLED = /^http:\/\/(localhost|127\.0\.0\.1):300(0|1)$/i.test(location.origin);
 
         // If already logged in, skip auth page for smoother return visits
-        try {
-            const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
-            if (logged && logged.name) {
-                window.location.replace('SGBweb.html');
+        // Add ?force=1 to always show the login page.
+        const forceAuth = new URLSearchParams(location.search).get('force') === '1';
+        if (!forceAuth) {
+            try {
+                const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
+                if (logged && logged.name) {
+                    if(logged.role === 'admin') window.location.replace('admin.html');
+                    else window.location.replace('SGBweb.html');
+                }
+            } catch (_) {
+                // ignore parse errors
             }
-        } catch (_) {
-            // ignore parse errors
         }
 
         // If the page is opened as a file:// URL, show guidance for running a local HTTP server.
@@ -238,8 +244,8 @@
                         });
                         if(resp.ok){
                             const data = await resp.json();
-                            localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email}));
-                            window.location.href = 'SGBweb.html';
+                            localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email,role:data.role||'user'}));
+                            window.location.href = (data.role==='admin') ? 'admin.html' : 'SGBweb.html';
                             return;
                         } else {
                             const errj = await resp.json().catch(()=>({error:'Server error'}));
@@ -255,8 +261,8 @@
                 // localStorage fallback
                 const users = getUsers();
                 if(users.find(u=>u.email===email)){ err.textContent='Email đã được đăng ký'; return; }
-                users.push({name,email,password:pw}); saveUsers(users);
-                localStorage.setItem('sgb_logged_in', JSON.stringify({name,email}));
+                users.push({name,email,password:pw,role:'user'}); saveUsers(users);
+                localStorage.setItem('sgb_logged_in', JSON.stringify({name,email,role:'user'}));
                 window.location.href = 'SGBweb.html';
             });
 
@@ -272,8 +278,8 @@
                         const resp = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email,password:pw}) });
                         if(resp.ok){
                             const data = await resp.json();
-                            localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email}));
-                            window.location.href = 'SGBweb.html';
+                            localStorage.setItem('sgb_logged_in', JSON.stringify({name:data.name,email:data.email,role:data.role||'user'}));
+                            window.location.href = (data.role==='admin') ? 'admin.html' : 'SGBweb.html';
                             return;
                         } else {
                             const errj = await resp.json().catch(()=>({error:'Server error'}));
@@ -290,8 +296,8 @@
                 const users = getUsers();
                 const user = users.find(u=>u.email===email && u.password===pw);
                 if(!user){ err.textContent='Email hoặc mật khẩu không đúng'; return; }
-                localStorage.setItem('sgb_logged_in', JSON.stringify({name:user.name,email:user.email}));
-                window.location.href = 'SGBweb.html';
+                localStorage.setItem('sgb_logged_in', JSON.stringify({name:user.name,email:user.email,role:user.role||'user'}));
+                window.location.href = (user.role==='admin') ? 'admin.html' : 'SGBweb.html';
             });
 
             continueGuest.addEventListener('click', (e)=>{
@@ -304,3 +310,4 @@
     </script>
 </body>
 </html>
+<script src="site.js?v=3"></script>

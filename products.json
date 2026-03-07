@@ -1,0 +1,326 @@
+[
+  { "id": 1, "name": "Áo Sơ Mi Cao Cấp", "price": 590000, "category": "men", "image": "https://cache.maysoichivang.com/wp-content/uploads/2021/12/ao-so-mi-nam-thoi-trang-cao-cap-1.jpg", "badge": "New", "description": "Áo sơ mi cao cấp", "brand": "", "salePrice": null, "images": { "cover": "https://cache.maysoichivang.com/wp-content/uploads/2021/12/ao-so-mi-nam-thoi-trang-cao-cap-1.jpg", "gallery": [] }, "variants": [] },
+  { "id": 2, "name": "Váy Dạ Hội", "price": 1290000, "category": "women", "image": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "Hot", "description": "Váy dạ hội", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 3, "name": "Túi Xách Da", "price": 890000, "category": "accessories", "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400", "badge": "", "description": "Túi xách da", "brand": "", "salePrice": null, "images": { "cover": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400", "gallery": [] }, "variants": [] },
+  { "id": 4, "name": "Quần Tây Nam", "price": 690000, "category": "men", "image": "https://tse1.mm.bing.net/th/id/OIP.SIqbKyU1RrI4x-RbM6OVLgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Quần tây nam", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.SIqbKyU1RrI4x-RbM6OVLgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 5, "name": "Đầm Công Sở", "price": 790000, "category": "women", "image": "https://tse4.mm.bing.net/th/id/OIP.itV7qDqvo0rPqmuG3HjE0gHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "Sale", "description": "Đầm công sở", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.itV7qDqvo0rPqmuG3HjE0gHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 6, "name": "Thắt Lưng Da", "price": 390000, "category": "accessories", "image": "https://tse4.mm.bing.net/th/id/OIP.1DqxdWoJ4uz1wRwYMWZEzwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Thắt lưng da", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.1DqxdWoJ4uz1wRwYMWZEzwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 7, "name": "Áo Khoác Blazer", "price": 990000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP._VNPZj_8d2g8Wg1pvrcdcgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác blazer", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP._VNPZj_8d2g8Wg1pvrcdcgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 8, "name": "Váy Maxi", "price": 850000, "category": "women", "image": "https://tse4.mm.bing.net/th/id/OIP.axcj29yRRCO-CGT2wKjamAHaG1?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "New", "description": "Váy maxi", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.axcj29yRRCO-CGT2wKjamAHaG1?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 9, "name": "Áo Thun Logo", "price": 290000, "category": "men", "image": "https://tse4.mm.bing.net/th/id/OIP.a9Uoz_mcrcVW1zSEwlE48wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo thun logo", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.a9Uoz_mcrcVW1zSEwlE48wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 10, "name": "Quần Jeans Slim", "price": 650000, "category": "men", "image": "https://tse1.mm.bing.net/th/id/OIP.y1FY4oviOrp9ljKC3uw2iwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Quần jeans slim", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.y1FY4oviOrp9ljKC3uw2iwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 11, "name": "Áo Len Dệt Kim", "price": 740000, "category": "women", "image": "https://sakurafashion.vn/upload/sanpham/large/63425-ao-len-nu-phong-cach-retro-det-kim-1.jpg", "badge": "", "description": "Áo len dệt kim", "brand": "", "salePrice": null, "images": { "cover": "https://sakurafashion.vn/upload/sanpham/large/63425-ao-len-nu-phong-cach-retro-det-kim-1.jpg", "gallery": [] }, "variants": [] },
+  { "id": 12, "name": "Chân Váy Plisse", "price": 560000, "category": "women", "image": "https://cdn.vuahanghieu.com/unsafe/0x0/left/top/smart/filters:quality(90)/https://admin.vuahanghieu.com/upload/news/content/2023/02/chan-vay-adidas-adicolor-plisse-skirt-hg1091-mau-den-01-jpg-1675674090-06022023160130.jpg", "badge": "", "description": "Chân váy plisse", "brand": "", "salePrice": null, "images": { "cover": "https://cdn.vuahanghieu.com/unsafe/0x0/left/top/smart/filters:quality(90)/https://admin.vuahanghieu.com/upload/news/content/2023/02/chan-vay-adidas-adicolor-plisse-skirt-hg1091-mau-den-01-jpg-1675674090-06022023160130.jpg", "gallery": [] }, "variants": [] },
+  { "id": 13, "name": "Mũ Lưỡi Trai", "price": 180000, "category": "accessories", "image": "https://down-vn.img.susercontent.com/file/4e0a5a5edcc8077e2b5a74708f183c8b", "badge": "", "description": "Mũ lưỡi trai", "brand": "", "salePrice": null, "images": { "cover": "https://down-vn.img.susercontent.com/file/4e0a5a5edcc8077e2b5a74708f183c8b", "gallery": [] }, "variants": [] },
+  { "id": 14, "name": "Khăn Choàng", "price": 220000, "category": "accessories", "image": "https://tse1.mm.bing.net/th/id/OIP.Rv3VjGXY_GnicD_tbmeq4gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Khăn choàng", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.Rv3VjGXY_GnicD_tbmeq4gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 15, "name": "Áo Khoác Dạ", "price": 1250000, "category": "women", "image": "https://tse1.mm.bing.net/th/id/OIP.1b2ShVsl5ORVEx2wJQ6CcgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác dạ", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.1b2ShVsl5ORVEx2wJQ6CcgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 16, "name": "Giày Sneaker Trắng", "price": 980000, "category": "men", "image": "https://th.bing.com/th/id/R.8d5cd186604fb93560c96eed5cce7231?rik=ehK%2brzhsKnzSYw&pid=ImgRaw&r=0", "badge": "Hot", "description": "Giày sneaker trắng", "brand": "", "salePrice": null, "images": { "cover": "https://th.bing.com/th/id/R.8d5cd186604fb93560c96eed5cce7231?rik=ehK%2brzhsKnzSYw&pid=ImgRaw&r=0", "gallery": [] }, "variants": [] },
+  { "id": 17, "name": "Túi Tote Vải", "price": 250000, "category": "accessories", "image": "https://tse4.explicit.bing.net/th/id/OIP.vWohggf5_p3v7tBOB4G91wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Túi tote vải", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.explicit.bing.net/th/id/OIP.vWohggf5_p3v7tBOB4G91wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 18, "name": "Áo Sơ Mi Satin", "price": 820000, "category": "women", "image": "https://tse3.mm.bing.net/th/id/OIP.5BusXJBCsFAZN0VoceLB6AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo sơ mi satin", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.mm.bing.net/th/id/OIP.5BusXJBCsFAZN0VoceLB6AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 19, "name": "Áo Hoodie Basic", "price": 520000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP._ZDUwNj_d7eJxFWPjdUYGwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo hoodie basic", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP._ZDUwNj_d7eJxFWPjdUYGwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 20, "name": "Áo Khoác Gió", "price": 760000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP.GEAdtF3Hng40dyT4T9Fd5wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác gió", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP.GEAdtF3Hng40dyT4T9Fd5wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 21, "name": "Đầm Xòe Vintage", "price": 910000, "category": "women", "image": "https://tse3.mm.bing.net/th/id/OIP.HbuzN7s7LHwO-OzIOsyP1QHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Đầm xòe vintage", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.mm.bing.net/th/id/OIP.HbuzN7s7LHwO-OzIOsyP1QHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 22, "name": "Jumpsuit Thanh Lịch", "price": 1050000, "category": "women", "image": "https://images2.thanhnien.vn/528068263637045248/2025/6/25/8-17508378860831077468632.jpg", "badge": "", "description": "Jumpsuit thanh lịch", "brand": "", "salePrice": null, "images": { "cover": "https://images2.thanhnien.vn/528068263637045248/2025/6/25/8-17508378860831077468632.jpg", "gallery": [] }, "variants": [] },
+  { "id": 23, "name": "Thắt Lưng Vải", "price": 160000, "category": "accessories", "image": "https://tse1.mm.bing.net/th/id/OIP.rCwuTnemw70z7ZLWy_0c1AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Thắt lưng vải", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.rCwuTnemw70z7ZLWy_0c1AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 24, "name": "Ví Da Mini", "price": 340000, "category": "accessories", "image": "https://shop.r10s.jp/freespirits/cabinet/thumbnail-m/moneyclip00166-01-r.jpg", "badge": "", "description": "Ví da mini", "brand": "", "salePrice": null, "images": { "cover": "https://shop.r10s.jp/freespirits/cabinet/thumbnail-m/moneyclip00166-01-r.jpg", "gallery": [] }, "variants": [] },
+  { "id": 25, "name": "Áo Polo", "price": 430000, "category": "men", "image": "https://tse4.mm.bing.net/th/id/OIP.WT8FlayibXi7iwLp7iHm9wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo polo", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.WT8FlayibXi7iwLp7iHm9wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 26, "name": "Quần Jogger", "price": 540000, "category": "men", "image": "https://tse3.mm.bing.net/th/id/OIP.9HJ4nlm3vI5agZMcavPduAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Quần jogger", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.mm.bing.net/th/id/OIP.9HJ4nlm3vI5agZMcavPduAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 27, "name": "Áo Khoác Bomber", "price": 880000, "category": "men", "image": "https://th.bing.com/th/id/R.2a5944f38c676091a06ad2003e9855d7?rik=KHHpf5r7AXYl%2fA&pid=ImgRaw&r=0", "badge": "", "description": "Áo khoác bomber", "brand": "", "salePrice": null, "images": { "cover": "https://th.bing.com/th/id/R.2a5944f38c676091a06ad2003e9855d7?rik=KHHpf5r7AXYl%2fA&pid=ImgRaw&r=0", "gallery": [] }, "variants": [] },
+  { "id": 28, "name": "Đầm Bodycon", "price": 990000, "category": "women", "image": "https://tse4.explicit.bing.net/th/id/OIP.sNk7Yol0V1kXkfPaGlfiWAHaLG?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Đầm bodycon", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.explicit.bing.net/th/id/OIP.sNk7Yol0V1kXkfPaGlfiWAHaLG?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 29, "name": "Áo Cardigan Mềm", "price": 620000, "category": "women", "image": "https://tse3.explicit.bing.net/th/id/OIP.ERDRXgcBo757sfo7iINkPAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo cardigan mềm", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.explicit.bing.net/th/id/OIP.ERDRXgcBo757sfo7iINkPAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 30, "name": "Khuyên Tai Vàng", "price": 210000, "category": "accessories", "image": "https://th.bing.com/th/id/R.d063cd7cfcfc65d0c4a39a0a167121ec?rik=DJe5P3jEhEXdYQ&pid=ImgRaw&r=0", "badge": "", "description": "Khuyên tai vàng", "brand": "", "salePrice": null, "images": { "cover": "https://th.bing.com/th/id/R.d063cd7cfcfc65d0c4a39a0a167121ec?rik=DJe5P3jEhEXdYQ&pid=ImgRaw&r=0", "gallery": [] }, "variants": [] },
+  { "id": 31, "name": "Vòng Cổ Ngọc Trai", "price": 450000, "category": "accessories", "image": "https://tse4.mm.bing.net/th/id/OIP.E3_kS54nAJx1RxAzxRTxgQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Vòng cổ ngọc trai", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.E3_kS54nAJx1RxAzxRTxgQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 32, "name": "Áo Khoác Denim", "price": 890000, "category": "men", "image": "https://i.pinimg.com/736x/1a/77/aa/1a77aad55858b06151b68b4c87f4a103.jpg", "badge": "", "description": "Áo khoác denim", "brand": "", "salePrice": null, "images": { "cover": "https://i.pinimg.com/736x/1a/77/aa/1a77aad55858b06151b68b4c87f4a103.jpg", "gallery": [] }, "variants": [] },
+  { "id": 33, "name": "Áo Sơ Mi Kẻ", "price": 650000, "category": "men", "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lspjouo9l76h9c", "badge": "", "description": "Áo sơ mi kẻ", "brand": "", "salePrice": null, "images": { "cover": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lspjouo9l76h9c", "gallery": [] }, "variants": [] },
+  { "id": 34, "name": "Quần Short Linen", "price": 380000, "category": "men", "image": "https://tse2.explicit.bing.net/th/id/OIP.A3gfSyESdaCAGx3TTyz24gHaKY?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Quần short linen", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.explicit.bing.net/th/id/OIP.A3gfSyESdaCAGx3TTyz24gHaKY?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 35, "name": "Áo Blouse Tay Phồng", "price": 770000, "category": "women", "image": "https://cdn-i.vtcnews.vn/resize/th/upload/2024/07/17/2-16425620.jpg", "badge": "", "description": "Áo blouse tay phồng", "brand": "", "salePrice": null, "images": { "cover": "https://cdn-i.vtcnews.vn/resize/th/upload/2024/07/17/2-16425620.jpg", "gallery": [] }, "variants": [] },
+  { "id": 36, "name": "Đầm Slip Dress", "price": 840000, "category": "women", "image": "https://tse4.mm.bing.net/th/id/OIP.P4VC8g2g06CLBWaJOtyUvAHaJP?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Đầm slip dress", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.P4VC8g2g06CLBWaJOtyUvAHaJP?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 37, "name": "Kính Mát Retro", "price": 320000, "category": "accessories", "image": "https://cf.shopee.vn/file/0c39776c90c940bf8ba6d3c32511acbb", "badge": "", "description": "Kính mát retro", "brand": "", "salePrice": null, "images": { "cover": "https://cf.shopee.vn/file/0c39776c90c940bf8ba6d3c32511acbb", "gallery": [] }, "variants": [] },
+  { "id": 38, "name": "Mũ Len Beanie", "price": 190000, "category": "accessories", "image": "https://www.elleman.vn/app/uploads/2023/11/05/227249/@p_a_c_s__-beanie-elleman.jpg", "badge": "", "description": "Mũ len beanie", "brand": "", "salePrice": null, "images": { "cover": "https://www.elleman.vn/app/uploads/2023/11/05/227249/@p_a_c_s__-beanie-elleman.jpg", "gallery": [] }, "variants": [] },
+  { "id": 39, "name": "Áo Khoác Dù", "price": 760000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP.0RaBW_O3LaWXiZnxu32isgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác dù", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP.0RaBW_O3LaWXiZnxu32isgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 40, "name": "Áo Vest Nữ", "price": 930000, "category": "women", "image": "https://tse4.mm.bing.net/th/id/OIP.CpDHT8IbkUp4dc970IwIUQHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo vest nữ", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.CpDHT8IbkUp4dc970IwIUQHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 41, "name": "Tất Cổ Cao", "price": 90000, "category": "accessories", "image": "https://tse1.mm.bing.net/th/id/OIP.twa4kGNbYgnvy1InMnudtwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Tất cổ cao", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.twa4kGNbYgnvy1InMnudtwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 42, "name": "Thắt Lưng Vải Ken", "price": 140000, "category": "accessories", "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-ljofi3aop14y6a", "badge": "", "description": "Thắt lưng vải ken", "brand": "", "salePrice": null, "images": { "cover": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-ljofi3aop14y6a", "gallery": [] }, "variants": [] },
+  { "id": 43, "name": "Áo Thun Oversize", "price": 350000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP.fw5_B22tTZWX19uU3sXAJgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo thun oversize", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP.fw5_B22tTZWX19uU3sXAJgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 44, "name": "Quần Ống Rộng", "price": 610000, "category": "women", "image": "https://th.bing.com/th/id/R.69084d152c3f5dc90ca8222fa3f00a28?rik=Zsi02Fu3AgnIDQ&pid=ImgRaw&r=0", "badge": "", "description": "Quần ống rộng", "brand": "", "salePrice": null, "images": { "cover": "https://th.bing.com/th/id/R.69084d152c3f5dc90ca8222fa3f00a28?rik=Zsi02Fu3AgnIDQ&pid=ImgRaw&r=0", "gallery": [] }, "variants": [] },
+  { "id": 45, "name": "Đầm Midi Chấm Bi", "price": 870000, "category": "women", "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4g7kmsz9e9c43", "badge": "", "description": "Đầm midi chấm bi", "brand": "", "salePrice": null, "images": { "cover": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4g7kmsz9e9c43", "gallery": [] }, "variants": [] },
+  { "id": 46, "name": "Balo Vải Canvas", "price": 420000, "category": "accessories", "image": "https://tse3.mm.bing.net/th/id/OIP.MoGgsrgDkWTJuwKC45jS-wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Balo vải canvas", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.mm.bing.net/th/id/OIP.MoGgsrgDkWTJuwKC45jS-wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 47, "name": "Áo Khoác Lông Vũ", "price": 1390000, "category": "men", "image": "https://tse4.mm.bing.net/th/id/OIP.OVDCK1-Z6abq2mnxYGVSogHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác lông vũ", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.OVDCK1-Z6abq2mnxYGVSogHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 48, "name": "Áo Len Cổ Lọ", "price": 680000, "category": "women", "image": "https://tse3.mm.bing.net/th/id/OIP.OVryxCfXOBBRpFB0fFsalQHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo len cổ lọ", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.mm.bing.net/th/id/OIP.OVryxCfXOBBRpFB0fFsalQHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 49, "name": "Khăn Bandana", "price": 110000, "category": "accessories", "image": "https://canifa.com/blog/wp-content/uploads/2025/08/cac-loai-khan-bandana.jpg", "badge": "", "description": "Khăn bandana", "brand": "", "salePrice": null, "images": { "cover": "https://canifa.com/blog/wp-content/uploads/2025/08/cac-loai-khan-bandana.jpg", "gallery": [] }, "variants": [] },
+  { "id": 50, "name": "Giày Loafer Da", "price": 1150000, "category": "men", "image": "https://th.bing.com/th/id/R.ad9fbcf2bd4f147136867e9b95d9112f?rik=xI76M5zP4M%2fmfA&pid=ImgRaw&r=0", "badge": "", "description": "Giày loafer da", "brand": "", "salePrice": null, "images": { "cover": "https://th.bing.com/th/id/R.ad9fbcf2bd4f147136867e9b95d9112f?rik=xI76M5zP4M%2fmfA&pid=ImgRaw&r=0", "gallery": [] }, "variants": [] }
+]
+  { "id": 2, "name": "Váy Dạ Hội", "price": 1290000, "category": "women", "image": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "Hot", "description": "Váy dạ hội sang trọng", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 3, "name": "Túi Xách Da", "price": 890000, "category": "accessories", "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3", "badge": "", "description": "Túi xách da cao cấp", "brand": "", "salePrice": null, "images": { "cover": "https://images.unsplash.com/photo-1584917865442-de89df76afd3", "gallery": [] }, "variants": [] },
+  { "id": 4, "name": "Quần Tây Nam", "price": 690000, "category": "men", "image": "https://tse1.mm.bing.net/th/id/OIP.SIqbKyU1RrI4x-RbM6OVLgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Quần tây nam form chuẩn", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.SIqbKyU1RrI4x-RbM6OVLgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 5, "name": "Đầm Công Sở", "price": 790000, "category": "women", "image": "https://tse4.mm.bing.net/th/id/OIP.itV7qDqvo0rPqmuG3HjE0gHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "Sale", "description": "Đầm công sở lịch sự", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.itV7qDqvo0rPqmuG3HjE0gHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 6, "name": "Thắt Lưng Da", "price": 390000, "category": "accessories", "image": "https://tse4.mm.bing.net/th/id/OIP.1DqxdWoJ4uz1wRwYMWZEzwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Thắt lưng da thật", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.1DqxdWoJ4uz1wRwYMWZEzwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 7, "name": "Áo Khoác Blazer", "price": 990000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP._VNPZj_8d2g8Wg1pvrcdcgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác blazer nam", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP._VNPZj_8d2g8Wg1pvrcdcgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 8, "name": "Váy Maxi", "price": 850000, "category": "women", "image": "https://tse4.mm.bing.net/th/id/OIP.axcj29yRRCO-CGT2wKjamAHaG1?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "New", "description": "Váy maxi dài thanh lịch", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.axcj29yRRCO-CGT2wKjamAHaG1?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 9, "name": "Áo Thun Logo", "price": 290000, "category": "men", "image": "https://tse4.mm.bing.net/th/id/OIP.a9Uoz_mcrcVW1zSEwlE48wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo thun có in logo", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.mm.bing.net/th/id/OIP.a9Uoz_mcrcVW1zSEwlE48wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 10, "name": "Quần Jeans Slim", "price": 650000, "category": "men", "image": "https://tse1.mm.bing.net/th/id/OIP.y1FY4oviOrp9ljKC3uw2iwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Quần jeans slim fit", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.y1FY4oviOrp9ljKC3uw2iwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 11, "name": "Áo Len Dệt Kim", "price": 740000, "category": "women", "image": "https://sakurafashion.vn/upload/sanpham/large/63425-ao-len-nu-phong-cach-retro-det-kim-1.jpg", "badge": "", "description": "Áo len dệt kim nữ", "brand": "", "salePrice": null, "images": { "cover": "https://sakurafashion.vn/upload/sanpham/large/63425-ao-len-nu-phong-cach-retro-det-kim-1.jpg", "gallery": [] }, "variants": [] },
+  { "id": 12, "name": "Chân Váy Plisse", "price": 560000, "category": "women", "image": "https://cdn.vuahanghieu.com/unsafe/0x0/left/top/smart/filters:quality(90)/https://admin.vuahanghieu.com/upload/news/content/2023/02/chan-vay-adidas-adicolor-plisse-skirt-hg1091-mau-den-01-jpg-1675674090-06022023160130.jpg", "badge": "", "description": "Chân váy plisse", "brand": "", "salePrice": null, "images": { "cover": "https://cdn.vuahanghieu.com/unsafe/0x0/left/top/smart/filters:quality(90)/https://admin.vuahanghieu.com/upload/news/content/2023/02/chan-vay-adidas-adicolor-plisse-skirt-hg1091-mau-den-01-jpg-1675674090-06022023160130.jpg", "gallery": [] }, "variants": [] },
+  { "id": 13, "name": "Mũ Lưỡi Trai", "price": 180000, "category": "accessories", "image": "https://down-vn.img.susercontent.com/file/4e0a5a5edcc8077e2b5a74708f183c8b", "badge": "", "description": "Mũ lưỡi trai thời trang", "brand": "", "salePrice": null, "images": { "cover": "https://down-vn.img.susercontent.com/file/4e0a5a5edcc8077e2b5a74708f183c8b", "gallery": [] }, "variants": [] },
+  { "id": 14, "name": "Khăn Choàng", "price": 220000, "category": "accessories", "image": "https://tse1.mm.bing.net/th/id/OIP.Rv3VjGXY_GnicD_tbmeq4gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Khăn choàng mềm", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.Rv3VjGXY_GnicD_tbmeq4gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 15, "name": "Áo Khoác Dạ", "price": 1250000, "category": "women", "image": "https://tse1.mm.bing.net/th/id/OIP.1b2ShVsl5ORVEx2wJQ6CcgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác dạ nữ", "brand": "", "salePrice": null, "images": { "cover": "https://tse1.mm.bing.net/th/id/OIP.1b2ShVsl5ORVEx2wJQ6CcgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 16, "name": "Giày Sneaker Trắng", "price": 980000, "category": "men", "image": "https://th.bing.com/th/id/R.8d5cd186604fb93560c96eed5cce7231?rik=ehK%2brzhsKnzSYw&pid=ImgRaw&r=0", "badge": "Hot", "description": "Giày sneaker trắng", "brand": "", "salePrice": null, "images": { "cover": "https://th.bing.com/th/id/R.8d5cd186604fb93560c96eed5cce7231?rik=ehK%2brzhsKnzSYw&pid=ImgRaw&r=0", "gallery": [] }, "variants": [] },
+  { "id": 17, "name": "Túi Tote Vải", "price": 250000, "category": "accessories", "image": "https://tse4.explicit.bing.net/th/id/OIP.vWohggf5_p3v7tBOB4G91wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Túi tote vải", "brand": "", "salePrice": null, "images": { "cover": "https://tse4.explicit.bing.net/th/id/OIP.vWohggf5_p3v7tBOB4G91wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 18, "name": "Áo Sơ Mi Satin", "price": 820000, "category": "women", "image": "https://tse3.mm.bing.net/th/id/OIP.5BusXJBCsFAZN0VoceLB6AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo sơ mi satin nữ", "brand": "", "salePrice": null, "images": { "cover": "https://tse3.mm.bing.net/th/id/OIP.5BusXJBCsFAZN0VoceLB6AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 19, "name": "Áo Hoodie Basic", "price": 520000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP._ZDUwNj_d7eJxFWPjdUYGwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo hoodie basic", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP._ZDUwNj_d7eJxFWPjdUYGwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  { "id": 20, "name": "Áo Khoác Gió", "price": 760000, "category": "men", "image": "https://tse2.mm.bing.net/th/id/OIP.GEAdtF3Hng40dyT4T9Fd5wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "badge": "", "description": "Áo khoác gió", "brand": "", "salePrice": null, "images": { "cover": "https://tse2.mm.bing.net/th/id/OIP.GEAdtF3Hng40dyT4T9Fd5wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", "gallery": [] }, "variants": [] },
+  {
+    "id": 1714828804000,
+    "name": "Áo Thun Trơn",
+    "description": "Áo thun cotton thoáng mát",
+    "category": "Áo thun",
+    "brand": "SGB",
+    "price": 195000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://cdn.tgdd.vn/Products/Images/239/221837/bhx/ao-thun-tron-nam-co-tron-thoi-trang-the-thao-4-800x800.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "S",
+        "color": "Đen",
+        "stock": 20
+      }
+    ]
+  },
+  {
+    "id": 1714828805000,
+    "name": "Áo Sơ Mi Trắng",
+    "description": "Áo sơ mi form chuẩn, dễ phối",
+    "category": "Áo sơ mi",
+    "brand": "SGB",
+    "price": 359000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://cdn.shopify.com/s/files/1/0249/5262/5273/products/white-shirt-mens-fashion-oxford-button-down-long-sleeve-dress-shirt-white-xxl-33047629922347_1024x.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "M",
+        "color": "Trắng",
+        "stock": 15
+      }
+    ]
+  },
+  {
+    "id": 1714828806000,
+    "name": "Quần Jean Slim",
+    "description": "Jeans denim co giãn nhẹ",
+    "category": "Quần Jean",
+    "brand": "SGB",
+    "price": 490000,
+    "salePrice": 450000,
+    "images": {
+      "cover": "https://image.uniqlo.com/UQ/IMG/nq/dweb/upscale/men-ultra-stretch-slim-fit-jeans-438633.jpg?impolicy=medium",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "32",
+        "color": "Xanh",
+        "stock": 12
+      }
+    ]
+  },
+  {
+    "id": 1714828807000,
+    "name": "Đầm Công Sở",
+    "description": "Đầm midi lịch sự, tôn dáng",
+    "category": "Váy",
+    "brand": "SGB",
+    "price": 790000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://kn.fptcdn.net/images/product/XL/DV00000045_a1_4e66.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "M",
+        "color": "Đen",
+        "stock": 10
+      }
+    ]
+  },
+  {
+    "id": 1714828808000,
+    "name": "Áo Khoác Denim",
+    "description": "Áo khoác denim unisex",
+    "category": "Áo khoác",
+    "brand": "SGB",
+    "price": 890000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://image.uniqlo.com/UQ/IMG/nq/dweb/upscale/men-stretch-denim-jacket-454393-v5.jpg?impolicy=medium",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "L",
+        "color": "Xanh",
+        "stock": 8
+      }
+    ]
+  },
+  {
+    "id": 1714828809000,
+    "name": "Áo Polo Basic",
+    "description": "Polo thoáng khí, cổ bẻ",
+    "category": "Áo thun",
+    "brand": "SGB",
+    "price": 430000,
+    "salePrice": 399000,
+    "images": {
+      "cover": "https://cdn.shopify.com/s/files/1/2382/8779/products/K1-SOLID-POLO_NAVY_d0c5e84d-64e8-4146-85f0-b0b96b47e89a_1024x.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "M",
+        "color": "Xanh than",
+        "stock": 18
+      }
+    ]
+  },
+  {
+    "id": 1714828810000,
+    "name": "Áo Cardigan Mềm",
+    "description": "Cardigan len nhẹ nhàng",
+    "category": "Áo khoác",
+    "brand": "SGB",
+    "price": 620000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://lh3.googleusercontent.com/proxy/vCOl5F9hY6Vl-LZ8XYy9X3dM3aH8X6QXnFhK7r8QvVEf5-Fj5BQmH6KWJaYXGVy3f5H5K8Z7WQqX3h9F2Q",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "F",
+        "color": "Be",
+        "stock": 14
+      }
+    ]
+  },
+  {
+    "id": 1714828811000,
+    "name": "Chân Váy Plisse",
+    "description": "Chân váy dập ly nữ tính",
+    "category": "Váy",
+    "brand": "SGB",
+    "price": 560000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://lh3.googleusercontent.com/proxy/YLvq6JhZ3F2h7xK2mNpQwX8vW5bXqRzYj9sT2uC3nH4tB6pV8mL1kJ4fD9gE5hR2",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "M",
+        "color": "Đen",
+        "stock": 9
+      }
+    ]
+  },
+  {
+    "id": 1714828812000,
+    "name": "Thắt Lưng Da",
+    "description": "Thắt lưng da thật",
+    "category": "Phụ kiện",
+    "brand": "SGB",
+    "price": 220000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://cdn.shopify.com/s/files/1/0275/0129/5280/products/main-leather-belt-black_c87d07a1-0e09-4b1a-8ca1-8e9f85c77f89_800x.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "105",
+        "color": "Nâu",
+        "stock": 30
+      }
+    ]
+  },
+  {
+    "id": 1714828813000,
+    "name": "Giày Sneaker Trắng",
+    "description": "Sneaker trắng dễ phối",
+    "category": "Giày",
+    "brand": "SGB",
+    "price": 980000,
+    "salePrice": 920000,
+    "images": {
+      "cover": "https://image.uniqlo.com/UQ/IMG/nq/dweb/upscale/men-comfort-wide-fit-leather-sneakers-451313-white-1689240532314.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "42",
+        "color": "Trắng",
+        "stock": 11
+      }
+    ]
+  },
+  {
+    "id": 1714828814000,
+    "name": "Túi Tote Vải",
+    "description": "Túi canvas bền đẹp",
+    "category": "Phụ kiện",
+    "brand": "SGB",
+    "price": 250000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://cdn.shopify.com/s/files/1/0275/0129/5280/products/Tote-Bag_Natural_a98a8c56-e044-4f90-bc1d-5c55eb8c1bb3_800x.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "F",
+        "color": "Tự nhiên",
+        "stock": 25
+      }
+    ]
+  },
+  {
+    "id": 1714828815000,
+    "name": "Áo Hoodie Basic",
+    "description": "Hoodie ấm áp, mềm mại",
+    "category": "Áo khoác",
+    "brand": "SGB",
+    "price": 520000,
+    "salePrice": null,
+    "images": {
+      "cover": "https://cdn.shopify.com/s/files/1/0611/0434/8369/products/unisex-heavy-blend-hoodie-dark-heather-front-65f1b0d5b3a3f_1024x.jpg",
+      "gallery": []
+    },
+    "variants": [
+      {
+        "size": "L",
+        "color": "Xám",
+        "stock": 16
+      }
+    ]
+  },
+  {
+    "id": 1772606284582,
+    "name": "Áo thun classtic con hổ",
+    "description": "chất liệu cotton, thoáng mát,...",
+    "category": "Áo thun",
+    "brand": "",
+    "price": 99000,
+    "salePrice": 89000,
+    "images": {
+      "cover": "/uploads/1772606590925_ao-thun-in-hinh-anh-875144.jpg",
+      "gallery": []
+    },
+    "variants": []
+  }
+]

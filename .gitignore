@@ -12,6 +12,12 @@ Thumbs.db
 .env
 users.json
 *.log
+server.err
+
+# Firebase credentials (never commit real keys)
+scripts/serviceAccountKey.json
+scripts/firebase-service-account.json
+*serviceAccount*.json
 
 # Binaries / archives
 *.exe

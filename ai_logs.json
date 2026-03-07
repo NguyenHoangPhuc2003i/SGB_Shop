@@ -1,0 +1,888 @@
+[
+  {
+    "id": 1767839088749,
+    "ts": "2026-01-08T02:24:48.749Z",
+    "userEmail": "",
+    "profile": {
+      "gender": "men",
+      "age": 25,
+      "height_cm": 165,
+      "weight_kg": 55,
+      "fit_preference": "regular",
+      "climate": "temperate",
+      "budget": "mid",
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "colors": [
+        "đen",
+        "trắng"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ đi làm công ty"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ đi làm công ty"
+      }
+    ],
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "source": "rule-based",
+    "recommendations": [
+      {
+        "id": 1714828811000,
+        "name": "Chân Váy Plisse",
+        "description": "Chân váy dập ly nữ tính",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 560000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 9
+          }
+        ]
+      },
+      {
+        "id": 1714828807000,
+        "name": "Đầm Công Sở",
+        "description": "Đầm midi lịch sự, tôn dáng",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 790000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 10
+          }
+        ]
+      },
+      {
+        "id": 1714828813000,
+        "name": "Giày Sneaker Trắng",
+        "description": "Sneaker trắng dễ phối",
+        "category": "Giày",
+        "brand": "SGB",
+        "price": 980000,
+        "salePrice": 920000,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "42",
+            "color": "Trắng",
+            "stock": 11
+          }
+        ]
+      },
+      {
+        "id": 1714828804000,
+        "name": "Áo Thun Trơn",
+        "description": "Áo thun cotton thoáng mát",
+        "category": "Áo thun",
+        "brand": "SGB",
+        "price": 195000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "S",
+            "color": "Đen",
+            "stock": 20
+          }
+        ]
+      },
+      {
+        "id": 1714828805000,
+        "name": "Áo Sơ Mi Trắng",
+        "description": "Áo sơ mi form chuẩn, dễ phối",
+        "category": "Áo sơ mi",
+        "brand": "SGB",
+        "price": 359000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Trắng",
+            "stock": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1767839283311,
+    "ts": "2026-01-08T02:28:03.311Z",
+    "userEmail": "",
+    "profile": {
+      "gender": "women",
+      "age": 25,
+      "height_cm": 165,
+      "weight_kg": 55,
+      "fit_preference": "regular",
+      "climate": "temperate",
+      "budget": "mid",
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "colors": [
+        "đen",
+        "trắng"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set nữ đi làm công ty"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set nữ đi làm công ty"
+      }
+    ],
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: váy midi, áo blouse, quần ống rộng, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "source": "rule-based",
+    "recommendations": [
+      {
+        "id": 1714828811000,
+        "name": "Chân Váy Plisse",
+        "description": "Chân váy dập ly nữ tính",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 560000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 9
+          }
+        ]
+      },
+      {
+        "id": 1714828807000,
+        "name": "Đầm Công Sở",
+        "description": "Đầm midi lịch sự, tôn dáng",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 790000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 10
+          }
+        ]
+      },
+      {
+        "id": 1714828813000,
+        "name": "Giày Sneaker Trắng",
+        "description": "Sneaker trắng dễ phối",
+        "category": "Giày",
+        "brand": "SGB",
+        "price": 980000,
+        "salePrice": 920000,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "42",
+            "color": "Trắng",
+            "stock": 11
+          }
+        ]
+      },
+      {
+        "id": 1714828804000,
+        "name": "Áo Thun Trơn",
+        "description": "Áo thun cotton thoáng mát",
+        "category": "Áo thun",
+        "brand": "SGB",
+        "price": 195000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "S",
+            "color": "Đen",
+            "stock": 20
+          }
+        ]
+      },
+      {
+        "id": 1714828805000,
+        "name": "Áo Sơ Mi Trắng",
+        "description": "Áo sơ mi form chuẩn, dễ phối",
+        "category": "Áo sơ mi",
+        "brand": "SGB",
+        "price": 359000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Trắng",
+            "stock": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1770379530105,
+    "ts": "2026-02-06T12:05:30.105Z",
+    "userEmail": "",
+    "profile": {
+      "gender": "men",
+      "age": 25,
+      "height_cm": 165,
+      "weight_kg": 55,
+      "fit_preference": "regular",
+      "climate": "temperate",
+      "budget": "mid",
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "colors": [
+        "đen",
+        "trắng"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn cho tôi set đồ nam thanh lịch"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn cho tôi set đồ nam thanh lịch"
+      }
+    ],
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "source": "rule-based",
+    "recommendations": [
+      {
+        "id": 1714828811000,
+        "name": "Chân Váy Plisse",
+        "description": "Chân váy dập ly nữ tính",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 560000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 9
+          }
+        ]
+      },
+      {
+        "id": 1714828807000,
+        "name": "Đầm Công Sở",
+        "description": "Đầm midi lịch sự, tôn dáng",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 790000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 10
+          }
+        ]
+      },
+      {
+        "id": 1714828813000,
+        "name": "Giày Sneaker Trắng",
+        "description": "Sneaker trắng dễ phối",
+        "category": "Giày",
+        "brand": "SGB",
+        "price": 980000,
+        "salePrice": 920000,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "42",
+            "color": "Trắng",
+            "stock": 11
+          }
+        ]
+      },
+      {
+        "id": 1714828804000,
+        "name": "Áo Thun Trơn",
+        "description": "Áo thun cotton thoáng mát",
+        "category": "Áo thun",
+        "brand": "SGB",
+        "price": 195000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "S",
+            "color": "Đen",
+            "stock": 20
+          }
+        ]
+      },
+      {
+        "id": 1714828805000,
+        "name": "Áo Sơ Mi Trắng",
+        "description": "Áo sơ mi form chuẩn, dễ phối",
+        "category": "Áo sơ mi",
+        "brand": "SGB",
+        "price": 359000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Trắng",
+            "stock": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1771734260172,
+    "ts": "2026-02-22T04:24:20.172Z",
+    "userEmail": "",
+    "profile": {
+      "gender": "men",
+      "age": 25,
+      "height_cm": 165,
+      "weight_kg": 55,
+      "fit_preference": "regular",
+      "climate": "temperate",
+      "budget": "mid",
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "colors": [
+        "đen",
+        "trắng"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ nam đi làm"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ nam đi làm"
+      }
+    ],
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "source": "rule-based",
+    "recommendations": [
+      {
+        "id": 1714828811000,
+        "name": "Chân Váy Plisse",
+        "description": "Chân váy dập ly nữ tính",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 560000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 9
+          }
+        ]
+      },
+      {
+        "id": 1714828807000,
+        "name": "Đầm Công Sở",
+        "description": "Đầm midi lịch sự, tôn dáng",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 790000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 10
+          }
+        ]
+      },
+      {
+        "id": 1714828813000,
+        "name": "Giày Sneaker Trắng",
+        "description": "Sneaker trắng dễ phối",
+        "category": "Giày",
+        "brand": "SGB",
+        "price": 980000,
+        "salePrice": 920000,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "42",
+            "color": "Trắng",
+            "stock": 11
+          }
+        ]
+      },
+      {
+        "id": 1714828804000,
+        "name": "Áo Thun Trơn",
+        "description": "Áo thun cotton thoáng mát",
+        "category": "Áo thun",
+        "brand": "SGB",
+        "price": 195000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "S",
+            "color": "Đen",
+            "stock": 20
+          }
+        ]
+      },
+      {
+        "id": 1714828805000,
+        "name": "Áo Sơ Mi Trắng",
+        "description": "Áo sơ mi form chuẩn, dễ phối",
+        "category": "Áo sơ mi",
+        "brand": "SGB",
+        "price": 359000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Trắng",
+            "stock": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1771734965531,
+    "ts": "2026-02-22T04:36:05.531Z",
+    "userEmail": "",
+    "profile": {
+      "gender": "men",
+      "age": 25,
+      "height_cm": 165,
+      "weight_kg": 55,
+      "fit_preference": "regular",
+      "climate": "temperate",
+      "budget": "mid",
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "colors": [
+        "đen",
+        "trắng"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "user",
+        "content": "tìm sản phẩm tương tự"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tìm sản phẩm tương tự"
+      }
+    ],
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "source": "rule-based",
+    "recommendations": [
+      {
+        "id": 1714828811000,
+        "name": "Chân Váy Plisse",
+        "description": "Chân váy dập ly nữ tính",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 560000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 9
+          }
+        ]
+      },
+      {
+        "id": 1714828807000,
+        "name": "Đầm Công Sở",
+        "description": "Đầm midi lịch sự, tôn dáng",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 790000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 10
+          }
+        ]
+      },
+      {
+        "id": 1714828813000,
+        "name": "Giày Sneaker Trắng",
+        "description": "Sneaker trắng dễ phối",
+        "category": "Giày",
+        "brand": "SGB",
+        "price": 980000,
+        "salePrice": 920000,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "42",
+            "color": "Trắng",
+            "stock": 11
+          }
+        ]
+      },
+      {
+        "id": 1714828804000,
+        "name": "Áo Thun Trơn",
+        "description": "Áo thun cotton thoáng mát",
+        "category": "Áo thun",
+        "brand": "SGB",
+        "price": 195000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "S",
+            "color": "Đen",
+            "stock": 20
+          }
+        ]
+      },
+      {
+        "id": 1714828805000,
+        "name": "Áo Sơ Mi Trắng",
+        "description": "Áo sơ mi form chuẩn, dễ phối",
+        "category": "Áo sơ mi",
+        "brand": "SGB",
+        "price": 359000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Trắng",
+            "stock": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1771735295792,
+    "ts": "2026-02-22T04:41:35.792Z",
+    "userEmail": "",
+    "profile": {
+      "gender": "men",
+      "age": 25,
+      "height_cm": 165,
+      "weight_kg": 55,
+      "fit_preference": "regular",
+      "climate": "temperate",
+      "budget": "mid",
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "colors": [
+        "đen",
+        "trắng"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "assistant",
+        "content": "AI nhận diện phong cách ảnh: Smart Casual. Bảng màu chính: cam, đen, xám."
+      },
+      {
+        "role": "user",
+        "content": "phân tích và tư vấn"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "phân tích và tư vấn"
+      }
+    ],
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "source": "rule-based",
+    "recommendations": [
+      {
+        "id": 1714828811000,
+        "name": "Chân Váy Plisse",
+        "description": "Chân váy dập ly nữ tính",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 560000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 9
+          }
+        ]
+      },
+      {
+        "id": 1714828807000,
+        "name": "Đầm Công Sở",
+        "description": "Đầm midi lịch sự, tôn dáng",
+        "category": "Váy",
+        "brand": "SGB",
+        "price": 790000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Đen",
+            "stock": 10
+          }
+        ]
+      },
+      {
+        "id": 1714828813000,
+        "name": "Giày Sneaker Trắng",
+        "description": "Sneaker trắng dễ phối",
+        "category": "Giày",
+        "brand": "SGB",
+        "price": 980000,
+        "salePrice": 920000,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "42",
+            "color": "Trắng",
+            "stock": 11
+          }
+        ]
+      },
+      {
+        "id": 1714828804000,
+        "name": "Áo Thun Trơn",
+        "description": "Áo thun cotton thoáng mát",
+        "category": "Áo thun",
+        "brand": "SGB",
+        "price": 195000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "S",
+            "color": "Đen",
+            "stock": 20
+          }
+        ]
+      },
+      {
+        "id": 1714828805000,
+        "name": "Áo Sơ Mi Trắng",
+        "description": "Áo sơ mi form chuẩn, dễ phối",
+        "category": "Áo sơ mi",
+        "brand": "SGB",
+        "price": 359000,
+        "salePrice": null,
+        "images": {
+          "cover": "",
+          "gallery": []
+        },
+        "variants": [
+          {
+            "size": "M",
+            "color": "Trắng",
+            "stock": 15
+          }
+        ]
+      }
+    ]
+  }
+]

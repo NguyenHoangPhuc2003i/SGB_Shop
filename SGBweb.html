@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STYLE GLAMOUR BEATS - Thời Trang Cao Cấp</title>
-    <link rel="stylesheet" href="Untitled-1.css?v=3">
+    <link rel="stylesheet" href="site.css?v=3">
+    <link rel="stylesheet" href="modern.css?v=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <script>
-        // Redirect to auth page if not logged in (run immediately to avoid flashing content)
-        try{
-            const logged = JSON.parse(localStorage.getItem('sgb_logged_in')||'null');
-            if(!logged){ window.location.replace('auth.html'); }
-        }catch(e){ window.location.replace('auth.html'); }
-    </script>
+    <!-- Cho phép khách duyệt trang chủ mà không cần đăng nhập.
+         Sẽ yêu cầu đăng nhập ở bước thanh toán nếu cần. -->
     <!-- Header -->
     <header class="header">
         <nav class="navbar">
@@ -25,7 +21,6 @@
                 <ul class="nav-menu">
                     <li><a href="SGBweb.html">Trang chủ</a></li>
                     <li><a href="products.html">Sản phẩm</a></li>
-                    <li><a href="cart.html">Giỏ hàng</a></li>
                     <li><a href="about.html">Về chúng tôi</a></li>
                     <li><a href="contact.html">Liên hệ</a></li>
                     <li><a href="checkout.html">Thanh toán</a></li>
@@ -61,25 +56,25 @@
         <div class="container">
             <h2 class="section-title">Danh Mục Sản Phẩm</h2>
             <div class="category-grid">
-                <div class="category-card">
+                <div class="category-card" data-category="women">
                     <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d" alt="Nữ">
                     <div class="category-overlay">
                         <h3>Thời Trang Nữ</h3>
-                        <button class="btn-outline">Xem Thêm</button>
+                        <a href="products.html?category=women" class="btn-outline">Xem Thêm</a>
                     </div>
                 </div>
-                <div class="category-card">
+                <div class="category-card" data-category="men">
                     <img src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc" alt="Nam">
                     <div class="category-overlay">
                         <h3>Thời Trang Nam</h3>
-                        <button class="btn-outline">Xem Thêm</button>
+                        <a href="products.html?category=men" class="btn-outline">Xem Thêm</a>
                     </div>
                 </div>
-                <div class="category-card">
+                <div class="category-card" data-category="accessories">
                     <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2" alt="Phụ kiện">
                     <div class="category-overlay">
                         <h3>Phụ Kiện</h3>
-                        <button class="btn-outline">Xem Thêm</button>
+                        <a href="products.html?category=accessories" class="btn-outline">Xem Thêm</a>
                     </div>
                 </div>
             </div>
@@ -167,19 +162,7 @@
         </div>
     </footer>
 
-    <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Giỏ Hàng</h2>
-            <div id="cartItems"></div>
-                <div class="cart-total">
-                <h3>Tổng: <span id="totalPrice">0đ</span></h3>
-                <!-- Inline fallback: ensure click always saves cart and navigates if JS listener not attached -->
-                <button id="cartCheckoutBtn" type="button" class="btn-primary" onclick="try{ localStorage.setItem('sgb_cart', JSON.stringify(window.cart||[])); }catch(e){}; window.location.href='checkout.html';">Thanh Toán</button>
-            </div>
-        </div>
-    </div>
+    <!-- Cart Modal removed: icon at header navigates to cart.html -->
 
     <!-- Checkout Modal -->
     <div class="modal" id="checkoutModal">
@@ -362,6 +345,25 @@
             }catch(e){ /* ignore */ }
         })();
     </script>
-    <script src="Untitled-1.js?v=2"></script>
+    <script>
+        // Load active banner image for hero from API
+        (async function(){
+            try{
+                const res = await fetch('/api/banners');
+                if(!res.ok) return;
+                const banners = await res.json();
+                if(Array.isArray(banners) && banners.length){
+                    const hero = document.querySelector('.hero');
+                    const img = banners[0].image;
+                    if(hero && img){
+                        hero.style.backgroundImage = `url('${img}')`;
+                        hero.style.backgroundSize = 'cover';
+                        hero.style.backgroundPosition = 'center';
+                    }
+                }
+            }catch(e){ /* ignore */ }
+        })();
+    </script>
+    <script src="site.js?v=3"></script>
 </body>
 </html>

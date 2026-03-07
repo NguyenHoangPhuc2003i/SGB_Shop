@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hồ sơ của tôi - STYLE GLAMOUR BEATS</title>
+  <link rel="stylesheet" href="site.css?v=3">
+  <link rel="stylesheet" href="modern.css?v=1">
+  <link rel="stylesheet" href="profile.css?v=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo">
+          <h1>STYLE<span>GLAMOUR BEATS</span></h1>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="SGBweb.html">Trang chủ</a></li>
+          <li><a href="products.html">Sản phẩm</a></li>
+          <li><a href="about.html">Về chúng tôi</a></li>
+          <li><a href="contact.html">Liên hệ</a></li>
+          <li><a href="checkout.html">Thanh toán</a></li>
+          <li><a href="style-advisor.html">Tư vấn phong cách (AI)</a></li>
+        </ul>
+        <div class="nav-icons">
+          <a class="icon-btn cart-btn" href="cart.html" aria-label="Giỏ hàng">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a>
+          <button id="logoutBtn" class="icon-btn" style="margin-left:8px">Đăng xuất</button>
+        </div>
+        <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="profile-wrap">
+    <div class="profile-container">
+      <aside class="profile-sidebar">
+        <div class="profile-card">
+          <div class="avatar"><i class="fas fa-user"></i></div>
+          <div class="profile-meta">
+            <div class="name" id="displayName">Khách</div>
+            <div class="email" id="displayEmail">—</div>
+          </div>
+          <a class="btn btn-outline" href="SGBweb.html">Trở lại trang chủ</a>
+        </div>
+
+        <nav class="profile-menu" role="tablist">
+          <button class="menu-item active" data-section="account"><i class="fas fa-id-card"></i> Tài khoản của tôi</button>
+          <button class="menu-item" data-section="orders"><i class="fas fa-receipt"></i> Đơn mua</button>
+          <button class="menu-item" data-section="vouchers"><i class="fas fa-ticket"></i> Kho Voucher</button>
+          <button class="menu-item" data-section="password"><i class="fas fa-lock"></i> Đổi mật khẩu</button>
+        </nav>
+      </aside>
+
+      <section class="profile-content">
+        <div id="guestBlock" class="alert" style="display:none">
+          Bạn đang ở chế độ khách. Vui lòng <a href="auth.html">đăng nhập</a> để xem hồ sơ.
+        </div>
+
+        <div id="section-account" class="panel active">
+          <div class="panel-header">
+            <h2>Hồ sơ của tôi</h2>
+            <p>Cập nhật thông tin cá nhân và thông số Stylist.</p>
+          </div>
+          <form id="profileForm" class="panel-body">
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Họ và tên</label>
+                <input type="text" id="fullName" placeholder="Nguyễn Văn A">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" disabled>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="tel" id="phone" placeholder="0123456789">
+              </div>
+              <div class="form-group">
+                <label>Giới tính</label>
+                <select id="gender">
+                  <option value="women">Nữ</option>
+                  <option value="men">Nam</option>
+                  <option value="unisex">Khác / Unisex</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Chiều cao (cm)</label>
+                <input type="number" id="height" min="130" max="220" placeholder="166">
+              </div>
+              <div class="form-group">
+                <label>Cân nặng (kg)</label>
+                <input type="number" id="weight" min="35" max="150" placeholder="56">
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Màu sắc yêu thích</label>
+                <input type="text" id="colors" placeholder="Đen, trắng, pastel">
+              </div>
+              <div class="form-group">
+                <label>Khí hậu</label>
+                <select id="climate">
+                  <option value="tropical">Nhiệt đới</option>
+                  <option value="temperate">Ôn hòa</option>
+                  <option value="cold">Lạnh</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Ngân sách</label>
+                <select id="budget">
+                  <option value="low">Tiết kiệm</option>
+                  <option value="mid" selected>Vừa phải</option>
+                  <option value="high">Đầu tư</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary">Lưu hồ sơ</button>
+              <span id="saveMsg" class="muted"></span>
+            </div>
+          </form>
+        </div>
+
+        <div id="section-orders" class="panel">
+          <div class="panel-header">
+            <h2>Đơn mua</h2>
+            <p>Lịch sử đơn hàng đã đặt.</p>
+          </div>
+          <div class="panel-body">
+            <div id="ordersList" class="empty">Chưa có đơn hàng.</div>
+          </div>
+        </div>
+
+        <div id="section-vouchers" class="panel">
+          <div class="panel-header">
+            <h2>Kho Voucher</h2>
+            <p>Các mã giảm giá đang có hiệu lực.</p>
+          </div>
+          <div class="panel-body">
+            <div id="voucherList" class="empty">Đang tải voucher...</div>
+          </div>
+        </div>
+
+        <div id="section-password" class="panel">
+          <div class="panel-header">
+            <h2>Đổi mật khẩu</h2>
+            <p>Hiện tại chưa hỗ trợ đổi mật khẩu từ client.</p>
+          </div>
+          <div class="panel-body">
+            <div class="empty">Tính năng sẽ được cập nhật sau.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="profile.js?v=1"></script>
+  <script src="site.js?v=3"></script>
+</body>
+</html>

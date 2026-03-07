@@ -1,8 +1,32 @@
+### Lưu trữ dữ liệu trên Firebase (tuỳ chọn)
+Bạn có thể chuyển toàn bộ dữ liệu từ tệp JSON sang Firebase Firestore (server-side) bằng cách thiết lập biến môi trường và thông tin dịch vụ:
+
+1) Tạo Service Account trong Firebase Console và tải về tệp JSON.
+2) Trong PowerShell, đặt biến và khởi chạy server:
+
+```powershell
+Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
+$env:FIREBASE_ENABLED = "true"            # bật Firebase cho tất cả collections
+$env:FIREBASE_CREDENTIALS = "D:\keys\firebase-service-account.json"  # đường dẫn tệp JSON
+npm start
+```
+
+Hoặc dùng biến `GOOGLE_APPLICATION_CREDENTIALS` (mặc định của Firebase Admin SDK):
+
+```powershell
+$env:GOOGLE_APPLICATION_CREDENTIALS = "D:\keys\firebase-service-account.json"
+$env:FIREBASE_ENABLED = "true"
+npm start
+```
+
+Ghi chú:
+- Khi `FIREBASE_ENABLED=true`, các collections `users`, `orders`, `products`, `categories`, `coupons`, `banners`, `ai_logs` sẽ đọc/ghi trực tiếp từ Firestore. Ảnh upload vẫn lưu trong thư mục `uploads/` trên server.
+- Server sẽ tự động fallback về các tệp JSON nếu không khởi tạo được Firebase.
 # STYLE GLAMOUR BEATS — Static deployment guide
 
 This repository contains the static frontend for a small demo store (HTML/CSS/JS).
 
-Important: the project includes an optional Node API in `server.js` (for storing users in `users.json`).
+Important: the project includes an optional Node API in `server.js` (for storing users in a JSON file, configurable via env).
 If you deploy the site as *static only* (GitHub Pages or Netlify), the Node API won't run on those platforms — the site will fall back to using localStorage for authentication and account persistence.
 
 This README explains how to publish the site as a static site (GitHub Pages or Netlify) and how to test locally.
@@ -43,7 +67,7 @@ Notes:
 2. Netlify will give you a public URL. The site is static-only so the same `SERVER_ENABLED=false` behavior applies.
 
 ## 4) If you want the server API online later
-- Deploy `server.js` (Node/Express) to a platform that supports Node (Render, Railway, Fly.io, Heroku, etc.). Upload `users.json` or use a proper database.
+- Deploy `server.js` (Node/Express) to a platform that supports Node (Render, Railway, Fly.io, Heroku, etc.). Upload a users JSON file or use a proper database.
 - After deploying the API, edit `auth.html` and set `const SERVER_ENABLED = true;` (or deploy a build step that toggles it). Then the client will attempt to use `/api/register` and `/api/login`.
 
 ## 4.1) AI Stylist (optional)
@@ -71,6 +95,19 @@ npm start
 ## 5) Notes & limitations
 - localStorage auth is only suitable for demos. Passwords saved in localStorage are stored in plain text in this demo (unless you migrate to the server which hashes them). Do not use for production.
 - If you need help creating a GitHub repo and pushing the code, or if you want me to create the repo and push it for you, tell me and I will prepare the git commands and files.
+
+### Custom users storage path (server)
+By default, the Node server stores users at `SGB_Shop/users.json`. You can change the location by setting an environment variable before starting the server:
+
+```powershell
+Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
+$env:USERS_FILE = "D:\data\sgb\users.json"  # or a directory like "D:\data\sgb"
+npm start
+```
+
+Notes:
+- If `USERS_FILE` points to a directory, the server will create/use `users.json` inside that directory.
+- The server auto-creates the folder if it does not exist.
 
 ---
 If you want, I can now:

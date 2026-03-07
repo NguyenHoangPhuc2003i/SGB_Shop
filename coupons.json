@@ -1,0 +1,4 @@
+[
+  { "id": 1714828805000, "code": "SGB10", "type": "percent", "value": 10, "expiresAt": null, "active": true, "createdAt": "2024-05-04T00:00:05.000Z" },
+  { "id": 1714828806000, "code": "FREESHIP", "type": "freeship", "value": 0, "expiresAt": null, "active": true, "createdAt": "2024-05-04T00:00:06.000Z" }
+]

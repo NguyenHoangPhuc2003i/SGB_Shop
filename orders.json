@@ -1,0 +1,171 @@
+[
+  {
+    "id": "FS11363999",
+    "name": "NGUYEN HOANG PHUC",
+    "phone": "0869801363",
+    "address": "ct",
+    "city": "hcm",
+    "district": "district1",
+    "items": [
+      {
+        "id": 2,
+        "name": "Váy Dạ Hội - Size M",
+        "price": 1290000,
+        "image": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "qty": 1
+      }
+    ],
+    "subtotal": 1290000,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 1320000,
+    "payment": "cod",
+    "createdAt": "2026-01-02T18:21:53.639Z",
+    "status": "completed"
+  },
+  {
+    "id": "FS75558868",
+    "name": "NGUYEN HOANG PHUC",
+    "phone": "0869801363",
+    "address": "ct",
+    "city": "hcm",
+    "district": "district1",
+    "items": [
+      {
+        "id": 50,
+        "name": "Giày Loafer Da - Size S",
+        "price": 1150000,
+        "image": "https://th.bing.com/th/id/R.ad9fbcf2bd4f147136867e9b95d9112f?rik=xI76M5zP4M%2fmfA&pid=ImgRaw&r=0",
+        "qty": 2
+      },
+      {
+        "id": 3,
+        "name": "Túi Xách Da",
+        "price": 890000,
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3",
+        "qty": 1
+      }
+    ],
+    "subtotal": 3190000,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 3220000,
+    "payment": "cod",
+    "createdAt": "2026-01-02T17:59:15.588Z",
+    "status": "completed"
+  },
+  {
+    "id": "FS24329353",
+    "name": "NGUYEN HOANG PHUC",
+    "email": "phuc2008@gmail.com",
+    "userId": null,
+    "phone": "0869801363",
+    "address": "a",
+    "city": "hanoi",
+    "district": "district1",
+    "items": [
+      {
+        "id": 3,
+        "name": "Túi Xách Da",
+        "price": 890000,
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3",
+        "qty": 1
+      }
+    ],
+    "subtotal": 890000,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 920000,
+    "payment": "cod",
+    "createdAt": "2026-02-22T08:34:03.294Z",
+    "status": "pending"
+  },
+  {
+    "id": "FS30145681",
+    "name": "NGUYEN HOANG PHUC",
+    "email": "phuc2008@gmail.com",
+    "userId": null,
+    "phone": "0869801363",
+    "address": "a",
+    "city": "hanoi",
+    "district": "district2",
+    "items": [
+      {
+        "id": 2,
+        "name": "Váy Dạ Hội",
+        "price": 1290000,
+        "image": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "qty": 1
+      }
+    ],
+    "subtotal": 1290000,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 1320000,
+    "payment": "cod",
+    "createdAt": "2026-02-22T08:35:01.456Z",
+    "status": "pending"
+  },
+  {
+    "id": "FS39603992",
+    "name": "NGUYEN HOANG PHUC",
+    "email": "phuc2008@gmail.com",
+    "userId": null,
+    "phone": "0869801363",
+    "address": "a",
+    "city": "hanoi",
+    "district": "district1",
+    "items": [],
+    "subtotal": 0,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 30000,
+    "payment": "cod",
+    "createdAt": "2026-02-22T08:36:36.039Z",
+    "status": "pending"
+  },
+  {
+    "id": "FS52528048",
+    "name": "NGUYEN HOANG PHUC",
+    "email": "phuc2008@gmail.com",
+    "userId": null,
+    "phone": "0869801363",
+    "address": "a",
+    "city": "hanoi",
+    "district": "district2",
+    "items": [],
+    "subtotal": 0,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 30000,
+    "payment": "cod",
+    "createdAt": "2026-02-22T08:38:45.280Z",
+    "status": "pending"
+  },
+  {
+    "id": "FS07534159",
+    "name": "NGUYEN HOANG PHUC",
+    "email": "phuc2k3i@gmail.com",
+    "userId": null,
+    "phone": "0869801363",
+    "address": "l",
+    "city": "hcm",
+    "district": "district1",
+    "items": [
+      {
+        "id": 2,
+        "name": "Váy Dạ Hội",
+        "price": 1290000,
+        "image": "https://tse2.mm.bing.net/th/id/OIP.uYXq_TaT0aHwib77OwdGEQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "qty": 1
+      }
+    ],
+    "subtotal": 1290000,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 1320000,
+    "payment": "bank",
+    "createdAt": "2026-02-27T11:34:35.341Z",
+    "status": "pending"
+  }
+]
