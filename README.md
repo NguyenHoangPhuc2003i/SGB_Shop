@@ -1,17 +1,59 @@
-### Lưu trữ dữ liệu trên Firebase (tuỳ chọn)
-Bạn có thể chuyển toàn bộ dữ liệu từ tệp JSON sang Firebase Firestore (server-side) bằng cách thiết lập biến môi trường và thông tin dịch vụ:
+# STYLE GLAMOUR BEATS
 
-1) Tạo Service Account trong Firebase Console và tải về tệp JSON.
-2) Trong PowerShell, đặt biến và khởi chạy server:
+Website bán hàng demo (HTML/CSS/JS) + Node/Express API tuỳ chọn.
+
+## Đường dẫn đúng (hiện tại)
+
+- GitHub repo: https://github.com/NguyenHoangPhuc2003i/SGB_Shop
+- GitHub Pages (trang web): https://nguyenhoangphuc2003i.github.io/SGB_Shop/
+- Trang chủ thực tế: `index.html` tự chuyển hướng sang `SGBweb.html`.
+
+## Chạy local
+
+### Cách 1: Chạy full bằng Node server (khuyến nghị)
 
 ```powershell
 Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
-$env:FIREBASE_ENABLED = "true"            # bật Firebase cho tất cả collections
-$env:FIREBASE_CREDENTIALS = "D:\keys\firebase-service-account.json"  # đường dẫn tệp JSON
+npm install
 npm start
 ```
 
-Hoặc dùng biến `GOOGLE_APPLICATION_CREDENTIALS` (mặc định của Firebase Admin SDK):
+Mở web tại:
+- http://127.0.0.1:3000/
+- hoặc http://127.0.0.1:3000/SGBweb.html
+
+### Cách 2: Chạy static nhanh
+
+```powershell
+Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
+python -m http.server 8000
+```
+
+Mở web tại:
+- http://127.0.0.1:8000/
+- hoặc http://127.0.0.1:8000/SGBweb.html
+
+## Deploy GitHub Pages
+
+Repo đã có workflow [pages.yml](.github/workflows/pages.yml) để deploy tự động từ branch `main`.
+
+Sau khi push:
+1. Vào GitHub → Settings → Pages.
+2. Source chọn **GitHub Actions**.
+3. Chờ workflow chạy xong, web live tại: https://nguyenhoangphuc2003i.github.io/SGB_Shop/
+
+## Firebase (tuỳ chọn)
+
+Nếu muốn đọc/ghi dữ liệu bằng Firestore thay vì JSON local:
+
+```powershell
+Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
+$env:FIREBASE_ENABLED = "true"
+$env:FIREBASE_CREDENTIALS = "D:\keys\firebase-service-account.json"
+npm start
+```
+
+Hoặc dùng biến mặc định của Firebase Admin SDK:
 
 ```powershell
 $env:GOOGLE_APPLICATION_CREDENTIALS = "D:\keys\firebase-service-account.json"
@@ -19,67 +61,15 @@ $env:FIREBASE_ENABLED = "true"
 npm start
 ```
 
-Ghi chú:
-- Khi `FIREBASE_ENABLED=true`, các collections `users`, `orders`, `products`, `categories`, `coupons`, `banners`, `ai_logs` sẽ đọc/ghi trực tiếp từ Firestore. Ảnh upload vẫn lưu trong thư mục `uploads/` trên server.
-- Server sẽ tự động fallback về các tệp JSON nếu không khởi tạo được Firebase.
-# STYLE GLAMOUR BEATS — Static deployment guide
+Lưu ý bảo mật:
+- Không commit file key thật.
+- Dùng file mẫu: `scripts/firebase-service-account.example.json`.
 
-This repository contains the static frontend for a small demo store (HTML/CSS/JS).
+## AI Stylist (tuỳ chọn)
 
-Important: the project includes an optional Node API in `server.js` (for storing users in a JSON file, configurable via env).
-If you deploy the site as *static only* (GitHub Pages or Netlify), the Node API won't run on those platforms — the site will fall back to using localStorage for authentication and account persistence.
+Trang: `style-advisor.html`
 
-This README explains how to publish the site as a static site (GitHub Pages or Netlify) and how to test locally.
-
-## 1) Quick local test
-- Open a PowerShell terminal in the project folder and run:
-
-```powershell
-Set-Location -LiteralPath 'C:\project cá nhân\WEB CỬA HÀNG THỜI TRANG'
-python -m http.server 8000
-```
-
-Then open `http://127.0.0.1:8000/auth.html` in your browser. The site will use localStorage for auth.
-
-## 2) Deploy to GitHub Pages (static)
-There are two ways: via Settings (simple) or via Actions (recommended).
-
-### Option A — Settings (simple)
-1. Create a GitHub repository and push this project to it.
-2. In Settings → Pages, set source to `main` branch and root `/`.
-3. Wait ~1 minute — Pages will be live at `https://<username>.github.io/<repo>/`.
-
-### Option B — Actions (recommended)
-This repo includes a workflow at `.github/workflows/pages.yml` that deploys the contents of the `SGB_Shop` folder to GitHub Pages.
-
-Steps:
-- Push your code to the `main` branch.
-- Ensure Actions are enabled for the repo (Settings → Actions).
-- The workflow will build and deploy automatically, publishing at `https://<username>.github.io/<repo>/`.
-
-Notes:
-- Because this is static-only, `SERVER_ENABLED` in `auth.html` is set to `false`. The site will not call `/api/*` endpoints and will instead store user accounts in the visitor's browser localStorage.
-- If you want server-backed auth later, deploy the Node server separately and set `SERVER_ENABLED = true`.
- - Pages runs under `https://` and a subpath (`/<repo>/`). All links in this project are relative, so they work under that path.
-
-## 3) Deploy to Netlify (drag-and-drop)
-1. Zip the project folder (or use the repo connection). Drag the zip onto Netlify's Sites panel (or connect your GitHub repo and configure the build to publish the root).
-2. Netlify will give you a public URL. The site is static-only so the same `SERVER_ENABLED=false` behavior applies.
-
-## 4) If you want the server API online later
-- Deploy `server.js` (Node/Express) to a platform that supports Node (Render, Railway, Fly.io, Heroku, etc.). Upload a users JSON file or use a proper database.
-- After deploying the API, edit `auth.html` and set `const SERVER_ENABLED = true;` (or deploy a build step that toggles it). Then the client will attempt to use `/api/register` and `/api/login`.
-
-## 4.1) AI Stylist (optional)
-This project includes an AI style advisor at `style-advisor.html`.
-
-Local usage (rule-based fallback):
-- Start the local server: `npm start`
-- Open `http://127.0.0.1:3000/style-advisor.html`
-- The advisor will provide suggestions using a built-in rule engine.
-
-Cloud AI (OpenAI) usage:
-- Set environment variables before starting the server:
+Nếu muốn gọi cloud model:
 
 ```powershell
 Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
@@ -89,30 +79,8 @@ $env:OPENAI_MODEL = "gpt-4o-mini"
 npm start
 ```
 
-- Now the advisor will call `/api/style-advisor` which proxies to OpenAI and returns stylist responses.
-- If the key is not set or the API call fails, it will automatically fall back to local rule-based suggestions.
+## Ghi chú
 
-## 5) Notes & limitations
-- localStorage auth is only suitable for demos. Passwords saved in localStorage are stored in plain text in this demo (unless you migrate to the server which hashes them). Do not use for production.
-- If you need help creating a GitHub repo and pushing the code, or if you want me to create the repo and push it for you, tell me and I will prepare the git commands and files.
-
-### Custom users storage path (server)
-By default, the Node server stores users at `SGB_Shop/users.json`. You can change the location by setting an environment variable before starting the server:
-
-```powershell
-Set-Location -LiteralPath "c:\project cá nhân\webfake\SGB_Shop"
-$env:USERS_FILE = "D:\data\sgb\users.json"  # or a directory like "D:\data\sgb"
-npm start
-```
-
-Notes:
-- If `USERS_FILE` points to a directory, the server will create/use `users.json` inside that directory.
-- The server auto-creates the folder if it does not exist.
-
----
-If you want, I can now:
-- Initialize a git repo and create a `gh-pages` branch for you, or
-- Provide step-by-step PowerShell commands to push to an existing GitHub repo, or
-- Prepare Netlify instructions for connecting the repo.
-
-Choose next action: `init-repo`, `push-to-github`, `netlify-guide`, or `done`.
+- Static hosting (GitHub Pages/Netlify) không chạy được API Node `/api/*`.
+- Mode demo static sẽ fallback sang localStorage cho auth.
+- Nếu cần backend thật, deploy `server.js` lên Render/Railway/Fly.io và trỏ lại API.
