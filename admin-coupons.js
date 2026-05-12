@@ -21,6 +21,15 @@
   function getLogged(){ try{ return JSON.parse(localStorage.getItem('sgb_logged_in')||'null'); }catch(e){ return null; } }
   function requireAdmin(){ const l = getLogged(); const ok = !!(l && l.role==='admin'); guard.style.display = ok ? 'none' : ''; return ok; }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function normalizeProductName(name){
+    const raw = String(name || '').trim();
+    if(!raw) return raw;
+    const dict = new Map([
+      ['�o Cardigan M?m', 'Áo Cardigan Mềm'],
+      ['Ao Cardigan Mem', 'Áo Cardigan Mềm']
+    ]);
+    return dict.get(raw) || raw;
+  }
 
   function ensureForecastBox(){
     if(document.getElementById('forecastAiCard') || !formCard) return;
@@ -54,7 +63,7 @@
       if(!res.ok) throw new Error('Không gọi được AI');
       const data = await res.json();
       const topCat = (data.heuristic?.topCategories || []).map(x => `${x.name} (${x.qty})`).join(', ');
-      const topProducts = (data.heuristic?.topProducts || []).map(x => `- ${x.name}: ${x.qty}`).join('\n');
+      const topProducts = (data.heuristic?.topProducts || []).map(x => `- ${normalizeProductName(x.name)}: ${x.qty}`).join('\n');
       const lines = [
         `Nguồn: ${data.source || 'N/A'}`,
         `Đơn trong kỳ: ${data.heuristic?.totalOrders || 0}`,

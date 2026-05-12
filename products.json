@@ -158,6 +158,53 @@
     "brand": ""
   },
   {
+    "salePrice": 189000,
+    "price": 200000,
+    "name": "Quần Jeans",
+    "description": "**Quần Jeans SGB – Nâng tầm phong cách của bạn**\n\nNâng tầm phong cách cùng Quần Jeans từ SGB – biểu tượng của sự thanh lịch và thoải mái. Được chế tác từ chất liệu denim cao cấp, mềm mại và có độ co giãn nhẹ, chiếc quần mang lại cảm giác thoải mái tối ưu, ôm vừa vặn mà không gây gò bó. Đồng thời vẫn giữ phom dáng chuẩn, tôn lên vóc dáng tinh tế của bạn.\n\nDù là dạo phố cuối tuần, hẹn hò thân mật hay buổi họp công sở nhẹ nhàng, Quần Jeans SGB dễ dàng phối hợp mọi trang phục, tạo nên vẻ ngoài thời thượng và đẳng cấp.\n\n**Đừng bỏ lỡ item must-have này. Khám phá ngay!**",
+    "id": 1773086357609,
+    "variants": [],
+    "category": "Quần Jean",
+    "brand": "SGB",
+    "image": "/uploads/1773086358392_Quan-jean-nu-boyfriend-rach-silver-blue-BFACRRNZC_SVE-1.jpg",
+    "images": {
+      "gallery": [],
+      "cover": "/uploads/1773086358392_Quan-jean-nu-boyfriend-rach-silver-blue-BFACRRNZC_SVE-1.jpg"
+    }
+  },
+  {
+    "salePrice": 179000,
+    "price": 200000,
+    "name": "Áo thun con heo",
+    "description": "**Áo thun con heo SGB – Biểu tượng phong cách tinh tế và độc đáo.**\n\nNâng tầm tủ đồ của bạn với chiếc áo thun đặc biệt từ SGB. Họa tiết chú heo được thiết kế tỉ mỉ, mang đến vẻ ngộ nghĩnh đầy chất nghệ thuật, đồng thời vẫn giữ trọn nét thanh lịch và hiện đại.\n\nSản phẩm được may từ chất liệu cotton cao cấp, mềm mại tuyệt đối và thoáng khí vượt trội, đảm bảo bạn luôn cảm thấy thoải mái và dễ chịu dù hoạt động cả ngày dài. Đây là lựa chọn hoàn hảo cho những buổi dạo phố cuối tuần, gặp gỡ bạn bè hay tạo điểm nhấn phá cách cho trang phục công sở thường ngày.\n\nSở hữu ngay để khẳng định phong cách riêng của bạn!",
+    "id": 1773086717764,
+    "variants": [],
+    "category": "Áo thun",
+    "brand": "SGB",
+    "image": "/uploads/1773086718450_il_fullxfull.5900664277_7o1z.webp",
+    "images": {
+      "cover": "/uploads/1773086718450_il_fullxfull.5900664277_7o1z.webp",
+      "gallery": [
+        "/uploads/1773086718457_il_fullxfull.5900664277_7o1z.webp"
+      ]
+    }
+  },
+  {
+    "image": "https://picsum.photos/seed/sgb-fashion/900/1200",
+    "images": {
+      "cover": "https://picsum.photos/seed/sgb-fashion/900/1200",
+      "gallery": []
+    },
+    "salePrice": 90000,
+    "price": 100000,
+    "name": "abc",
+    "description": "**Áo thun abc** từ SGB định nghĩa lại sự thanh lịch trong phong cách tối giản. Được thiết kế tinh tế, đây là món đồ phải có, giúp nâng tầm mọi set đồ của bạn.\n\nChất liệu cotton cao cấp được chọn lọc kỹ lưỡng, mang đến sự mềm mại tuyệt đối trên da và khả năng thoáng khí vượt trội, cho cảm giác thoải mái suốt cả ngày dài. Form dáng chuẩn chỉnh, giữ phom bền bỉ và hạn chế nhăn hiệu quả.\n\nDễ dàng kết hợp cùng quần âu công sở, chân váy nữ tính hay quần jeans năng động, chiếc áo này là điểm nhấn tinh tế cho mọi set đồ. Lý tưởng cho những buổi dạo phố cuối tuần, cuộc họp thân mật hay khoảnh khắc thư giãn tại nhà mà vẫn giữ nét sang trọng. Thêm ngay vào tủ đồ của bạn để cảm nhận sự khác biệt.",
+    "id": 1774163204575,
+    "variants": [],
+    "category": "Áo thun",
+    "brand": "SGB"
+  },
+  {
     "badge": "",
     "salePrice": null,
     "price": 820000,
@@ -812,5 +859,20 @@
       "cover": "https://tse4.mm.bing.net/th/id/OIP.a9Uoz_mcrcVW1zSEwlE48wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
     },
     "description": "Áo thun có in logo"
+  },
+  {
+    "id": 1774163207205,
+    "name": "abc",
+    "description": "**Áo thun abc** từ SGB định nghĩa lại sự thanh lịch trong phong cách tối giản. Được thiết kế tinh tế, đây là món đồ phải có, giúp nâng tầm mọi set đồ của bạn.\n\nChất liệu cotton cao cấp được chọn lọc kỹ lưỡng, mang đến sự mềm mại tuyệt đối trên da và khả năng thoáng khí vượt trội, cho cảm giác thoải mái suốt cả ngày dài. Form dáng chuẩn chỉnh, giữ phom bền bỉ và hạn chế nhăn hiệu quả.\n\nDễ dàng kết hợp cùng quần âu công sở, chân váy nữ tính hay quần jeans năng động, chiếc áo này là điểm nhấn tinh tế cho mọi set đồ. Lý tưởng cho những buổi dạo phố cuối tuần, cuộc họp thân mật hay khoảnh khắc thư giãn tại nhà mà vẫn giữ nét sang trọng. Thêm ngay vào tủ đồ của bạn để cảm nhận sự khác biệt.",
+    "category": "Áo thun",
+    "brand": "SGB",
+    "price": 100000,
+    "salePrice": 90000,
+    "images": {
+      "cover": "https://picsum.photos/seed/sgb-fashion/900/1200",
+      "gallery": []
+    },
+    "variants": [],
+    "image": "https://picsum.photos/seed/sgb-fashion/900/1200"
   }
 ]

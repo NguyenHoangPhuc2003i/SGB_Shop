@@ -73,6 +73,38 @@
   },
   {
     "low_stock_threshold": 5,
+    "product_id": "1772606284582",
+    "product_name": "Áo thun classtic con hổ",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-08T15:55:32.877Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "1773086357609",
+    "product_name": "Quần Jeans",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-09T19:59:18.091Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "1773086717764",
+    "product_name": "Áo thun con heo",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-09T20:05:18.139Z"
+  },
+  {
+    "low_stock_threshold": 5,
+    "product_id": "1774163204575",
+    "product_name": "abc",
+    "last_imported": null,
+    "stock_detail": [],
+    "updatedAt": "2026-03-22T07:06:45.608Z"
+  },
+  {
+    "low_stock_threshold": 5,
     "product_id": "18",
     "product_name": "Áo Sơ Mi Satin",
     "last_imported": null,
@@ -398,5 +430,13 @@
     "last_imported": null,
     "stock_detail": [],
     "updatedAt": "2026-03-07T19:50:03.999Z"
+  },
+  {
+    "product_id": "1774163207205",
+    "product_name": "abc",
+    "low_stock_threshold": 5,
+    "last_imported": null,
+    "updatedAt": "2026-03-22T07:06:48.278Z",
+    "stock_detail": []
   }
 ]

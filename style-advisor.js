@@ -84,6 +84,34 @@
     $('weightValue').textContent = $('weight_kg').value;
   }
 
+  function validateAgeInput(report = false){
+    const ageEl = $('age');
+    if(!ageEl) return { valid: true, value: undefined };
+
+    const raw = String(ageEl.value || '').trim();
+    if(!raw){
+      ageEl.setCustomValidity('');
+      return { valid: true, value: undefined };
+    }
+
+    const age = Number(raw);
+    let message = '';
+
+    if(!Number.isFinite(age)){
+      message = 'Tuổi không hợp lệ.';
+    }else if(age < 0){
+      message = 'Tuổi không được là số âm.';
+    }else if(!Number.isInteger(age)){
+      message = 'Tuổi phải là số nguyên.';
+    }else if(age < 10 || age > 100){
+      message = 'Tuổi hợp lệ từ 10 đến 100.';
+    }
+
+    ageEl.setCustomValidity(message);
+    if(message && report) ageEl.reportValidity();
+    return { valid: !message, value: message ? undefined : age };
+  }
+
   function bindStepper(){
     const steps = Array.from(document.querySelectorAll('.form-step'));
     const dots = Array.from(document.querySelectorAll('.step-dot'));
@@ -108,7 +136,8 @@
         renderStep();
         return;
       }
-      const p = collectProfile();
+      const p = collectProfile({ reportAgeError: true });
+      if(!p) return;
       saveProfile(p);
       $('sourceBadge').textContent = 'Nguồn: Hồ sơ đã lưu';
       addMessage('assistant', 'Mình đã lưu hồ sơ. Bạn có thể bắt đầu nhắn nhu cầu để nhận set đồ phù hợp.');
@@ -127,6 +156,8 @@
   function bindInteractiveInputs(){
     $('height_cm')?.addEventListener('input', setRangeValue);
     $('weight_kg')?.addEventListener('input', setRangeValue);
+    $('age')?.addEventListener('input', () => { validateAgeInput(false); });
+    $('age')?.addEventListener('blur', () => { validateAgeInput(true); });
 
     const climateWrap = $('climateChoices');
     climateWrap?.querySelectorAll('.chip-btn').forEach((btn) => {
@@ -148,7 +179,8 @@
     });
 
     $('saveProfile')?.addEventListener('click', () => {
-      const p = collectProfile();
+      const p = collectProfile({ reportAgeError: true });
+      if(!p) return;
       saveProfile(p);
       $('sourceBadge').textContent = 'Nguồn: Hồ sơ đã lưu';
       addMessage('assistant', 'Đã lưu hồ sơ thành công. Nói nhu cầu cụ thể để mình tư vấn set đồ nhé.');
@@ -157,7 +189,8 @@
 
   function fillForm(profile){
     $('gender').value = profile.gender || 'women';
-    $('age').value = profile.age || '';
+    const age = Number(profile.age);
+    $('age').value = Number.isFinite(age) && age >= 0 ? age : '';
     $('height_cm').value = profile.height_cm || 165;
     $('weight_kg').value = profile.weight_kg || 55;
     $('budget').value = profile.budget || 'mid';
@@ -186,7 +219,10 @@
     }
   }
 
-  function collectProfile(){
+  function collectProfile(opts = {}){
+    const ageCheck = validateAgeInput(!!opts.reportAgeError);
+    if(!ageCheck.valid) return null;
+
     const pickedColors = Array.from(document.querySelectorAll('.color-chip.active')).map((x) => x.dataset.color).filter(Boolean);
     const custom = String($('colors').value || '').split(',').map((x) => x.trim()).filter(Boolean);
     const colors = Array.from(new Set([...pickedColors, ...custom]));
@@ -194,7 +230,7 @@
 
     return {
       gender: $('gender').value,
-      age: Number($('age').value) || undefined,
+      age: ageCheck.value,
       height_cm: Number($('height_cm').value) || undefined,
       weight_kg: Number($('weight_kg').value) || undefined,
       colors,
@@ -437,12 +473,18 @@
 
   async function askAdvisor(userText){
     const profile = collectProfile();
+    if(!profile) throw new Error('Tuổi không hợp lệ');
     saveProfile(profile);
     const history = Array.from(document.querySelectorAll('#chatLog .bubble')).map((el) => ({ role: el.closest('.chat-row')?.classList.contains('user') ? 'user' : 'assistant', content: el.textContent }));
+    let logged = null;
+    try{ logged = JSON.parse(localStorage.getItem('sgb_logged_in') || 'null'); }catch(_){ logged = null; }
 
     const res = await fetch('/api/tu-van-ai', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-Email': (logged && logged.email) ? String(logged.email) : ''
+      },
       body: JSON.stringify({
         hoSoKhachHang: profile,
         cauHoi: userText,
@@ -650,6 +692,13 @@
 
     addMessage('user', text);
     addGenderOverrideFromText(text);
+
+    const ageCheck = validateAgeInput(true);
+    if(!ageCheck.valid){
+      addMessage('assistant', 'Tuổi đang không hợp lệ. Vui lòng nhập tuổi từ 10 đến 100 và không dùng số âm.');
+      return;
+    }
+
     showTyping();
 
     try{

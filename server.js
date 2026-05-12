@@ -47,16 +47,31 @@ function parseCollectionSet(value){
   );
 }
 
+function resolveLocalFirebaseCredentialsPath(){
+  const candidates = [
+    path.join(__dirname, 'scripts', 'firebase-service-account.json'),
+    path.join(__dirname, 'firebase.json')
+  ];
+  for(const p of candidates){
+    try{
+      if(fs.existsSync(p)) return p;
+    }catch(_){ /* noop */ }
+  }
+  return null;
+}
+
 const DEFAULT_FIREBASE_COLLECTIONS = '*';
 const FIREBASE_ENABLED = toBool(process.env.FIREBASE_ENABLED, false);
 const FIREBASE_ENABLED_USERS_LEGACY = toBool(process.env.FIREBASE_ENABLED_USERS, false);
 const FIREBASE_COLLECTIONS = parseCollectionSet(process.env.FIREBASE_COLLECTIONS || DEFAULT_FIREBASE_COLLECTIONS);
 if(FIREBASE_ENABLED_USERS_LEGACY) FIREBASE_COLLECTIONS.add('users');
 const JSON_BACKUP_ENABLED = toBool(process.env.JSON_BACKUP_ENABLED, true);
+const DETECTED_FIREBASE_CREDENTIALS = resolveLocalFirebaseCredentialsPath();
 const HAS_FIREBASE_CREDENTIALS_HINT = !!(
   process.env.FIREBASE_CREDENTIALS ||
   process.env.GOOGLE_APPLICATION_CREDENTIALS ||
-  process.env.FIREBASE_CREDENTIALS_JSON
+  process.env.FIREBASE_CREDENTIALS_JSON ||
+  DETECTED_FIREBASE_CREDENTIALS
 );
 
 // Simple admin credentials (change in env for better security)
@@ -107,20 +122,28 @@ if(SHOULD_INIT_FIREBASE && FIREBASE_COLLECTIONS.size){
   try{
     admin = require('firebase-admin');
     let creds = null;
+    let credsSource = null;
     if(process.env.FIREBASE_CREDENTIALS){
       const p = path.resolve(process.env.FIREBASE_CREDENTIALS);
       creds = JSON.parse(fs.readFileSync(p,'utf8'));
+      credsSource = p;
     }else if(process.env.GOOGLE_APPLICATION_CREDENTIALS){
       const p = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS);
       creds = JSON.parse(fs.readFileSync(p,'utf8'));
+      credsSource = p;
     }else if(process.env.FIREBASE_CREDENTIALS_JSON){
       creds = JSON.parse(process.env.FIREBASE_CREDENTIALS_JSON);
+      credsSource = 'FIREBASE_CREDENTIALS_JSON';
+    }else if(DETECTED_FIREBASE_CREDENTIALS){
+      creds = JSON.parse(fs.readFileSync(DETECTED_FIREBASE_CREDENTIALS,'utf8'));
+      credsSource = DETECTED_FIREBASE_CREDENTIALS;
     }
     if(!admin.apps.length){
       admin.initializeApp({ credential: creds ? admin.credential.cert(creds) : admin.credential.applicationDefault() });
     }
     firestore = admin.firestore();
     console.log('Firebase Firestore enabled for collections:', Array.from(FIREBASE_COLLECTIONS).join(', '));
+    if(credsSource) console.log('Firebase credentials source:', credsSource);
   }catch(e){
     console.error('Failed to init Firebase Admin SDK, falling back to file storage for all collections.', e);
     firestore = null;
@@ -507,9 +530,29 @@ app.post('/api/tu-van-ai', async (req, res) => {
   console.log("🎉 ĐÃ NHẬN ĐƯỢC YÊU CẦU TỪ WEB!");
     console.log("Dữ liệu khách gửi:", req.body);
   try {
-    const { hoSoKhachHang, cauHoi, imageBase64, imageMimeType } = req.body || {};
+    const { hoSoKhachHang, cauHoi, history, imageBase64, imageMimeType } = req.body || {};
+
+    async function appendTuVanAiLog(source, replyText){
+      try{
+        const logs = await readAIlogs();
+        logs.push({
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          ts: new Date().toISOString(),
+          userEmail: String(req.headers['x-user-email'] || '').trim().toLowerCase(),
+          profile: hoSoKhachHang || {},
+          chatHistory: Array.isArray(history) ? history : [],
+          reply: String(replyText || ''),
+          source: String(source || 'unknown'),
+          recommendations: []
+        });
+        await writeAIlogs(logs);
+      }catch(_){ /* do not block main response if log write fails */ }
+    }
+
     if(!ai){
-      return res.json(buildTuVanFallback(hoSoKhachHang, cauHoi));
+      const fallback = buildTuVanFallback(hoSoKhachHang, cauHoi);
+      await appendTuVanAiLog('rule-based', fallback.loi_tu_van);
+      return res.json(fallback);
     }
     const prompt = `Bạn là một chuyên gia tư vấn thời trang (Stylist) của shop Style Glamour Beats.
 Dưới đây là hồ sơ của khách hàng: ${JSON.stringify(hoSoKhachHang || {})}
@@ -569,18 +612,36 @@ Cấu trúc mẫu:
     }
 
     if(!parsed || typeof parsed !== 'object'){
-      return res.json(buildTuVanFallback(hoSoKhachHang, cauHoi));
+      const fallback = buildTuVanFallback(hoSoKhachHang, cauHoi);
+      await appendTuVanAiLog('rule-based', fallback.loi_tu_van);
+      return res.json(fallback);
     }
 
     const safe = {
       loi_tu_van: String(parsed.loi_tu_van || '').trim() || buildTuVanFallback(hoSoKhachHang, cauHoi).loi_tu_van,
       tu_khoa_tim_kiem: String(parsed.tu_khoa_tim_kiem || '').trim() || buildTuVanFallback(hoSoKhachHang, cauHoi).tu_khoa_tim_kiem
     };
+    await appendTuVanAiLog('gemini', safe.loi_tu_van);
     res.json(safe);
   } catch (error) {
     console.error('Lỗi khi gọi Gemini:', error);
     const { hoSoKhachHang, cauHoi } = req.body || {};
-    res.json(buildTuVanFallback(hoSoKhachHang, cauHoi));
+    const fallback = buildTuVanFallback(hoSoKhachHang, cauHoi);
+    try{
+      const logs = await readAIlogs();
+      logs.push({
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        ts: new Date().toISOString(),
+        userEmail: String(req.headers['x-user-email'] || '').trim().toLowerCase(),
+        profile: hoSoKhachHang || {},
+        chatHistory: Array.isArray((req.body || {}).history) ? (req.body || {}).history : [],
+        reply: String(fallback.loi_tu_van || ''),
+        source: 'rule-based',
+        recommendations: []
+      });
+      await writeAIlogs(logs);
+    }catch(_){ /* do not block main response if log write fails */ }
+    res.json(fallback);
   }
 });
 
@@ -733,7 +794,7 @@ app.get('/api/orders', async (req, res) => {
   if(!(isAdminBasic(req) || await isAdminByHeader(req))) return res.status(401).json({ error: 'Unauthorized' });
   try{
     const { month, from, to } = req.query || {};
-    let orders = (await readOrders()).map(setDefaultStatus);
+    let orders = (await readOrders()).map((x) => normalizeOrderPayload(setDefaultStatus(x)));
     if(month){
       // month format YYYY-MM
       orders = orders.filter(o => {
@@ -766,7 +827,7 @@ app.get('/api/orders/:id', async (req, res) => {
     const orders = await readOrders();
     const o = orders.find(x => String(x.id) === id);
     if(!o) return res.status(404).json({ error: 'Not found' });
-    res.json(setDefaultStatus(o));
+    res.json(normalizeOrderPayload(setDefaultStatus(o)));
   }catch(err){
     console.error('GET /api/orders/:id error', err);
     res.status(500).json({ error: 'Internal error' });
@@ -810,6 +871,23 @@ function setDefaultStatus(o){
   if(!o) return o;
   const status = normalizeStatus(o.status);
   return { ...o, status };
+}
+function normalizeOrderItemName(name){
+  const raw = String(name || '').trim();
+  if(!raw) return raw;
+  const dict = {
+    '�o Cardigan M?m': 'Áo Cardigan Mềm',
+    'Ao Cardigan Mem': 'Áo Cardigan Mềm'
+  };
+  return dict[raw] || raw;
+}
+function normalizeOrderPayload(order){
+  const o = order || {};
+  const items = Array.isArray(o.items) ? o.items : [];
+  return {
+    ...o,
+    items: items.map((it) => ({ ...it, name: normalizeOrderItemName(it && it.name) }))
+  };
 }
 function computeTotals(o){
   try{
@@ -1995,7 +2073,7 @@ app.post('/api/admin/ai/forecast-flash-sale', async (req,res)=>{
     orders.forEach(o => {
       revenue += Number(o.total || 0);
       (Array.isArray(o.items) ? o.items : []).forEach(it => {
-        const key = String(it.name || `#${it.id || 'unknown'}`);
+        const key = normalizeOrderItemName(String(it.name || `#${it.id || 'unknown'}`));
         const qty = Number(it.qty || 1);
         productQty.set(key, (productQty.get(key) || 0) + qty);
       });

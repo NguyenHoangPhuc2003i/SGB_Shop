@@ -1,25 +1,22 @@
 [
   {
-    "id": 1767839088749,
-    "ts": "2026-01-08T02:24:48.749Z",
-    "userEmail": "",
     "profile": {
       "gender": "men",
-      "age": 25,
-      "height_cm": 165,
       "weight_kg": 55,
-      "fit_preference": "regular",
-      "climate": "temperate",
-      "budget": "mid",
+      "height_cm": 165,
       "occasions": [
         "casual",
         "party",
         "formal"
       ],
+      "climate": "temperate",
+      "age": 25,
       "colors": [
         "đen",
         "trắng"
-      ]
+      ],
+      "budget": "mid",
+      "fit_preference": "regular"
     },
     "chatHistory": [
       {
@@ -43,8 +40,10 @@
         "content": "tư vấn set đồ đi làm công ty"
       }
     ],
-    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "userEmail": "",
+    "id": 1767839088749,
     "source": "rule-based",
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "recommendations": [
       {
         "id": 1714828811000,
@@ -146,29 +145,27 @@
           }
         ]
       }
-    ]
+    ],
+    "ts": "2026-01-08T02:24:48.749Z"
   },
   {
-    "id": 1767839283311,
-    "ts": "2026-01-08T02:28:03.311Z",
-    "userEmail": "",
     "profile": {
       "gender": "women",
-      "age": 25,
-      "height_cm": 165,
       "weight_kg": 55,
-      "fit_preference": "regular",
-      "climate": "temperate",
-      "budget": "mid",
+      "height_cm": 165,
       "occasions": [
         "casual",
         "party",
         "formal"
       ],
+      "climate": "temperate",
+      "age": 25,
       "colors": [
         "đen",
         "trắng"
-      ]
+      ],
+      "budget": "mid",
+      "fit_preference": "regular"
     },
     "chatHistory": [
       {
@@ -188,8 +185,10 @@
         "content": "tư vấn set nữ đi làm công ty"
       }
     ],
+    "userEmail": "",
+    "id": 1767839283311,
+    "source": "rule-based",
     "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: váy midi, áo blouse, quần ống rộng, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
-    "source": "rule-based",
     "recommendations": [
       {
         "id": 1714828811000,
@@ -291,54 +290,54 @@
           }
         ]
       }
-    ]
+    ],
+    "ts": "2026-01-08T02:28:03.311Z"
   },
   {
+    "profile": {
+      "gender": "men",
+      "weight_kg": 55,
+      "height_cm": 165,
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "climate": "temperate",
+      "age": 25,
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "budget": "mid",
+      "fit_preference": "regular"
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn cho tôi set đồ nam thanh lịch"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn cho tôi set đồ nam thanh lịch"
+      }
+    ],
+    "userEmail": "",
     "id": 1770379530105,
-    "ts": "2026-02-06T12:05:30.105Z",
-    "userEmail": "",
-    "profile": {
-      "gender": "men",
-      "age": 25,
-      "height_cm": 165,
-      "weight_kg": 55,
-      "fit_preference": "regular",
-      "climate": "temperate",
-      "budget": "mid",
-      "occasions": [
-        "casual",
-        "party",
-        "formal"
-      ],
-      "colors": [
-        "đen",
-        "trắng"
-      ]
-    },
-    "chatHistory": [
-      {
-        "role": "assistant",
-        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
-      },
-      {
-        "role": "assistant",
-        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
-      },
-      {
-        "role": "user",
-        "content": "tư vấn cho tôi set đồ nam thanh lịch"
-      },
-      {
-        "role": "assistant",
-        "content": "Đang phân tích hồ sơ và nhu cầu…"
-      },
-      {
-        "role": "user",
-        "content": "tư vấn cho tôi set đồ nam thanh lịch"
-      }
-    ],
-    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "source": "rule-based",
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "recommendations": [
       {
         "id": 1714828811000,
@@ -440,54 +439,54 @@
           }
         ]
       }
-    ]
+    ],
+    "ts": "2026-02-06T12:05:30.105Z"
   },
   {
+    "profile": {
+      "gender": "men",
+      "weight_kg": 55,
+      "height_cm": 165,
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "climate": "temperate",
+      "age": 25,
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "budget": "mid",
+      "fit_preference": "regular"
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ nam đi làm"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ nam đi làm"
+      }
+    ],
+    "userEmail": "",
     "id": 1771734260172,
-    "ts": "2026-02-22T04:24:20.172Z",
-    "userEmail": "",
-    "profile": {
-      "gender": "men",
-      "age": 25,
-      "height_cm": 165,
-      "weight_kg": 55,
-      "fit_preference": "regular",
-      "climate": "temperate",
-      "budget": "mid",
-      "occasions": [
-        "casual",
-        "party",
-        "formal"
-      ],
-      "colors": [
-        "đen",
-        "trắng"
-      ]
-    },
-    "chatHistory": [
-      {
-        "role": "assistant",
-        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
-      },
-      {
-        "role": "assistant",
-        "content": "Đã lưu hồ sơ. Bạn muốn tư vấn cho dịp nào?"
-      },
-      {
-        "role": "user",
-        "content": "tư vấn set đồ nam đi làm"
-      },
-      {
-        "role": "assistant",
-        "content": "Đang phân tích hồ sơ và nhu cầu…"
-      },
-      {
-        "role": "user",
-        "content": "tư vấn set đồ nam đi làm"
-      }
-    ],
-    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "source": "rule-based",
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "recommendations": [
       {
         "id": 1714828811000,
@@ -589,50 +588,50 @@
           }
         ]
       }
-    ]
+    ],
+    "ts": "2026-02-22T04:24:20.172Z"
   },
   {
+    "profile": {
+      "gender": "men",
+      "weight_kg": 55,
+      "height_cm": 165,
+      "occasions": [
+        "casual",
+        "party",
+        "formal"
+      ],
+      "climate": "temperate",
+      "age": 25,
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "budget": "mid",
+      "fit_preference": "regular"
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
+      },
+      {
+        "role": "user",
+        "content": "tìm sản phẩm tương tự"
+      },
+      {
+        "role": "assistant",
+        "content": "Đang phân tích hồ sơ và nhu cầu…"
+      },
+      {
+        "role": "user",
+        "content": "tìm sản phẩm tương tự"
+      }
+    ],
+    "userEmail": "",
     "id": 1771734965531,
-    "ts": "2026-02-22T04:36:05.531Z",
-    "userEmail": "",
-    "profile": {
-      "gender": "men",
-      "age": 25,
-      "height_cm": 165,
-      "weight_kg": 55,
-      "fit_preference": "regular",
-      "climate": "temperate",
-      "budget": "mid",
-      "occasions": [
-        "casual",
-        "party",
-        "formal"
-      ],
-      "colors": [
-        "đen",
-        "trắng"
-      ]
-    },
-    "chatHistory": [
-      {
-        "role": "assistant",
-        "content": "Xin chào! Mô tả nhanh nhu cầu của bạn (ví dụ: set đồ đi làm, màu trung tính, phù hợp thời tiết nóng...)."
-      },
-      {
-        "role": "user",
-        "content": "tìm sản phẩm tương tự"
-      },
-      {
-        "role": "assistant",
-        "content": "Đang phân tích hồ sơ và nhu cầu…"
-      },
-      {
-        "role": "user",
-        "content": "tìm sản phẩm tương tự"
-      }
-    ],
-    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "source": "rule-based",
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "recommendations": [
       {
         "id": 1714828811000,
@@ -734,29 +733,27 @@
           }
         ]
       }
-    ]
+    ],
+    "ts": "2026-02-22T04:36:05.531Z"
   },
   {
-    "id": 1771735295792,
-    "ts": "2026-02-22T04:41:35.792Z",
-    "userEmail": "",
     "profile": {
       "gender": "men",
-      "age": 25,
-      "height_cm": 165,
       "weight_kg": 55,
-      "fit_preference": "regular",
-      "climate": "temperate",
-      "budget": "mid",
+      "height_cm": 165,
       "occasions": [
         "casual",
         "party",
         "formal"
       ],
+      "climate": "temperate",
+      "age": 25,
       "colors": [
         "đen",
         "trắng"
-      ]
+      ],
+      "budget": "mid",
+      "fit_preference": "regular"
     },
     "chatHistory": [
       {
@@ -780,8 +777,10 @@
         "content": "phân tích và tư vấn"
       }
     ],
-    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
+    "userEmail": "",
+    "id": 1771735295792,
     "source": "rule-based",
+    "reply": "Dựa trên thông tin của bạn, đây là gợi ý phong cách:\nCác món cơ bản nên có: áo polo, quần chinos, áo khoác nhẹ, áo thun chất lượng, quần jean vừa vặn, áo sơ mi cổ điển, giày đa dụng.\nMột số set đồ theo dịp:\n- casual: Áo thun regular, quần jean/shorts | Sneakers trắng, phụ kiện tối giản\n- party: Áo/blouse thời thượng, quần/váy nhấn nhá | Giày cao gót/boot (nữ) hoặc loafer (nam)\n- formal: Vest/suit regular, sơ mi trắng | Giày da, thắt lưng cùng tông\nMẹo thêm: Dáng cân đối: hầu hết phom dáng đều phù hợp. | Bảng màu gợi ý: đen, trắng | Layer hợp lý, chất liệu giữ ấm (len, dạ). | Cân bằng cơ bản và một vài món điểm nhấn.\n\nGợi ý sản phẩm phù hợp:\n- Chân Váy Plisse (560.000 ₫) → /product.html?id=1714828811000\n- Đầm Công Sở (790.000 ₫) → /product.html?id=1714828807000\n- Giày Sneaker Trắng (980.000 ₫) → /product.html?id=1714828813000\n- Áo Thun Trơn (195.000 ₫) → /product.html?id=1714828804000\n- Áo Sơ Mi Trắng (359.000 ₫) → /product.html?id=1714828805000",
     "recommendations": [
       {
         "id": 1714828811000,
@@ -883,6 +882,50 @@
           }
         ]
       }
-    ]
+    ],
+    "ts": "2026-02-22T04:41:35.792Z"
+  },
+  {
+    "id": 1774154942124,
+    "ts": "2026-03-22T04:49:01.439Z",
+    "userEmail": "phuc2k3i@gmail.com",
+    "profile": {
+      "gender": "men",
+      "age": 25,
+      "height_cm": 182,
+      "weight_kg": 110,
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "climate": "temperate",
+      "budget": "mid",
+      "fit_preference": "regular",
+      "occasions": [
+        "casual",
+        "office"
+      ]
+    },
+    "chatHistory": [
+      {
+        "role": "assistant",
+        "content": "Xin chào! Mình là Stylist AI của SGB. Hãy cho mình biết dịp sử dụng, vibe bạn muốn và giới hạn ngân sách nhé."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã lưu hồ sơ thành công. Nói nhu cầu cụ thể để mình tư vấn set đồ nhé."
+      },
+      {
+        "role": "user",
+        "content": "tư vấn set đồ đi làm"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      }
+    ],
+    "reply": "Chào bạn, rất vui được tư vấn cho bạn hôm nay tại Style Glamour Beats! Mình đã xem qua thông tin về vóc dáng khỏe khoắn của bạn (1m82, 110kg) cùng sở thích về gam màu đen, trắng và phong cách 'regular fit' thoải mái. Với nhu cầu tìm set đồ đi làm, mình có một gợi ý vừa lịch lãm, vừa tôn dáng và rất phù hợp với môi trường công sở đấy!\n\nMình gợi ý một set đồ kinh điển nhưng không bao giờ lỗi mốt, đảm bảo sự chuyên nghiệp và tự tin cho bạn:\n\n1.  **Áo sơ mi trắng regular fit**: Một chiếc áo sơ mi trắng tinh tươm, dáng regular fit sẽ là lựa chọn hoàn hảo. Màu trắng không chỉ là gam màu yêu thích của bạn mà còn mang lại vẻ ngoài tươi sáng, chuyên nghiệp và dễ dàng phối hợp. Dáng regular fit đảm bảo sự thoải mái tối đa, không quá ôm sát nhưng vẫn giữ được phom dáng gọn gàng cho vóc dáng của bạn.\n2.  **Quần tây đen dáng ống đứng (straight leg)**: Đây là 'chìa khóa' giúp tôn dáng hiệu quả. Màu đen không chỉ là lựa chọn an toàn, thanh lịch mà còn có khả năng 'hack dáng' rất tốt, giúp tổng thể trông thon gọn và cao ráo hơn. Dáng ống đứng tạo đường nét thẳng, mượt mà từ hông xuống chân, vừa đủ lịch sự, không quá ôm mà vẫn giữ được sự tinh tế, rất phù hợp với phong cách regular fit bạn yêu thích.\n3.  **Áo blazer đen**: Để hoàn thiện vẻ ngoài công sở, một chiếc blazer đen vừa vặn là không thể thiếu. Blazer giúp tạo phom dáng, làm bờ vai trông vuông vắn và tạo đường nét thân hình cân đối hơn, đặc biệt hữu ích cho vóc dáng nam tính của bạn. Màu đen cũng đảm bảo sự thanh lịch, sang trọng và dễ dàng kết hợp với các phụ kiện khác. Bạn có thể chọn loại blazer một nút hoặc hai nút để giữ vẻ hiện đại và không quá cứng nhắc.\n\n**Tại sao set đồ này lại phù hợp với bạn?**\n\n*   **Với vóc dáng 1m82, 110kg**: Sự kết hợp giữa gam màu đen và dáng ống đứng của quần tây sẽ tạo hiệu ứng thị giác giúp tổng thể trông gọn gàng và cao ráo hơn. Áo sơ mi regular fit đảm bảo sự thoải mái mà vẫn giữ được sự chỉn chu. Chiếc blazer đen sẽ giúp tạo cấu trúc cho phần thân trên, làm bờ vai trông mạnh mẽ và cân đối hơn, đồng thời tạo một lớp ngoài lịch sự che đi những phần không mong muốn.\n*   **Phong cách 'regular fit'**: Tất cả các món đồ đều được lựa chọn với dáng regular fit, đảm bảo bạn luôn cảm thấy thoải mái và tự tin trong mọi hoạt động tại văn phòng.\n*   **Gam màu đen, trắng**: Đây là sự kết hợp kinh điển, mang lại vẻ sang trọng, thanh lịch và rất dễ phối đồ.\n\nBạn có thể phối cùng một đôi giày tây da đen (oxford hoặc derby) và một chiếc thắt lưng da cùng tông để hoàn thiện set đồ nhé. Chắc chắn bạn sẽ trông thật lịch lãm và chuyên nghiệp!",
+    "source": "gemini",
+    "recommendations": []
   }
 ]

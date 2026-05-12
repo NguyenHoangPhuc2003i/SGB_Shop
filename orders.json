@@ -1,5 +1,31 @@
 [
   {
+    "address": "a",
+    "city": "hcm",
+    "discount": 0,
+    "userId": null,
+    "createdAt": "2026-03-22T06:48:03.044Z",
+    "total": 620000,
+    "shippingFee": 30000,
+    "phone": "0869801363",
+    "subtotal": 590000,
+    "district": "district2",
+    "name": "NGUYEN HOANG PHUC",
+    "payment": "cod",
+    "id": "FS08304473",
+    "items": [
+      {
+        "id": 1,
+        "name": "Áo Sơ Mi Cao Cấp",
+        "price": 590000,
+        "image": "https://cache.maysoichivang.com/wp-content/uploads/2021/12/ao-so-mi-nam-thoi-trang-cao-cap-1.jpg",
+        "qty": 1
+      }
+    ],
+    "email": "phuc2k3i@gmail.com",
+    "status": "pending"
+  },
+  {
     "address": "ct",
     "city": "hcm",
     "discount": 0,
@@ -21,7 +47,59 @@
         "id": 2
       }
     ],
-    "status": "completed"
+    "status": "packing"
+  },
+  {
+    "address": "q",
+    "city": "hcm",
+    "discount": 0,
+    "userId": null,
+    "createdAt": "2026-03-22T06:48:55.440Z",
+    "total": 770000,
+    "shippingFee": 30000,
+    "phone": "0869801363",
+    "subtotal": 740000,
+    "district": "district1",
+    "name": "NGUYEN HOANG PHUC",
+    "payment": "cod",
+    "id": "FS13544073",
+    "items": [
+      {
+        "id": 11,
+        "name": "Áo Len Dệt Kim",
+        "price": 740000,
+        "image": "https://sakurafashion.vn/upload/sanpham/large/63425-ao-len-nu-phong-cach-retro-det-kim-1.jpg",
+        "qty": 1
+      }
+    ],
+    "email": "phuc2k3i@gmail.com",
+    "status": "pending"
+  },
+  {
+    "address": "p",
+    "city": "hcm",
+    "discount": 0,
+    "userId": null,
+    "createdAt": "2026-03-21T09:26:25.548Z",
+    "total": 209000,
+    "shippingFee": 30000,
+    "phone": "0869801363",
+    "subtotal": 179000,
+    "district": "district1",
+    "name": "NGUYEN HOANG PHUC",
+    "payment": "wallet",
+    "id": "FS18554741",
+    "items": [
+      {
+        "id": 1773086717764,
+        "name": "Áo thun con heo - Size M",
+        "price": 179000,
+        "image": "/uploads/1773086718450_il_fullxfull.5900664277_7o1z.webp",
+        "qty": 1
+      }
+    ],
+    "email": "phuc2k3i@gmail.com",
+    "status": "packing"
   },
   {
     "address": "ct",
@@ -116,5 +194,31 @@
     ],
     "customerName": "Inventory Test",
     "status": "canceled"
+  },
+  {
+    "id": "FS43316144",
+    "name": "NGUYEN HOANG PHUC",
+    "email": "phuc2k3i@gmail.com",
+    "userId": null,
+    "phone": "0869801363",
+    "address": "aaa",
+    "city": "hcm",
+    "district": "district1",
+    "items": [
+      {
+        "id": 11,
+        "name": "Áo Len Dệt Kim",
+        "price": 740000,
+        "image": "https://sakurafashion.vn/upload/sanpham/large/63425-ao-len-nu-phong-cach-retro-det-kim-1.jpg",
+        "qty": 1
+      }
+    ],
+    "subtotal": 740000,
+    "shippingFee": 30000,
+    "discount": 0,
+    "total": 770000,
+    "payment": "cod",
+    "createdAt": "2026-03-22T06:53:53.161Z",
+    "status": "pending"
   }
 ]

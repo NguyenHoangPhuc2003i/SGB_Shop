@@ -13,6 +13,15 @@
   function requireAdmin(){ const l = getLogged(); const ok = !!(l && l.role==='admin'); document.getElementById('guard').style.display = ok ? 'none' : ''; return ok; }
   function formatVND(n){ try{ return Number(n).toLocaleString('vi-VN',{style:'currency',currency:'VND'}); }catch{ return String(n)+'đ'; } }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function normalizeProductName(name){
+    const raw = String(name || '').trim();
+    if(!raw) return raw;
+    const dict = new Map([
+      ['�o Cardigan M?m', 'Áo Cardigan Mềm'],
+      ['Ao Cardigan Mem', 'Áo Cardigan Mềm']
+    ]);
+    return dict.get(raw) || raw;
+  }
 
   function setPreset(p){
     const today = new Date();
@@ -82,7 +91,7 @@
       const qtyMap = new Map();
       orders.forEach(o => {
         (Array.isArray(o.items) ? o.items : []).forEach(it => {
-          const name = String(it.name || `#${it.id || ''}`).trim();
+          const name = normalizeProductName(String(it.name || `#${it.id || ''}`).trim());
           const qty = Number(it.qty || 1);
           if(!name) return;
           qtyMap.set(name, (qtyMap.get(name) || 0) + qty);
@@ -133,7 +142,10 @@
 
     // Top products by qty in range
     const qtyMap = new Map();
-    orders.forEach(o=>{ (o.items||[]).forEach(it=>{ qtyMap.set(it.name||`#${it.id}`, (qtyMap.get(it.name||`#${it.id}`)||0) + (Number(it.qty)||0)); }); });
+    orders.forEach(o=>{ (o.items||[]).forEach(it=>{
+      const key = normalizeProductName(it.name||`#${it.id}`);
+      qtyMap.set(key, (qtyMap.get(key)||0) + (Number(it.qty)||0));
+    }); });
     const top = Array.from(qtyMap.entries()).sort((a,b)=> b[1]-a[1]).slice(0,8);
     charts.top && charts.top.destroy();
     charts.top = new Chart(document.getElementById('chartTop'), { type:'bar', data:{ labels: top.map(t=> t[0]), datasets:[{ label:'Số lượng', data: top.map(t=> t[1]), backgroundColor:'#10b981' }] }, options:{ plugins:{ legend:{ display:false } }, indexAxis:'y' } });

@@ -202,7 +202,9 @@ async function hydrateProductsFromServer(){
                 const category = String(p.category||'').toLowerCase();
                 const name = p.name || `#${p.id}`;
                 const price = (p.salePrice != null ? Number(p.salePrice) : Number(p.price)) || 0;
-                return { id:Number(p.id)||Date.now(), name, price, category, image: img || getImageForProduct(name, category), badge: '' };
+                const description = String(p.description || '').trim();
+                const brand = String(p.brand || 'StyleGlamour').trim();
+                return { id:Number(p.id)||Date.now(), name, price, category, image: img || getImageForProduct(name, category), badge: '', description, brand };
             });
             // Replace contents of local products array so existing code keeps working
             products.splice(0, products.length, ...normalized);
@@ -924,6 +926,8 @@ async function renderProductDetail(){
     const now = product.price;
     const old = Math.round(now * 1.2);
     const off = Math.round((1 - now/old) * 100);
+    const productBrand = String(product.brand || 'StyleGlamour');
+    const productDescription = String(product.description || '').trim();
     const heroImg = (product.image && String(product.image).trim()) ? product.image : getImageForProduct(product.name||'', String(product.category||'').toLowerCase());
     const thumbs = [heroImg, heroImg, heroImg];
     const cross = getCrossSellProducts(product, 4);
@@ -935,9 +939,13 @@ async function renderProductDetail(){
             </div>
         </div>
         <div class="pd-info">
-            <div class="pd-brand">Thương hiệu: <strong>StyleGlamour</strong></div>
+            <div class="pd-brand">Thương hiệu: <strong>${productBrand}</strong></div>
             <div class="pd-name">${product.name}</div>
             <div class="pd-price"><span class="now">${now.toLocaleString('vi-VN')}đ</span><span class="old">${old.toLocaleString('vi-VN')}đ</span><span class="off">-${off}%</span></div>
+            <div class="pd-section">
+                <div style="font-weight:700;margin-bottom:8px">Mô tả sản phẩm</div>
+                <div style="color:#555;line-height:1.6">${productDescription || 'Sản phẩm đang được cập nhật mô tả chi tiết.'}</div>
+            </div>
             <div class="pd-section">
                 <div style="font-weight:700;margin-bottom:8px">Kích cỡ</div>
                 <div class="size-group" id="sizeGroup">
