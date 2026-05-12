@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@google/genai": "^1.42.0",
+    "firebase-admin": "^13.6.0"
+  }
+}
